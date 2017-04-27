@@ -1,16 +1,7 @@
 # What-Happened-to-Station-7
-A cool game for a comp sci project
+A cool game for a comp sci projet
 
-<style>
-
-#thing {
-  color:#f00
-}
-
-</style>
-
-<div id="thing">
-
+<div id="thing" style="color:#f00">
 Stuff
 hi
 </div>
