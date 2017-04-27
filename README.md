@@ -12,5 +12,5 @@ A cool game for a comp sci project
 <div id="thing">
 
 Stuff
-
+hi
 </div>
