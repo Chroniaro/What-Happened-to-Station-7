@@ -1,4 +1,4 @@
-package com.whtss.render;
+package com.whtss.assets.render;
 
 import java.awt.Graphics2D;
 

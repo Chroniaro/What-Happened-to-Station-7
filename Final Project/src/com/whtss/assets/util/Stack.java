@@ -1,4 +1,4 @@
-package com.whtss.util;
+package com.whtss.assets.util;
 
 import java.util.Collection;
 import java.util.Iterator;

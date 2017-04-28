@@ -1,15 +1,14 @@
-package com.whtss.render;
+package com.whtss.assets.render;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JComponent;
-import com.whtss.Game;
+import com.whtss.assets.Game;
 
 public class GameRenderer extends JComponent
 {
 	private Game game;
 	private Renderer renderLevel, renderUI;
-	;
 	
 	private final Renderer[] renderers;
 	

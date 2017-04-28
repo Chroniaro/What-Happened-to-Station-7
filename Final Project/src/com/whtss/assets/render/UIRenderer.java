@@ -1,7 +1,7 @@
-package com.whtss.render;
+package com.whtss.assets.render;
 
 import java.awt.Graphics2D;
-import com.whtss.Game;
+import com.whtss.assets.Game;
 
 public class UIRenderer implements Renderer
 {

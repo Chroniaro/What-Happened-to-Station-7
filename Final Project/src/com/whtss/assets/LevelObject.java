@@ -1,4 +1,4 @@
-package com.whtss;
+package com.whtss.assets;
 
 public class LevelObject extends Cell implements LightSource
 {
