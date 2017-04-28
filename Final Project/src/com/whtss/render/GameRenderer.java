@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 import com.whtss.Game;
 
-public class WIS7Renderer extends JComponent
+public class GameRenderer extends JComponent
 {
 	private Game game;
 	private Renderer renderLevel, renderUI;
@@ -13,7 +13,7 @@ public class WIS7Renderer extends JComponent
 	
 	private final Renderer[] renderers;
 	
-	public WIS7Renderer(Game game)
+	public GameRenderer(Game game)
 	{	
 		this.game = game;
 		
