@@ -116,8 +116,8 @@ public class HexPoint implements Serializable, Cloneable
 	
 	public static void iterateRectangle(HexPoint topLeft, int width, int height, HexIterator iterator)
 	{
-		for(int dy = 0; dy < 2 * height - 1; dy++)
-			for(int dx = 0; dx < width - dy % 2; dx++)
+		for(int dy = 0; dy < height; dy++)
+			for(int dx = 0; dx < (width + 1) / 2 - dy % 2; dx++)
 				iterator.run(topLeft.mXY(2 * dx + dy % 2, dy), dy, dx);
 	}
 	
@@ -136,5 +136,20 @@ public class HexPoint implements Serializable, Cloneable
 	public static void iterateHexagon(HexPoint center, int radius, HexIterator.Simple iterator)
 	{
 		iterateHexagon(center, radius, (HexIterator)iterator);
+	}
+	
+	public static HexPoint fromVisual(int x, int y, int size)
+	{
+		if(x > 0)
+			x += size;
+		if(y > 0)
+			y += size;
+		int hx = (x - size / 2) / (int)Math.round(size * xratio);
+		int hy;
+		if(hx % 2 == 0)
+			hy = 2 * ((y - size / 2) / (int)Math.round(size * yratio * 2));
+		else
+			hy = 2 * (y / (int)Math.round(size * yratio * 2)) - 1;
+		return XY(hx, hy);
 	}
 }
