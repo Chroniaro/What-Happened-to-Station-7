@@ -24,6 +24,8 @@ public class GameRenderer extends JComponent
 	
 	private HexPoint mouse;
 	
+	//change
+	
 	public GameRenderer(Game game)
 	{
 		this.game = game;
