@@ -126,6 +126,11 @@ public class HexPoint implements Serializable, Cloneable
 		iterateRectangle(topLeft, width, height, (HexIterator)iterator);
 	}
 	
+	public static <A> void iterateArray(A[][] array, HexIterator iterator)
+	{
+		iterateRectangle(origin, array.length, array[0].length, iterator);
+	}
+	
 	public static void iterateHexagon(HexPoint center, int radius, HexIterator iterator)
 	{
 		for(int da = -radius; da <= radius; da++)

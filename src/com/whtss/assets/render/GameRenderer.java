@@ -72,11 +72,14 @@ public class GameRenderer extends JComponent
 		g.setColor(Color.BLACK);
 		HexPoint.iterateRectangle(HexPoint.XY(-lvl.getWidth() / 2 + 1, -lvl.getHeight() / 2), lvl.getWidth(), lvl.getHeight(), (HexPoint hex, int x, int y) -> 
 		{
-			int color = lvl.getValue(x, y);
-			g.setColor(new Color(color & 255, (color >> 8) & 255, (color >> 16) & 255));
-			g.draw(hex.getBorder(cellSize()));
 			if(hex.equals(mouse))
+			{
+				int color = lvl.getValue(x, y);
+				g.setColor(new Color(color & 255, (color >> 8) & 255, (color >> 16) & 255));
 				g.fill(hex.getBorder(cellSize()));
+				g.setColor(Color.BLACK);
+			}
+			g.draw(hex.getBorder(cellSize()));
 		});
 	}
 	

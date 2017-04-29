@@ -5,17 +5,18 @@ import java.util.List;
 public class Level
 {
 	//Layers
-	int[][] floorLayer;
+	Integer[][] floorLayer;
 	LevelObject[][] objectLayer;
 	List<Entity> entities;
 	int x = 1;
 
 	public Level()
 	{ 
-		floorLayer = new int[42][32];
-		for(int x = 0; x < floorLayer.length; x++)
-			for(int y = 0; y < floorLayer[x].length; y++)
-				floorLayer[x][y] = (int)(Math.random() * 100) | (int)(Math.random() * 100) << 8 | (int)(Math.random() * 100) << 16;
+		floorLayer = new Integer[42][32];
+		HexPoint.iterateArray(floorLayer, (HexPoint hex, int x, int y) ->
+		{
+			floorLayer[x][y] = (int)(Math.random() * 200) | (int)(Math.random() * 200) << 8 | (int)(Math.random() * 200) << 16;
+		});
 	}
 
 	public int getWidth()
