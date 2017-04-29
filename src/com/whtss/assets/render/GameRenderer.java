@@ -73,13 +73,13 @@ public class GameRenderer extends JComponent
 		int w = lvl.getWidth();
 		int h = lvl.getHeight();
 		int dw = -w/2;
-		int dh = -h;
+		int dh = 1 - h;
 		HexPoint.iterateRectangle(HexPoint.origin.mXY(dw, dh + (dh + dw)%2), lvl.getWidth(), lvl.getHeight(), (HexPoint hex, int x, int y) -> 
 		{
-			if(hex.equals(mouse))
+			if(mouse != null)
 			{
 				int color = lvl.getValue(x, y);
-				g.setColor(new Color(color & 255, (color >> 8) & 255, (color >> 16) & 255));
+				g.setColor(new Color((color & 255) / 255f, ((color >> 8) & 255) / 255f, ((color >> 16) & 255) / 255f, 1f / (1 + hex.dist(mouse))));
 				g.fill(hex.getBorder(cellSize()));
 				g.setColor(Color.BLACK);
 			}
