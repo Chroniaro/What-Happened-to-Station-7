@@ -1,6 +1,6 @@
 package com.whtss.assets;
 
-public class LevelObject extends Cell implements LightSource
+public class LevelObject extends HexCell implements LightSource
 {
 	public LevelObject(int x, int y)
 	{

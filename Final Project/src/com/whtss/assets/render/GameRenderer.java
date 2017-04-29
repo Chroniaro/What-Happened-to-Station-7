@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JComponent;
 import com.whtss.assets.Game;
+import com.whtss.assets.Level;
+import com.whtss.assets.HexCell;
 
 public class GameRenderer extends JComponent
 {
@@ -13,7 +15,7 @@ public class GameRenderer extends JComponent
 	private final Renderer[] renderers;
 	
 	public GameRenderer(Game game)
-	{	
+	{
 		this.game = game;
 		
 		renderLevel = new LevelRenderer();
@@ -31,7 +33,13 @@ public class GameRenderer extends JComponent
 	{
 		super.paintComponent(_g);
 		Graphics2D g = (Graphics2D) _g;
-		for(Renderer r : renderers)
-			r.draw(g);
+//		for(Renderer r : renderers)
+//			r.draw(g);
+		Level lev = game.getCurrentLevel();
+		for(int x = 0; x < lev.getWidth(); x++)
+			for(int y = 0; y < lev.getHeight(); y++)
+			{
+				HexCell currentCell = new HexCell(x, y);
+			}
 	}
 }

@@ -1,6 +1,6 @@
 package com.whtss.assets;
 
-public class Entity extends Cell implements LightSource
+public class Entity extends HexCell implements LightSource
 {
 	public Entity(int x, int y)
 	{
