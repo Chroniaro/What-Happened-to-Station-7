@@ -12,7 +12,7 @@ public class Level
 
 	public Level()
 	{ 
-		floorLayer = new Integer[42][32];
+		floorLayer = new Integer[41][19];
 		HexPoint.iterateArray(floorLayer, (HexPoint hex, int x, int y) ->
 		{
 			floorLayer[x][y] = (int)(Math.random() * 200) | (int)(Math.random() * 200) << 8 | (int)(Math.random() * 200) << 16;

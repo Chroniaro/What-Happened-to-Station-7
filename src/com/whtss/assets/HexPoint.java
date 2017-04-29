@@ -100,7 +100,7 @@ public class HexPoint implements Serializable, Cloneable
 	
 	public static interface HexIterator 
 	{
-		public void run(HexPoint point, int c1, int c2);
+		public void run(HexPoint point, int x, int y);
 		
 		public static interface Simple extends HexIterator
 		{
@@ -117,8 +117,8 @@ public class HexPoint implements Serializable, Cloneable
 	public static void iterateRectangle(HexPoint topLeft, int width, int height, HexIterator iterator)
 	{
 		for(int dy = 0; dy < height; dy++)
-			for(int dx = 0; dx < (width + 1) / 2 - dy % 2; dx++)
-				iterator.run(topLeft.mXY(2 * dx + dy % 2, dy), dy, dx);
+			for(int dx = 0; dx < width; dx++)
+				iterator.run(topLeft.mXY(dx, 2 * dy + dx % 2), dx, dy);
 	}
 	
 	public static void iterateRectangle(HexPoint topLeft, int width, int height, HexIterator.Simple iterator)
@@ -131,16 +131,11 @@ public class HexPoint implements Serializable, Cloneable
 		iterateRectangle(origin, array.length, array[0].length, iterator);
 	}
 	
-	public static void iterateHexagon(HexPoint center, int radius, HexIterator iterator)
+	public static void iterateHexagon(HexPoint center, int radius, HexIterator.Simple iterator)
 	{
 		for(int da = -radius; da <= radius; da++)
 			for(int db = -radius - Math.min(da, 0); db <= radius - Math.max(da, 0); db++)
 				iterator.run(center.mAB(da, db), da, db);
-	}
-	
-	public static void iterateHexagon(HexPoint center, int radius, HexIterator.Simple iterator)
-	{
-		iterateHexagon(center, radius, (HexIterator)iterator);
 	}
 	
 	public static HexPoint fromVisual(int x, int y, int size)
