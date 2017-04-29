@@ -1,5 +1,8 @@
 package com.whtss.assets;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 import java.io.Serializable;
 
 public class HexPoint implements Serializable, Cloneable
@@ -8,6 +11,20 @@ public class HexPoint implements Serializable, Cloneable
 	 * 
 	 */
 	private static final long serialVersionUID = -6059701303873700245L;
+	
+	private final static double xratio = .75, yratio = Math.sqrt(3) / 4;
+	
+	private final static Path2D.Double border = new Path2D.Double();
+	static
+	{
+		border.moveTo(-.5, 0);
+		border.lineTo(-.25, -yratio);
+		border.lineTo(.25, -yratio);
+		border.lineTo(.5, 0);
+		border.lineTo(.25, yratio);
+		border.lineTo(-.25, yratio);
+		border.closePath();
+	}
 	
 	private final int x, y, a, b;
 	
@@ -38,6 +55,8 @@ public class HexPoint implements Serializable, Cloneable
 	public int getY() { return y; }
 	public int getA() { return a; }
 	public int getB() { return b; }
+	public double getVisualX(double size) { return size * getX() * xratio; }
+	public double getVisualY(double size) { return size * getY() * yratio; }
 	
 	public HexPoint mXY(int dx, int dy) { return XY(getX() + dx, getY() + dy); }
 	public HexPoint mAB(int da, int db) { return AB(getA() + da, getB() + db); }
@@ -50,7 +69,15 @@ public class HexPoint implements Serializable, Cloneable
 	public int dY(HexPoint h) { return Math.abs(h.getY() - getY()); }
 	public int dA(HexPoint h) { return Math.abs(h.getA() - getA()); }
 	public int dB(HexPoint h) { return Math.abs(h.getB() - getB()); }
-	public int dist(HexPoint h) { return Math.max(Math.max(dA(h), dB(h)), dX(h)); } 
+	public int dist(HexPoint h) { return Math.max(Math.max(dA(h), dB(h)), dX(h)); }
+	
+	public Shape getBorder(double size)
+	{
+		AffineTransform at = new AffineTransform();
+		at.translate(getVisualX(size), getVisualY(size));
+		at.scale(size, size);
+		return border.createTransformedShape(at);
+	}
 	
 	@Override
 	public String toString() { return "[" + getX() + ", " + getY() + "]"; }
