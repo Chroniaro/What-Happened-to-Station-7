@@ -49,8 +49,7 @@ public class GameRenderer extends JComponent
 			@Override
 			public void mouseDragged(MouseEvent e)
 			{
-				// TODO Auto-generated method stub
-				
+				mouseMoved(e);
 			}
 		});
 	}
@@ -60,8 +59,8 @@ public class GameRenderer extends JComponent
 	{
 		super.paintComponent(_g);
 		Graphics2D g = (Graphics2D) _g;
-//		for(Renderer r : renderers)
-//			r.draw(g);
+		for(Renderer r : renderers)
+			r.draw(g);
 		
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		
@@ -78,8 +77,7 @@ public class GameRenderer extends JComponent
 		{
 			if(mouse != null)
 			{
-				int color = lvl.getValue(x, y);
-				g.setColor(new Color((color & 255) / 255f, ((color >> 8) & 255) / 255f, ((color >> 16) & 255) / 255f, 1f / (1 + hex.dist(mouse))));
+				g.setColor(new Color(1f / (1 + hex.dist(mouse)), 2f / (2 + hex.dist(mouse)), 3f / (3 + hex.dist(mouse)), 1f / (1 + hex.dist(mouse))));
 				g.fill(hex.getBorder(cellSize()));
 				g.setColor(Color.BLACK);
 			}

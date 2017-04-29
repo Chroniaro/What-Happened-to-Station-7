@@ -11,12 +11,12 @@ public class Level
 	int x = 1;
 
 	public Level()
-	{ 
+	{
 		floorLayer = new Integer[41][18];
-		HexPoint.iterateArray(floorLayer, (HexPoint hex, int x, int y) ->
-		{
-			floorLayer[x][y] = (int)(Math.random() * 150) | (int)(Math.random() * 150) << 8 | (int)(Math.random() * 150) << 16;
-		});
+//		HexPoint.iterateArray(floorLayer, (HexPoint hex, int x, int y) ->
+//		{
+//			floorLayer[x][y] = (int)(Math.random() * 150) | (int)(Math.random() * 150) << 8 | (int)(Math.random() * 150) << 16;
+//		});
 	}
 
 	public int getWidth()

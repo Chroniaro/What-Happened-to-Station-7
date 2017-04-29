@@ -8,4 +8,9 @@ public class Game
 	{
 		return x;
 	}
+	
+	public void update(long deltaT)
+	{
+		
+	}
 }

@@ -1,7 +1,9 @@
 package com.whtss.assets;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 import com.whtss.assets.render.GameRenderer;
 
 public class Station7
@@ -19,8 +21,13 @@ public class Station7
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setVisible(true);
 		
+		long t = System.currentTimeMillis();
+		
 		while(true)
 		{
+			long s = System.currentTimeMillis();
+			game.update(s - t);
+			t = s;
 			render.repaint();
 		}
 	}
