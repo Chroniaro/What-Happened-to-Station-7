@@ -16,9 +16,9 @@ public class Level
 		HexPoint.iterateArray(floorLayer, (HexPoint hex, int x, int y) ->
 		{
 			if(Math.random()<.25)
-			 floorLayer[x][y] = (int)(Math.random() * 200) | (int)(Math.random() * 200) << 8 | (int)(Math.random() * 200) << 16;
+			 floorLayer[x][y] = (int)(1) | (int)(1) << 8 | (int)(1) << 16;
 			else
-		     floorLayer[x][y] = (int)(1) | (int)(1) << 8 | (int)(1) << 16;
+		     floorLayer[x][y] = (int)(Math.random() * 200) | (int)(Math.random() * 200) << 8 | (int)(Math.random() * 200) << 16;
 		});
 	}
 
