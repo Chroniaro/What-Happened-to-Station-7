@@ -13,8 +13,8 @@ public class Level
 	public Level()
 	{ 
 		floorLayer = new int[42][32];
-		for(int x = 0; x < 15; x++)
-			for(int y = 0; y < 11; y++)
+		for(int x = 0; x < floorLayer.length; x++)
+			for(int y = 0; y < floorLayer[x].length; y++)
 				floorLayer[x][y] = (int)(Math.random() * 100) | (int)(Math.random() * 100) << 8 | (int)(Math.random() * 100) << 16;
 	}
 
