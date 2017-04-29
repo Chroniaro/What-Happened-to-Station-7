@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 import com.whtss.assets.Game;
 import com.whtss.assets.Level;
-import com.whtss.assets.HexCell;
 
 public class GameRenderer extends JComponent
 {
@@ -39,7 +38,6 @@ public class GameRenderer extends JComponent
 		for(int x = 0; x < lev.getWidth(); x++)
 			for(int y = 0; y < lev.getHeight(); y++)
 			{
-				HexCell currentCell = new HexCell(x, y);
 			}
 	}
 }

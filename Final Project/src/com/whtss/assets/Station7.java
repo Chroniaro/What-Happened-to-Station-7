@@ -8,14 +8,24 @@ public class Station7
 {
 	public static void main(String... args)
 	{
-		Game game = new Game();
-		GameRenderer render = new GameRenderer(game);
+		HexPoint.iterateRectangle(HexPoint.XY(-2, -2), 3, 3, (HexPoint cell) ->
+		{
+			System.out.println(cell);
+		});
 		
-		JFrame window = new JFrame();
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setTitle("What Happened to Station 7");
-		window.add(render);
-		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		window.setVisible(true);
+		HexPoint.iterateHexagon(HexPoint.origin, 2, (HexPoint cell, int a, int b) ->
+		{
+			System.out.println(cell.abCoords() + " " + a + " " + b);
+		});
+		
+//		Game game = new Game();
+//		GameRenderer render = new GameRenderer(game);
+//		
+//		JFrame window = new JFrame();
+//		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		window.setTitle("What Happened to Station 7");
+//		window.add(render);
+//		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		window.setVisible(true);
 	}
 }
