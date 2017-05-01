@@ -61,16 +61,15 @@ public class GameRenderer extends JComponent
 		Graphics2D g = (Graphics2D) _g;
 		for(Renderer r : renderers)
 			r.draw(g);
-		
+		g.setColor(Color.BLACK);
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		Level lvl = game.getCurrentLevel();
 		int floor = game.getfloor();
+		g.setColor(Color.BLUE);
 		g.drawString("Floor:"+String.valueOf(floor), 600, 15);
 		g.translate(getWidth() / 2, getHeight() / 2);
-		
-		
-		
 		g.setColor(Color.BLACK);
+		
 		int w = lvl.getWidth();
 		int h = lvl.getHeight();
 		int dw = -w/2;
