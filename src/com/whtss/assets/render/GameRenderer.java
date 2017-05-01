@@ -1,5 +1,6 @@
 package com.whtss.assets.render;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,8 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import com.whtss.assets.Game;
-import com.whtss.assets.HexPoint;
 import com.whtss.assets.Level;
+import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.hex.HexRect;
 
 public class GameRenderer extends JComponent
 {
@@ -59,12 +61,19 @@ public class GameRenderer extends JComponent
 	{
 		super.paintComponent(_g);
 		Graphics2D g = (Graphics2D) _g;
+		
+		TStack tstack = new TStack(g);
+		
 		for(Renderer r : renderers)
 			r.draw(g);
+		
+		tstack.revert();
 		
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		
 		g.translate(getWidth() / 2, getHeight() / 2);
+		
+		tstack.push();
 		
 		Level lvl = game.getCurrentLevel();
 		
@@ -73,16 +82,34 @@ public class GameRenderer extends JComponent
 		int h = lvl.getHeight();
 		int dw = -w/2;
 		int dh = 1 - h;
-		HexPoint.iterateRectangle(HexPoint.origin.mXY(dw, dh + (dh + dw)%2), lvl.getWidth(), lvl.getHeight(), (HexPoint hex, int x, int y) -> 
+		
+		boolean drawMouse = false;
+		
+		HexRect viewRect = HexPoint.rect(HexPoint.origin.mXY(dw, dh + (dh + dw)%2), lvl.getWidth(), lvl.getHeight());
+		for(HexPoint hex = viewRect.next(); viewRect.hasNext(); hex = viewRect.next())
 		{
+			tstack.push();
+			
+			g.drawString(lvl.getValue(viewRect.getRelX(), viewRect.getRelY()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
+			
 			if(mouse != null)
 			{
 				g.setColor(new Color(1f / (1 + hex.dist(mouse)), 2f / (2 + hex.dist(mouse)), 3f / (3 + hex.dist(mouse)), 1f / (1 + hex.dist(mouse))));
-				g.fill(hex.getBorder(cellSize()));
-				g.setColor(Color.BLACK);
+				if(!hex.equals(mouse))
+					g.fill(hex.getBorder(cellSize()));
+				else
+					drawMouse = true;
 			}
-			g.draw(hex.getBorder(cellSize()));
-		});
+			
+			tstack.pop();
+		}
+		
+		if(drawMouse)
+		{
+			g.setColor(new Color(1f, 1f, 1f, .8f));
+			g.setStroke(new BasicStroke(5));
+			g.draw(mouse.getBorder(cellSize()));
+		}
 	}
 	
 	private int cellSize()

@@ -1,4 +1,4 @@
-package com.whtss.assets;
+package com.whtss.assets.hex;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -57,6 +57,8 @@ public class HexPoint implements Serializable, Cloneable
 	public int getB() { return b; }
 	public double getVisualX(double size) { return size * getX() * xratio; }
 	public double getVisualY(double size) { return size * getY() * yratio; }
+	public int getVisualX(int size) { return (int)Math.round(getVisualX((double)size)); }
+	public int getVisualY(int size) { return (int)Math.round(getVisualY((double)size)); }
 	
 	public HexPoint mXY(int dx, int dy) { return XY(getX() + dx, getY() + dy); }
 	public HexPoint mAB(int da, int db) { return AB(getA() + da, getB() + db); }
@@ -92,51 +94,9 @@ public class HexPoint implements Serializable, Cloneable
 		return obj instanceof HexPoint && ((HexPoint)obj).getA() == getA() && ((HexPoint)obj).getB() == getB();
 	}
 	
-	@Override
-	public HexPoint clone()
-	{
-		return new HexPoint(getX(), getY(), getA(), getB());
-	}
-	
-	public static interface HexIterator 
-	{
-		public void run(HexPoint point, int x, int y);
-		
-		public static interface Simple extends HexIterator
-		{
-			public void run(HexPoint point);
-			
-			@Override
-			public default void run(HexPoint point, int c1, int c2)
-			{
-				run(point);
-			}
-		}
-	}
-	
-	public static void iterateRectangle(HexPoint topLeft, int width, int height, HexIterator iterator)
-	{
-		for(int dy = 0; dy < height; dy++)
-			for(int dx = 0; dx < width; dx++)
-				iterator.run(topLeft.mXY(dx, 2 * dy + dx % 2), dx, dy);
-	}
-	
-	public static void iterateRectangle(HexPoint topLeft, int width, int height, HexIterator.Simple iterator)
-	{
-		iterateRectangle(topLeft, width, height, (HexIterator)iterator);
-	}
-	
-	public static <A> void iterateArray(A[][] array, HexIterator iterator)
-	{
-		iterateRectangle(origin, array.length, array[0].length, iterator);
-	}
-	
-	public static void iterateHexagon(HexPoint center, int radius, HexIterator.Simple iterator)
-	{
-		for(int da = -radius; da <= radius; da++)
-			for(int db = -radius - Math.min(da, 0); db <= radius - Math.max(da, 0); db++)
-				iterator.run(center.mAB(da, db), da, db);
-	}
+	public static HexRect rect(HexPoint topLeft, int width, int height) { return new HexRect(topLeft, width, height); }
+	public static HexRect rect(int width, int height) { return rect(origin, width, height); }
+	public static HexCirc circ(HexPoint center, int radius) { return new HexCirc(center, radius); }
 	
 	public static HexPoint fromVisual(int x, int y, int size)
 	{
