@@ -13,6 +13,7 @@ public class Game
 	{
 		return floor;
 	}
+	
 	public void nextfloor()
 	{
 		floor++;
