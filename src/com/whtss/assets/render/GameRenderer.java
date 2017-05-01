@@ -63,10 +63,12 @@ public class GameRenderer extends JComponent
 			r.draw(g);
 		
 		g.drawString(String.valueOf(mouse), 0, getHeight());
-		
+		Level lvl = game.getCurrentLevel();
+		int floor = game.getfloor();
+		g.drawString("Floor:"+String.valueOf(floor), 100, getHeight());
 		g.translate(getWidth() / 2, getHeight() / 2);
 		
-		Level lvl = game.getCurrentLevel();
+		
 		
 		g.setColor(Color.BLACK);
 		int w = lvl.getWidth();

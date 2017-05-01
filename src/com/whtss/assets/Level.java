@@ -9,7 +9,7 @@ public class Level
 	LevelObject[][] objectLayer;
 	List<Entity> entities;
 	int x = 1;
-
+	
 	public Level()
 	{
 		floorLayer = new Integer[41][18];
