@@ -1,15 +1,17 @@
 package com.whtss.assets;
 
 import java.util.List;
+import java.util.Random;
 
 public class Level
 {
+	Random rand = new Random();
 	//Layers
 	Integer[][] floorLayer;
 	LevelObject[][] objectLayer;
 	List<Entity> entities;
-	int x = 1;
-	
+	int c = rand.nextInt(41 - 0 + 1) + 0;
+	int v = rand.nextInt(19 - 0 + 1) + 0;
 	public Level()
 	{
 		floorLayer = new Integer[41][18];
@@ -22,6 +24,14 @@ public class Level
 	public int getWidth()
 	{
 		return floorLayer.length;
+	}
+	public int getEntrance()
+	{
+		return floorLayer.length;
+	}
+	public int getstart()
+	{
+		return floorLayer[c][v];
 	}
 
 	public int getHeight()
