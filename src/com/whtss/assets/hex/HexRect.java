@@ -1,58 +1,35 @@
 package com.whtss.assets.hex;
 
-import java.util.Iterator;
-
-public class HexRect implements Iterator<HexPoint>, Iterable<HexPoint>
+public class HexRect implements Iterable<HexPoint>
 {
 	private final HexPoint tl;
 	private final int w, h;
-	
-	private int x, y, lx, ly;
 	
 	public HexRect(HexPoint topLeft, int width, int height)
 	{
 		tl = topLeft;
 		w = width; 
 		h = height;
-		
-		x = y = 0;
 	}
 	
-	@Override
-	public HexPoint next()
+	public HexPoint[][] asArray()
 	{
-		lx = x; 
-		ly = y;
-		
-		if(++x >= w)
-		{
-			x = 0;
-			y++;
-		}
-		
-		return tl.mXY(lx, 2 * ly + lx % 2);
+		HexPoint[][] array = new HexPoint[w][h];
+		Iterator i = iterator();
+		for(HexPoint cell : i)
+			array[i.x()][i.y()] = cell;
+		return array;
 	}
 	
-	@Override
-	public boolean hasNext()
+	public HexPoint fromArrayCoords(int x, int y)
 	{
-		return ly < h;
+		return tl.mXY(x, 2 * y + x % 2);
 	}
 
 	@Override
-	public Iterator<HexPoint> iterator()
+	public Iterator iterator()
 	{
-		return this;
-	}
-	
-	public int getRelX()
-	{
-		return lx;
-	}
-	
-	public int getRelY()
-	{
-		return ly;
+		return new Iterator();
 	}
 	
 	public int getHeight()
@@ -68,5 +45,48 @@ public class HexRect implements Iterator<HexPoint>, Iterable<HexPoint>
 	public HexPoint getTopLeftPoint()
 	{
 		return tl;
+	}
+	
+	public class Iterator implements java.util.Iterator<HexPoint>, Iterable<HexPoint>
+	{
+		int x = 0, y = 0;
+		int lx, ly;
+		
+		@Override
+		public HexPoint next()
+		{
+			lx = x; 
+			ly = y;
+			
+			if(++x >= w)
+			{
+				x = 0;
+				y++;
+			}
+			
+			return fromArrayCoords(lx, ly);
+		}
+		
+		public int x()
+		{
+			return lx;
+		}
+		
+		public int y()
+		{
+			return ly;
+		}
+		
+		@Override
+		public boolean hasNext()
+		{
+			return ly < h;
+		}
+		
+		@Override
+		public java.util.Iterator<HexPoint> iterator()
+		{
+			return this;
+		}
 	}
 }

@@ -79,24 +79,24 @@ public class GameRenderer extends JComponent
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		int floor = game.getfloor();
 		g.setColor(Color.BLUE);
-		g.drawString("Floor:"+String.valueOf(floor), 600, 15);
-		g.translate(getWidth() / 2, getHeight() / 2);
+		g.drawString("Floor "+floor, 600, 15);
 
 		tstack.revert();
 		
-		int w = lvl.getWidth();
-		int h = lvl.getHeight();
-		int dw = -w/2;
-		int dh = 1 - h;
+		g.setColor(Color.red);
+		g.fill(lvl.getstart().getBorder(cellSize()));
+		
+		tstack.revert();
 		
 		boolean drawMouse = false;
 		
-		HexRect viewRect = HexPoint.rect(HexPoint.origin.mXY(dw, dh + (dh + dw)%2), lvl.getWidth(), lvl.getHeight());
-		for(HexPoint hex = viewRect.next(); viewRect.hasNext(); hex = viewRect.next())
+		HexRect viewRect = lvl.getCells();
+		HexRect.Iterator iterator = viewRect.new Iterator();
+		for(HexPoint hex = iterator.next(); iterator.hasNext(); hex = iterator.next())
 		{
 			tstack.push();
 			
-			g.drawString(lvl.getValue(viewRect.getRelX(), viewRect.getRelY()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
+//			g.drawString(lvl.getValue(iterator.x(), iterator.y()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
 			
 			if(mouse != null)
 			{

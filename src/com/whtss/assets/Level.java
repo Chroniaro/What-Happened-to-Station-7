@@ -2,22 +2,34 @@ package com.whtss.assets;
 
 import java.util.List;
 import java.util.Random;
+import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.hex.HexRect;
 
 public class Level
 {
-	Random rand = new Random();
+	static final Random rand = new Random();
+	
+	private final static int width = 41, height = 18;
+	
 	//Layers
 	String[][] floorLayer;
 	LevelObject[][] objectLayer;
 	List<Entity> entities;
-	int c = rand.nextInt(41 - 0 + 1) + 0;
-	int v = rand.nextInt(19 - 0 + 1) + 0;
+	
+	private final HexRect bounds;
+	final HexPoint start;
+	
 	public Level()
 	{
-		floorLayer = new String[41][18];
+		floorLayer = new String[width][height];
 		for(int x = 0; x < floorLayer.length; x++)
 			for(int y = 0; y < floorLayer[x].length; y++)
 				floorLayer[x][y] = "(" + x + ", " + y + ")";
+		
+		int dw = -width/2;
+		int dh = 1 - height;
+		bounds = HexPoint.rect(HexPoint.origin.mXY(dw, dh + (dh + dw)%2), width, height);
+		start = getCells().fromArrayCoords(rand.nextInt(width), rand.nextInt(height));
 	}
 
 	public int getWidth()
@@ -28,9 +40,9 @@ public class Level
 	{
 		return floorLayer.length;
 	}
-	public int getstart()
+	public HexPoint getstart()
 	{
-		return floorLayer[c][v];
+		return start;
 	}
 
 	public int getHeight()
@@ -41,5 +53,10 @@ public class Level
 	public String getValue(int x, int y)
 	{
 		return floorLayer[x][y];
+	}
+
+	public HexRect getCells()
+	{
+		return bounds;
 	}
 }
