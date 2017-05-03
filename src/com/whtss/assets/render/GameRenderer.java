@@ -2,6 +2,8 @@ package com.whtss.assets.render;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -63,6 +65,7 @@ public class GameRenderer extends JComponent
 		Graphics2D g = (Graphics2D) _g;
 		
 		TStack tstack = new TStack(g);
+		Level lvl = game.getCurrentLevel();
 		
 		g.setColor(Color.black);
 		g.fill(g.getClip());
@@ -74,17 +77,14 @@ public class GameRenderer extends JComponent
 		
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		
+		int floor = game.getfloor();
+		g.setColor(Color.BLUE);
+		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		drawStringCenteredly(g, "Floor " + floor, getWidth() / 2, 5);
+		
 		g.translate(getWidth() / 2, getHeight() / 2);
 		
 		tstack.push();
-		
-		Level lvl = game.getCurrentLevel();
-		g.drawString(String.valueOf(mouse), 0, getHeight());
-		int floor = game.getfloor();
-		g.setColor(Color.BLUE);
-		g.drawString("Floor "+floor, 600, 15);
-
-		tstack.revert();
 		
 		g.setColor(Color.red);
 		g.fill(lvl.getstart().getBorder(cellSize()));
@@ -127,5 +127,13 @@ public class GameRenderer extends JComponent
 	{
 		final double limiter = Math.min(getWidth() / 1000.0, getHeight() / (1000.0 * .6));
 		return (int)Math.round(35 * limiter);
+	}
+	
+	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)
+	{
+		final FontMetrics m = g.getFontMetrics();
+		final int w = m.stringWidth(str);
+		final int h = m.getHeight();
+		g.drawString(str, cx - w/2, cy + h/2);
 	}
 }
