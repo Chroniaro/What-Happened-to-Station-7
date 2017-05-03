@@ -64,6 +64,9 @@ public class GameRenderer extends JComponent
 		
 		TStack tstack = new TStack(g);
 		
+		g.setColor(Color.black);
+		g.fill(g.getClip());
+		
 		for(Renderer r : renderers)
 			r.draw(g);
 		
@@ -96,6 +99,8 @@ public class GameRenderer extends JComponent
 		{
 			tstack.push();
 			
+			g.setColor(Color.WHITE);
+			g.fill(hex.getBorder(cellSize()));
 //			g.drawString(lvl.getValue(iterator.x(), iterator.y()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
 			
 			if(mouse != null)
