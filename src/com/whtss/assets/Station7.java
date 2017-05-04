@@ -26,6 +26,7 @@ public class Station7
 		layoutGame.weightx = .9;
 		layoutGame.weighty = .9;
 		layoutGame.fill = GridBagConstraints.BOTH;
+		layoutGame.anchor = GridBagConstraints.NORTH;
 		window.add(render, layoutGame);
 		
 		GameInfo info = new GameInfo(game);
@@ -34,6 +35,7 @@ public class Station7
 		layoutInfo.weightx = .1;
 		layoutInfo.weighty = .1;
 		layoutInfo.fill = GridBagConstraints.BOTH;
+		layoutInfo.anchor = GridBagConstraints.NORTH;
 		layoutInfo.gridy = 1;
 		window.add(info, layoutInfo);
 		
