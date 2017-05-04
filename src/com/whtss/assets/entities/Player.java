@@ -20,10 +20,12 @@ public class Player extends Entity
 	{
 		move = 0;
 	}
-        public static int gethealth()
+       
+	public int gethealth()
 	{
 		return health;
 	}
+	
 	@Override
 	public boolean move(int da, int db, int dhy)
 	{
