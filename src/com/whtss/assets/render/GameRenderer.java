@@ -172,8 +172,10 @@ public class GameRenderer extends JComponent
 		for(Entity e : lvl.getEntities())
 		{
 			if(e.getClass().equals(Player.class))
-			{
-				g.setColor(Color.BLUE);
+			{ 
+				int y = Player.gethealth();
+				Color myNewBlue = new Color (128,y,128);
+				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(cellSize()));
 			}
 		}

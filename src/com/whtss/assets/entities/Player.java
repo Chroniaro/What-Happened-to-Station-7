@@ -1,5 +1,7 @@
 package com.whtss.assets.entities;
 
+import java.awt.Color;
+
 import com.whtss.assets.Entity;
 import com.whtss.assets.Level;
 import com.whtss.assets.hex.HexPoint;
@@ -8,7 +10,8 @@ public class Player extends Entity
 {
 	final int speed = 5;
 	int move = 0;
-	int health = 100;
+	static int health = 100;
+    Color myNewBlue = new Color (5, 5, 5);
 	
 	public Player(HexPoint location, Level level)
 	{
@@ -19,6 +22,10 @@ public class Player extends Entity
 	public void endTurn()
 	{
 		move = 0;
+	}
+	public static int gethealth()
+	{
+		return health;
 	}
 	
 	@Override
