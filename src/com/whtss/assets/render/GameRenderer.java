@@ -180,8 +180,8 @@ public class GameRenderer extends JComponent
 	
 	private int cellSize()
 	{
-		final double limiter = Math.min(getWidth() / 1000.0, getHeight() / (1000.0 * .6));
-		return (int)Math.round(35 * limiter);
+		final double limiter = Math.min(getWidth() / 1000.0, getHeight() / (1000.0 * .55));
+		return (int)Math.round(30 * limiter);
 	}
 	
 	private boolean mouseIn()
