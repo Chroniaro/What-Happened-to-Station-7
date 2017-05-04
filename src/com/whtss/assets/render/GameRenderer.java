@@ -139,32 +139,19 @@ public class GameRenderer extends JComponent
 		{
 			tstack.push();
 			
-			g.setColor(Color.WHITE);
-			g.fill(hex.getBorder(s));
 //			g.drawString(lvl.getValue(iterator.x(), iterator.y()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
 			
 			if(mouse != null)
 			{
-				g.setColor(new Color(1f - 1f / (1 + hex.dist(mouse)), 1f - 4f / (4 + hex.dist(mouse)), 1f - 3f / (3 + hex.dist(mouse))));
-				if(!hex.equals(mouse))
-					g.fill(hex.getBorder(s));
+				final int d = hex.dist(mouse);
+				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
 			}
+			else
+				g.setColor(Color.white);
+			
+			g.fill(hex.getBorder(s));
 			
 			tstack.pop();
-		}
-		
-		if(mouseIn)
-		{
-			g.setColor(new Color(1f, 1f, 1f, .8f));
-			g.setStroke(new BasicStroke(5));
-			g.draw(mouse.getBorder(s));
-		}
-		
-		if(select != null)
-		{
-			g.setColor(new Color(1f, .5f, .5f, .9f));
-			g.setStroke(new BasicStroke(7));
-			g.draw(select.getBorder(s));
 		}
 		
 		tstack.revert();
@@ -175,10 +162,24 @@ public class GameRenderer extends JComponent
 			if(e.getClass().equals(Player.class))
 			{
 				int y = ((Player) e).gethealth();
-				Color myNewBlue = new Color (155 + y,2 * y,200 - y);
+				Color myNewBlue = new Color (155 + y, 2 * y, 200 - y);
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
 			}
+		}
+		
+		if(mouseIn)
+		{
+			g.setColor(new Color(1f, 1f, 1f));
+			g.setStroke(new BasicStroke(5));
+			g.draw(mouse.getBorder(s));
+		}
+		
+		if(select != null)
+		{
+			g.setColor(new Color(1f, .5f, .5f));
+			g.setStroke(new BasicStroke(7));
+			g.draw(select.getBorder(s));
 		}
 	}
 	
