@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.whtss.assets.hex.HexPoint;
 
-public class Entity implements LightSource
+public abstract class Entity implements LightSource
 {
 	private HexPoint location;
 	private final Level lvl;
@@ -45,6 +45,8 @@ public class Entity implements LightSource
 		
 		return getLocation();
 	}
+	
+	public abstract void endTurn();
 	
 	public HexPoint getLocation()
 	{

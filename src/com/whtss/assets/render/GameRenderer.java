@@ -28,26 +28,11 @@ public class GameRenderer extends JComponent
 	private static final long serialVersionUID = -1380847482506652728L;
 	
 	private Game game;
-	private Renderer renderLevel, renderUI;
-	
-	private final Renderer[] renderers;
-	
 	private HexPoint mouse, select = null;
 	
 	public GameRenderer(Game game)
 	{
 		this.game = game;
-	
-		renderLevel = new LevelRenderer();
-		renderUI = new UIRenderer(game);
-
-		requestFocusInWindow();
-		
-		renderers = new Renderer[]
-				{
-						renderLevel,
-						renderUI
-				};
 	}
 	
 	public void addListeners(JFrame container)
@@ -124,9 +109,6 @@ public class GameRenderer extends JComponent
 		
 		g.setColor(Color.black);
 		g.fill(g.getClip());
-		
-		for(Renderer r : renderers)
-			r.draw(g);
 		
 		tstack.revert();
 		
