@@ -22,46 +22,51 @@ public class Player extends Entity
 	}
 	
 	@Override
-	public void move(int da, int db, int dhy)
+	public boolean move(int da, int db, int dhy)
 	{
-		move += Math.abs(da) + Math.abs(db) + Math.abs(dhy);
-		if(move <= speed)
-			super.move(da, db, dhy);
+		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);
+		if(dist + move <= speed)
+			if(super.move(da, db, dhy))
+			{
+				move += dist;
+				return true;
+			}
+		return false;
 	}
 	
 	public UIAction _Q(int modifiers, HexPoint target)
 	{
 		move(-1, 0, 0);
-		return null;
+		return move < speed ? null : success;
 	}
 	
 	public UIAction _W(int modifiers, HexPoint target)
 	{
 		move(0, 0, 1);
-		return null;
+		return move < speed ? null : success;
 	}
 	
 	public UIAction _E(int modifiers, HexPoint target)
 	{
 		move(0, 1, 0);
-		return null;
+		return move < speed ? null : success;
 	}
 	
 	public UIAction _A(int modifiers, HexPoint target)
 	{
 		move(0, -1, 0);
-		return null;
+		return move < speed ? null : success;
 	}
 	
 	public UIAction _S(int modifiers, HexPoint target)
 	{
 		move(0, 0, -1);
-		return null;
+		return move < speed ? null : success;
 	}
 	
 	public UIAction _D(int modifiers, HexPoint target)
 	{
 		move(1, 0, 0);
-		return null;
+		return move < speed ? null : success;
 	}
 }

@@ -12,7 +12,7 @@ public class Level
 {
 	static final Random rand = new Random();
 	
-	private final static int width = 41, height = 18;
+	private final static int width = 41, height = 19;
 	
 	//Layers
 	int[][] floorLayer;
@@ -39,12 +39,15 @@ public class Level
 	
 	private void generate()
 	{
-		start = getCells().fromArrayCoords(rand.nextInt(width), rand.nextInt(height));
+		start = getCells().fromArrayCoords(rand.nextInt(width - 2) + 1, rand.nextInt(height - 2) + 1);
 		do {
 			end = getCells().fromArrayCoords(rand.nextInt(width), rand.nextInt(height));
-		} while(end.equals(start));
+		} while(end.dist(start) < 3);
 		
 		getEntities().add(new Player(start, this));
+		getEntities().add(new Player(start.mABY(1, 0, 0), this));
+		getEntities().add(new Player(start.mABY(0, -1, 0), this));
+		getEntities().add(new Player(start.mABY(0, 0, 2), this));
 	}
 
 	public HexPoint performAction(HexPoint select, HexPoint mouse, KeyEvent key)
@@ -88,5 +91,11 @@ public class Level
 	public List<Entity> getEntities()
 	{
 		return entities;
+	}
+
+	public void nextTurn()
+	{
+		for(Entity e : entities)
+			e.endTurn();
 	}
 }

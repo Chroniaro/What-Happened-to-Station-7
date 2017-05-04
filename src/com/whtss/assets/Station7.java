@@ -1,9 +1,10 @@
 package com.whtss.assets;
 
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.JFrame;
+import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
 
 public class Station7
@@ -11,16 +12,30 @@ public class Station7
 	public static void main(String... args)
 	{	
 		Game game = new Game();
-		GameRenderer render = new GameRenderer(game);
 		
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setTitle("What Happened to Station 7");
 		window.setMinimumSize(new Dimension(400, 225));
-		window.add(render);
+		window.setLayout(new GridBagLayout());
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+		GameRenderer render = new GameRenderer(game);
 		render.addListeners(window);
+		GridBagConstraints layoutGame = new GridBagConstraints();
+		layoutGame.weightx = .9;
+		layoutGame.weighty = .9;
+		layoutGame.fill = GridBagConstraints.BOTH;
+		window.add(render, layoutGame);
+		
+		GameInfo info = new GameInfo(game);
+		info.addListeners(window);
+		GridBagConstraints layoutInfo = new GridBagConstraints();
+		layoutInfo.weightx = .1;
+		layoutInfo.weighty = .1;
+		layoutInfo.fill = GridBagConstraints.BOTH;
+		layoutInfo.gridy = 1;
+		window.add(info, layoutInfo);
 		
 		window.setVisible(true);
 		

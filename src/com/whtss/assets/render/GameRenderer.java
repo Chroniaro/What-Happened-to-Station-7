@@ -2,8 +2,6 @@ package com.whtss.assets.render;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -33,6 +31,7 @@ public class GameRenderer extends JComponent
 	public GameRenderer(Game game)
 	{
 		this.game = game;
+		requestFocusInWindow();
 	}
 	
 	public void addListeners(JFrame container)
@@ -119,10 +118,10 @@ public class GameRenderer extends JComponent
 			g.setColor(Color.red);
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		
-		int floor = game.getfloor();
-		g.setColor(Color.BLUE);
-		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-		drawStringCenteredly(g, "Floor " + floor, getWidth() / 2, 5);
+//		int floor = game.getfloor();
+//		g.setColor(Color.BLUE);
+//		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+//		drawStringCenteredly(g, "Floor " + floor, getWidth() / 2, 5);
 		
 		g.translate(getWidth() / 2, getHeight() / 2);
 		
@@ -190,11 +189,11 @@ public class GameRenderer extends JComponent
 		return mouse != null && game.getCurrentLevel().getCells().contains(mouse);
 	}
 	
-	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)
-	{
-		final FontMetrics m = g.getFontMetrics();
-		final int w = m.stringWidth(str);
-		final int h = m.getHeight();
-		g.drawString(str, cx - w/2, cy + h/2);
-	}
+//	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)
+//	{
+//		final FontMetrics m = g.getFontMetrics();
+//		final int w = m.stringWidth(str);
+//		final int h = m.getHeight();
+//		g.drawString(str, cx - w/2, cy + h/2);
+//	}
 }
