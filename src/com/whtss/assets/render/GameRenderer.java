@@ -102,6 +102,8 @@ public class GameRenderer extends JComponent
 		super.paintComponent(_g);
 		Graphics2D g = (Graphics2D) _g;
 		
+		final int s = cellSize();
+		
 		TStack tstack = new TStack(g);
 		Level lvl = game.getCurrentLevel();
 		HexRect viewRect = lvl.getCells();
@@ -128,7 +130,7 @@ public class GameRenderer extends JComponent
 		tstack.push();
 		
 		g.setColor(Color.red);
-		g.fill(lvl.getstart().getBorder(cellSize()));
+		g.fill(lvl.getstart().getBorder(s));
 		
 		tstack.revert();
 		
@@ -138,14 +140,14 @@ public class GameRenderer extends JComponent
 			tstack.push();
 			
 			g.setColor(Color.WHITE);
-			g.fill(hex.getBorder(cellSize()));
+			g.fill(hex.getBorder(s));
 //			g.drawString(lvl.getValue(iterator.x(), iterator.y()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
 			
 			if(mouse != null)
 			{
 				g.setColor(new Color(1f - 1f / (1 + hex.dist(mouse)), 1f - 4f / (4 + hex.dist(mouse)), 1f - 3f / (3 + hex.dist(mouse))));
 				if(!hex.equals(mouse))
-					g.fill(hex.getBorder(cellSize()));
+					g.fill(hex.getBorder(s));
 			}
 			
 			tstack.pop();
@@ -155,14 +157,14 @@ public class GameRenderer extends JComponent
 		{
 			g.setColor(new Color(1f, 1f, 1f, .8f));
 			g.setStroke(new BasicStroke(5));
-			g.draw(mouse.getBorder(cellSize()));
+			g.draw(mouse.getBorder(s));
 		}
 		
 		if(select != null)
 		{
 			g.setColor(new Color(1f, .5f, .5f, .9f));
 			g.setStroke(new BasicStroke(7));
-			g.draw(select.getBorder(cellSize()));
+			g.draw(select.getBorder(s));
 		}
 		
 		tstack.revert();
@@ -175,7 +177,7 @@ public class GameRenderer extends JComponent
 				int y = ((Player) e).gethealth();
 				Color myNewBlue = new Color (128,y,128);
 				g.setColor(myNewBlue);
-				g.fill(e.getLocation().getBorder(cellSize()));
+				g.fill(e.getLocation().getBorder(s));
 			}
 		}
 	}
