@@ -60,6 +60,7 @@ public class HexPoint implements Serializable, Cloneable
 	public int getVisualX(int size) { return (int)Math.round(getVisualX((double)size)); }
 	public int getVisualY(int size) { return (int)Math.round(getVisualY((double)size)); }
 	
+	public HexPoint mABY(int da, int db, int dy) { return mAB(da - dy / 2, db + dy / 2); };
 	public HexPoint mXY(int dx, int dy) { return XY(getX() + dx, getY() + dy); }
 	public HexPoint mAB(int da, int db) { return AB(getA() + da, getB() + db); }
 	public HexPoint mX(int dx) { return mXY(dx, 0); }

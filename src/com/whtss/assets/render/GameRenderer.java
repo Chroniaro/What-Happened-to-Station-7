@@ -6,11 +6,17 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import com.whtss.assets.Entity;
 import com.whtss.assets.Game;
 import com.whtss.assets.Level;
+import com.whtss.assets.entities.Player;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 
@@ -26,36 +32,84 @@ public class GameRenderer extends JComponent
 	
 	private final Renderer[] renderers;
 	
-	private HexPoint mouse;
+	private HexPoint mouse, select = null;
 	
 	public GameRenderer(Game game)
 	{
 		this.game = game;
-		
+	
 		renderLevel = new LevelRenderer();
 		renderUI = new UIRenderer(game);
+
+		requestFocusInWindow();
 		
 		renderers = new Renderer[]
 				{
 						renderLevel,
 						renderUI
 				};
-		
-		addMouseMotionListener(new MouseMotionListener()
-		{
+	}
+	
+	public void addListeners(JFrame container)
+	{
+		addMouseMotionListener(
+				new MouseMotionListener()
+				{
+					@Override
+					public void mouseMoved(MouseEvent e)
+					{	
+						mouse = fromVisual(e);
+					}
+					
+					@Override
+					public void mouseDragged(MouseEvent e)
+					{
+						mouseMoved(e);
+					}
+				}
+			);
 			
-			@Override
-			public void mouseMoved(MouseEvent e)
-			{	
-				mouse = HexPoint.fromVisual(e.getX() - getWidth() / 2, e.getY() - getHeight() / 2, cellSize());
-			}
+		addMouseListener(
+				new MouseListener()
+				{
+					@Override 
+					public void mouseClicked(MouseEvent e) 
+					{
+						if(select == null)
+						{
+							if(mouseIn())
+								select = fromVisual(e);
+						}
+						else
+							select = null;
+					}
+					
+					@Override public void mousePressed(MouseEvent e) {}
+					@Override public void mouseReleased(MouseEvent e) {}
+					@Override public void mouseEntered(MouseEvent e) {}
+					@Override public void mouseExited(MouseEvent e) {}
+				}
+			);
 			
-			@Override
-			public void mouseDragged(MouseEvent e)
-			{
-				mouseMoved(e);
-			}
-		});
+		container.addKeyListener(
+					new KeyListener()
+					{
+						@Override public void keyTyped(KeyEvent e) {}
+						
+						@Override public void keyPressed(KeyEvent e) {}
+
+						@Override
+						public void keyReleased(KeyEvent e)
+						{
+							select = game.processAction(select, mouseIn() ? mouse : null, e);
+						}
+					}
+				);
+	}
+	
+	private HexPoint fromVisual(MouseEvent e)
+	{
+		return HexPoint.fromVisual(e.getX() - getWidth() / 2, e.getY() - getHeight() / 2, cellSize());
 	}
 	
 	@Override
@@ -66,6 +120,7 @@ public class GameRenderer extends JComponent
 		
 		TStack tstack = new TStack(g);
 		Level lvl = game.getCurrentLevel();
+		HexRect viewRect = lvl.getCells();
 		
 		g.setColor(Color.black);
 		g.fill(g.getClip());
@@ -75,6 +130,11 @@ public class GameRenderer extends JComponent
 		
 		tstack.revert();
 		
+		final boolean mouseIn = mouseIn();
+		if(mouseIn)
+			g.setColor(Color.white);
+		else
+			g.setColor(Color.red);
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		
 		int floor = game.getfloor();
@@ -91,9 +151,6 @@ public class GameRenderer extends JComponent
 		
 		tstack.revert();
 		
-		boolean drawMouse = false;
-		
-		HexRect viewRect = lvl.getCells();
 		HexRect.Iterator iterator = viewRect.new Iterator();
 		for(HexPoint hex = iterator.next(); iterator.hasNext(); hex = iterator.next())
 		{
@@ -105,21 +162,38 @@ public class GameRenderer extends JComponent
 			
 			if(mouse != null)
 			{
-				g.setColor(new Color(1f / (1 + hex.dist(mouse)), 2f / (2 + hex.dist(mouse)), 3f / (3 + hex.dist(mouse)), 1f / (1 + hex.dist(mouse))));
+				g.setColor(new Color(1f - 1f / (1 + hex.dist(mouse)), 1f - 4f / (4 + hex.dist(mouse)), 1f - 3f / (3 + hex.dist(mouse))));
 				if(!hex.equals(mouse))
 					g.fill(hex.getBorder(cellSize()));
-				else
-					drawMouse = true;
 			}
 			
 			tstack.pop();
 		}
 		
-		if(drawMouse)
+		if(mouseIn)
 		{
 			g.setColor(new Color(1f, 1f, 1f, .8f));
 			g.setStroke(new BasicStroke(5));
 			g.draw(mouse.getBorder(cellSize()));
+		}
+		
+		if(select != null)
+		{
+			g.setColor(new Color(1f, .5f, .5f, .9f));
+			g.setStroke(new BasicStroke(7));
+			g.draw(select.getBorder(cellSize()));
+		}
+		
+		tstack.revert();
+		tstack.push();
+		
+		for(Entity e : lvl.getEntities())
+		{
+			if(e.getClass().equals(Player.class))
+			{
+				g.setColor(Color.BLUE);
+				g.fill(e.getLocation().getBorder(cellSize()));
+			}
 		}
 	}
 	
@@ -127,6 +201,11 @@ public class GameRenderer extends JComponent
 	{
 		final double limiter = Math.min(getWidth() / 1000.0, getHeight() / (1000.0 * .6));
 		return (int)Math.round(35 * limiter);
+	}
+	
+	private boolean mouseIn()
+	{
+		return mouse != null && game.getCurrentLevel().getCells().contains(mouse);
 	}
 	
 	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)

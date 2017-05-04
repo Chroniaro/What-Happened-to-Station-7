@@ -1,5 +1,8 @@
 package com.whtss.assets;
 
+import java.awt.event.KeyEvent;
+import com.whtss.assets.hex.HexPoint;
+
 public class Game
 {
 	Level x = new Level();
@@ -21,5 +24,17 @@ public class Game
 	public void update(long deltaT)
 	{
 		
+	}
+	
+	public HexPoint processAction(HexPoint select, HexPoint mouse, KeyEvent key)
+	{
+		switch(key.getKeyCode())
+		{
+			default:
+				if(select == null)
+					return null;
+				else
+					return getCurrentLevel().performAction(select, mouse, key);
+		}
 	}
 }

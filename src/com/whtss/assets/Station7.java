@@ -1,6 +1,8 @@
 package com.whtss.assets;
 
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import com.whtss.assets.render.GameRenderer;
 
@@ -17,6 +19,9 @@ public class Station7
 		window.setMinimumSize(new Dimension(400, 225));
 		window.add(render);
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		render.addListeners(window);
+		
 		window.setVisible(true);
 		
 		long t = System.currentTimeMillis();

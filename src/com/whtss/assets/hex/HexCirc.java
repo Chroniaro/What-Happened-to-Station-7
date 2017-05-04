@@ -11,11 +11,14 @@ public class HexCirc implements Iterator<HexPoint>, Iterable<HexPoint>
 	
 	public HexCirc(HexPoint center, int radius)
 	{
+		
 		c = center;
 		r = radius;
 		
 		a = -radius;
 		b = 0;
+		
+		throw new UnsupportedOperationException("This class doesn't work yet.");
 	}
 	
 	@Override

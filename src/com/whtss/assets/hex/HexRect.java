@@ -25,6 +25,27 @@ public class HexRect implements Iterable<HexPoint>
 	{
 		return tl.mXY(x, 2 * y + x % 2);
 	}
+	
+	public int X(HexPoint p)
+	{
+		return (p.getX() - tl.getX()) / 2;
+	}
+	
+	public int Y(HexPoint p)
+	{
+		return p.getY() - tl.getY();
+	}
+	
+	public boolean contains(HexPoint point)
+	{
+		final HexPoint br = fromArrayCoords(w, h);
+		
+		return
+				point.getX() >= tl.getX() &&
+				point.getY() >= tl.getY() &&
+				point.getX() < br.getX() &&
+				point.getY() < br.getY() - 1;
+	}
 
 	@Override
 	public Iterator iterator()
