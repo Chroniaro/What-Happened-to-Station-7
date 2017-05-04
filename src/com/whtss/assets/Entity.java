@@ -19,7 +19,7 @@ public class Entity implements LightSource
 	
 	public Entity(HexPoint location, Level level)
 	{
-		this.location = location;
+		setLocation(location);
 		lvl = level;
 	}
 	
@@ -51,10 +51,16 @@ public class Entity implements LightSource
 		return location;
 	}
 
-	public void setLocation(HexPoint location)
+	private void setLocation(HexPoint location)
 	{
-		if(lvl.getCells().contains(location))
-			this.location = location;
+		this.location = location;
+	}
+	
+	public void move(int da, int db, int dhy)
+	{
+		HexPoint newLocation = location.mABY(da, db, 2 * dhy);
+		if(lvl.getCells().contains(newLocation))
+			setLocation(newLocation);
 	}
 
 	protected abstract class UIAction

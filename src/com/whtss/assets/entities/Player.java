@@ -13,37 +13,37 @@ public class Player extends Entity
 	
 	public UIAction _Q(int modifiers, HexPoint target)
 	{
-		setLocation(getLocation().mA(-1));
+		move(-1, 0, 0);
 		return null;
 	}
 	
 	public UIAction _W(int modifiers, HexPoint target)
 	{
-		setLocation(getLocation().mY(-2));
+		move(0, 0, 1);
 		return null;
 	}
 	
 	public UIAction _E(int modifiers, HexPoint target)
 	{
-		setLocation(getLocation().mB(1));
+		move(0, 1, 0);
 		return null;
 	}
 	
 	public UIAction _A(int modifiers, HexPoint target)
 	{
-		setLocation(getLocation().mB(-1));
+		move(0, -1, 0);
 		return null;
 	}
 	
 	public UIAction _S(int modifiers, HexPoint target)
 	{
-		setLocation(getLocation().mY(2));
+		move(0, 0, -1);
 		return null;
 	}
 	
 	public UIAction _D(int modifiers, HexPoint target)
 	{
-		setLocation(getLocation().mA(1));
+		move(1, 0, 0);
 		return null;
 	}
 }
