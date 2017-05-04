@@ -175,7 +175,7 @@ public class GameRenderer extends JComponent
 			if(e.getClass().equals(Player.class))
 			{
 				int y = ((Player) e).gethealth();
-				Color myNewBlue = new Color (255,2 * y,255);
+				Color myNewBlue = new Color (155 + y,2 * y,200 - y);
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
 			}
