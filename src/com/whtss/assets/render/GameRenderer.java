@@ -12,9 +12,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import com.whtss.assets.Entity;
 import com.whtss.assets.Game;
-import com.whtss.assets.Level;
+import com.whtss.assets.core.Entity;
+import com.whtss.assets.core.Level;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
@@ -84,7 +84,6 @@ public class GameRenderer extends JComponent
 					new KeyListener()
 					{
 						@Override public void keyTyped(KeyEvent e) {}
-						
 						@Override public void keyPressed(KeyEvent e) {}
 
 						@Override

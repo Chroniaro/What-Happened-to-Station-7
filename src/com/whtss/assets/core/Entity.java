@@ -1,15 +1,16 @@
-package com.whtss.assets;
+package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import com.whtss.assets.LightSource;
 import com.whtss.assets.hex.HexPoint;
 
 public abstract class Entity implements LightSource
 {
 	private HexPoint location;
 	private boolean active = true;
-	protected final Level lvl;
+	private final Level lvl;
 	protected final UIAction success = new UIAction() 
 	{
 		public HexPoint selectTile() 
@@ -26,7 +27,7 @@ public abstract class Entity implements LightSource
 	
 	public int light() { return 0; }
 	
-	final HexPoint input(KeyEvent key, HexPoint target)
+	public final HexPoint input(KeyEvent key, HexPoint target)
 	{	
 		String meth = "_" + KeyEvent.getKeyText(key.getKeyCode());
 		Method m;
@@ -90,9 +91,6 @@ public abstract class Entity implements LightSource
 
 	public abstract class UIAction
 	{
-		public HexPoint selectTile()
-		{
-			return location;
-		}
+		protected HexPoint selectTile() { return location; }
 	}
 }

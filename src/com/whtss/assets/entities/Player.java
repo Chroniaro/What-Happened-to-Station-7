@@ -1,12 +1,13 @@
 package com.whtss.assets.entities;
 
-import com.whtss.assets.Entity;
-import com.whtss.assets.Level;
+import com.whtss.assets.core.Damageable;
+import com.whtss.assets.core.Entity;
+import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 
-public class Player extends Entity
+public class Player extends Entity implements Damageable
 {
-	final int speed = 50;
+	final int speed = 5;
 	int move = 0;
 	int health = 100;
 	
@@ -45,38 +46,23 @@ public class Player extends Entity
 			return success;
 	}
 	
-	public UIAction _Q(int modifiers, HexPoint target)
+	public UIAction _Q(int modifiers, HexPoint target) { return walk(-1, 0, 0); }
+	public UIAction _W(int modifiers, HexPoint target) { return walk(0, 0, 1); }
+	public UIAction _P(int modifiers, HexPoint target) { return walk(0, 0, 1); }
+	public UIAction _E(int modifiers, HexPoint target) { return walk(0, 1, 0); }
+	public UIAction _A(int modifiers, HexPoint target) { return walk(0, -1, 0); }
+	public UIAction _S(int modifiers, HexPoint target) { return walk(0, 0, -1); }
+	public UIAction _D(int modifiers, HexPoint target) { return walk(1, 0, 0); }
+
+	@Override
+	public int getHealth()
 	{
-		return walk(-1, 0, 0);
+		return health;
 	}
-	
-	public UIAction _W(int modifiers, HexPoint target)
+
+	@Override
+	public void takeDamage(int amount)
 	{
-		return walk(0, 0, 1);
-	}
-	public UIAction _P(int modifiers, HexPoint target)
-	{
-		return walk(0, 0, 1);
-	}
-	
-	
-	public UIAction _E(int modifiers, HexPoint target)
-	{
-		return walk(0, 1, 0);
-	}
-	
-	public UIAction _A(int modifiers, HexPoint target)
-	{
-		return walk(0, -1, 0);
-	}
-	
-	public UIAction _S(int modifiers, HexPoint target)
-	{
-		return walk(0, 0, -1);
-	}
-	
-	public UIAction _D(int modifiers, HexPoint target)
-	{
-		return walk(1, 0, 0);
+		health -= amount;
 	}
 }
