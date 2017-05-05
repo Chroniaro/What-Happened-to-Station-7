@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.whtss.assets.LightSource;
 import com.whtss.assets.hex.HexPoint;
@@ -38,7 +37,16 @@ public abstract class Entity implements LightSource
 		return methodsWithUIHandle("Key_" + KeyEvent.getKeyText(key.getKeyCode()), 
 				(Method m) -> 
 				{
-					UIAction action = (UIAction) m.invoke(this, key.getModifiers(), target);
+					Class<?>[] mparams = m.getParameterTypes();
+					Object[] params = new Object[mparams.length];
+					for(int i = 0; i < mparams.length; i++)
+						if(int.class.isAssignableFrom(mparams[i]))
+							params[i] = key.getModifiers();
+						else if(HexPoint.class.isAssignableFrom(mparams[i]))
+							params[i] = target;
+						else
+							params[i] = null;
+					UIAction action = (UIAction) m.invoke(this, params);
 					if(action == null)
 						return getLocation();
 					else
@@ -49,18 +57,10 @@ public abstract class Entity implements LightSource
 	
 	public final void endTurn()
 	{
-		methodsWithUIHandle("Next Turn", 
-				(Method m) -> 
-				{
-					m.invoke(this, new Object[m.getParameterCount()]);
-					return 0;
-				}
-			);
+		methodsWithUIHandle("Next Turn", (Method m) -> m.invoke(this, new Object[m.getParameterCount()]));
 	}
 	
-//	public abstract void endTurn();
-	
-	private static interface MethodRunnable<T> { T run(Method m) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException; }
+	private static interface MethodRunnable<T> { T run(Method m) throws Exception; }
 	private <T> T methodsWithUIHandle(String handle, MethodRunnable<T> r)
 	{
 		T l = null;
