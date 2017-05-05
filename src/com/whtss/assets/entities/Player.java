@@ -46,13 +46,12 @@ public class Player extends Entity implements Damageable
 			return success;
 	}
 	
-	public UIAction _Q(int modifiers, HexPoint target) { return walk(-1, 0, 0); }
-	public UIAction _W(int modifiers, HexPoint target) { return walk(0, 0, 1); }
-	public UIAction _P(int modifiers, HexPoint target) { return walk(0, 0, 1); }
-	public UIAction _E(int modifiers, HexPoint target) { return walk(0, 1, 0); }
-	public UIAction _A(int modifiers, HexPoint target) { return walk(0, -1, 0); }
-	public UIAction _S(int modifiers, HexPoint target) { return walk(0, 0, -1); }
-	public UIAction _D(int modifiers, HexPoint target) { return walk(1, 0, 0); }
+	@UIEventHandle("Q") public UIAction walkNA (int modifiers, HexPoint target) { return walk(-1, 0, 0); }
+	@UIEventHandle("W") public UIAction walkPY (int modifiers, HexPoint target) { return walk(0, 0, 1); }
+	@UIEventHandle("E") public UIAction walkPB (int modifiers, HexPoint target) { return walk(0, 1, 0); }
+	@UIEventHandle("A") public UIAction walkNB (int modifiers, HexPoint target) { return walk(0, -1, 0); }
+	@UIEventHandle("S") public UIAction walkNY (int modifiers, HexPoint target) { return walk(0, 0, -1); }
+	@UIEventHandle("D") public UIAction walkPA (int modifiers, HexPoint target) { return walk(1, 0, 0); }
 
 	@Override
 	public int getHealth()

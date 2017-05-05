@@ -1,6 +1,11 @@
 package com.whtss.assets.core;
 
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.awt.event.KeyEvent;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.whtss.assets.LightSource;
@@ -11,6 +16,7 @@ public abstract class Entity implements LightSource
 	private HexPoint location;
 	private boolean active = true;
 	private final Level lvl;
+	
 	protected final UIAction success = new UIAction() 
 	{
 		public HexPoint selectTile() 
@@ -28,23 +34,21 @@ public abstract class Entity implements LightSource
 	public int light() { return 0; }
 	
 	public final HexPoint input(KeyEvent key, HexPoint target)
-	{	
-		String meth = "_" + KeyEvent.getKeyText(key.getKeyCode());
-		Method m;
-		try
-		{
-			m = getClass().getMethod(meth, int.class, HexPoint.class);
-			if(m != null && UIAction.class.equals(m.getReturnType()))
+	{
+		final String k = KeyEvent.getKeyText(key.getKeyCode());
+		for(Method m : getClass().getDeclaredMethods())
+			try
 			{
-				UIAction action = (UIAction) m.invoke(this, key.getModifiers(), target);
-				if(action == null)
-					return getLocation();
-				else
-					return action.selectTile();
+				if(k.equals(m.getAnnotation(UIEventHandle.class).value()))
+				{
+					UIAction action = (UIAction) m.invoke(this, key.getModifiers(), target);
+					if(action == null)
+						return getLocation();
+					else
+						return action.selectTile();
+				}
 			}
-		}
-		catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {}
-		
+			catch(NullPointerException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {}
 		return getLocation();
 	}
 	
@@ -92,5 +96,18 @@ public abstract class Entity implements LightSource
 	public abstract class UIAction
 	{
 		protected HexPoint selectTile() { return location; }
+	}
+	
+	/**
+	 * Use this annotation to make this event respond to key presses when this entity is selected.
+	 * Note that the method must have the parameters (int, HexPoint) to be run, and will be passed 
+	 * the modifier mask for the key press and the location of the mouse, respectively.
+	 */
+	@Documented
+	@Retention(RUNTIME)
+	@Target(METHOD)
+	protected @interface UIEventHandle
+	{
+		String value();
 	}
 }
