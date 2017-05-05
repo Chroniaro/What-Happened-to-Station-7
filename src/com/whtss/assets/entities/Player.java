@@ -6,7 +6,7 @@ import com.whtss.assets.hex.HexPoint;
 
 public class Player extends Entity
 {
-	final int speed = 50;
+	final int speed = 5;
 	int move = 0;
 	int health = 100;
 	
