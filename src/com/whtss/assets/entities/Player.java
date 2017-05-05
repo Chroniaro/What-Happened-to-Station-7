@@ -16,8 +16,8 @@ public class Player extends Entity implements Damageable
 		super(location, level);
 	}
 
-	@Override
-	public void endTurn()
+	@UIEventHandle("Next Turn")
+	public void resetMoves()
 	{
 		move = 0;
 	}
@@ -46,37 +46,37 @@ public class Player extends Entity implements Damageable
 			return success;
 	}
 
-	@UIEventHandle("Q")
+	@UIEventHandle("Key_Q")
 	public UIAction walkNA(int modifiers, HexPoint target)
 	{
 		return walk(-1, 0, 0);
 	}
 
-	@UIEventHandle("W")
+	@UIEventHandle("Key_W")
 	public UIAction walkPY(int modifiers, HexPoint target)
 	{
 		return walk(0, 0, 1);
 	}
 
-	@UIEventHandle("E")
+	@UIEventHandle("Key_E")
 	public UIAction walkPB(int modifiers, HexPoint target)
 	{
 		return walk(0, 1, 0);
 	}
 
-	@UIEventHandle("A")
+	@UIEventHandle("Key_A")
 	public UIAction walkNB(int modifiers, HexPoint target)
 	{
 		return walk(0, -1, 0);
 	}
 
-	@UIEventHandle("S")
+	@UIEventHandle("Key_S")
 	public UIAction walkNY(int modifiers, HexPoint target)
 	{
 		return walk(0, 0, -1);
 	}
 
-	@UIEventHandle("D")
+	@UIEventHandle("Key_D")
 	public UIAction walkPA(int modifiers, HexPoint target)
 	{
 		return walk(1, 0, 0);

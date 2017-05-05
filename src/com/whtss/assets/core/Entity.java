@@ -35,11 +35,8 @@ public abstract class Entity implements LightSource
 	
 	public final HexPoint input(KeyEvent key, HexPoint target)
 	{
-		final String k = KeyEvent.getKeyText(key.getKeyCode());
-		for(Method m : getClass().getDeclaredMethods())
-			try
-			{
-				if(k.equals(m.getAnnotation(UIEventHandle.class).value()))
+		return methodsWithUIHandle("Key_" + KeyEvent.getKeyText(key.getKeyCode()), 
+				(Method m) -> 
 				{
 					UIAction action = (UIAction) m.invoke(this, key.getModifiers(), target);
 					if(action == null)
@@ -47,12 +44,41 @@ public abstract class Entity implements LightSource
 					else
 						return action.selectTile();
 				}
-			}
-			catch(NullPointerException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {}
-		return getLocation();
+			);
 	}
 	
-	public abstract void endTurn();
+	public final void endTurn()
+	{
+		methodsWithUIHandle("Next Turn", 
+				(Method m) -> 
+				{
+					m.invoke(this, new Object[m.getParameterCount()]);
+					return 0;
+				}
+			);
+	}
+	
+//	public abstract void endTurn();
+	
+	private static interface MethodRunnable<T> { T run(Method m) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException; }
+	private <T> T methodsWithUIHandle(String handle, MethodRunnable<T> r)
+	{
+		T l = null;
+		for(Method m : getClass().getDeclaredMethods())
+			try
+			{
+				if(handle.equals(m.getAnnotation(UIEventHandle.class).value()))
+				{
+					try
+					{
+						l = r.run(m);
+					}
+					catch(Exception e) {}
+				}
+			}
+			catch(NullPointerException e) {}
+		return l;
+	}
 	
 	public HexPoint getLocation()
 	{
@@ -100,8 +126,8 @@ public abstract class Entity implements LightSource
 	
 	/**
 	 * Use this annotation to make this event respond to key presses when this entity is selected.
-	 * Note that the method must have the parameters (int, HexPoint) to be run, and will be passed 
-	 * the modifier mask for the key press and the location of the mouse, respectively.
+	 * Note that the method must have the parameters (int, HexPoint) and return type UIAction to be run, 
+	 * and will be passed the modifier mask for the key press and the location of the mouse, respectively.
 	 */
 	@Documented
 	@Retention(RUNTIME)
