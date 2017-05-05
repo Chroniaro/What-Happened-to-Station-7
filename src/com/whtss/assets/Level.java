@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import com.whtss.assets.entities.Player;
+import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 
@@ -22,7 +23,7 @@ public class Level
 	private final HexRect bounds;
 	private HexPoint start;
 	private HexPoint end;
-	
+	private HexPoint enimy1;
 	public Level()
 	{
 		floorLayer = new int[width][height];
@@ -44,6 +45,11 @@ public class Level
 			floorLayer[0][y] = floorLayer[width - 1][y] = 1;
 		
 		start = getCells().fromArrayCoords(rand.nextInt(width - 4) + 2, rand.nextInt(height - 4) + 2);
+		//enimy1 = getCells().fromArrayCoords(7, 7);
+		int zz =rand.nextInt(width);
+		int yy = rand.nextInt(height);
+		enimy1 = getCells().fromArrayCoords(zz, yy);
+		
 		do {
 			end = getCells().fromArrayCoords(rand.nextInt(width), rand.nextInt(height));
 		} while(end.dist(start) < 3 || !getCells().contains(end));
@@ -52,6 +58,8 @@ public class Level
 		getEntities().add(new Player(start.mABY(1, 0, 0), this));
 		getEntities().add(new Player(start.mABY(0, -1, 0), this));
 		getEntities().add(new Player(start.mABY(0, 0, 2), this));
+		getEntities().add(new SimpleEnemy(enimy1, this));
+		
 	}
 
 	public HexPoint performAction(HexPoint select, HexPoint mouse, KeyEvent key)

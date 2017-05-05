@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,7 @@ import com.whtss.assets.Entity;
 import com.whtss.assets.Game;
 import com.whtss.assets.Level;
 import com.whtss.assets.entities.Player;
+import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 
@@ -162,7 +164,14 @@ public class GameRenderer extends JComponent
 			if(e.getClass().equals(Player.class))
 			{
 				int y = ((Player) e).gethealth();
-				Color myNewBlue = new Color (155 + y, 2 * y, 200 - y);
+				Color myNewBlue = new Color (255 - y, y/2, 100 + y);
+				g.setColor(myNewBlue);
+				g.fill(e.getLocation().getBorder(s));
+			}
+			if(e.getClass().equals(SimpleEnemy.class))
+			{
+				int y = ((SimpleEnemy) e).gethealth();
+				Color myNewBlue = new Color (255 - y,255, 0);
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
 			}

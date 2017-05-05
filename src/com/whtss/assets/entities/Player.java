@@ -54,6 +54,11 @@ public class Player extends Entity
 	{
 		return walk(0, 0, 1);
 	}
+	public UIAction _P(int modifiers, HexPoint target)
+	{
+		return walk(0, 0, 1);
+	}
+	
 	
 	public UIAction _E(int modifiers, HexPoint target)
 	{

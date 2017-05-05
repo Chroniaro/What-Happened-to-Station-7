@@ -88,7 +88,7 @@ public abstract class Entity implements LightSource
 		this.active = active;
 	}
 
-	protected abstract class UIAction
+	public abstract class UIAction
 	{
 		public HexPoint selectTile()
 		{
