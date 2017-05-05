@@ -1,5 +1,7 @@
 package com.whtss.assets.entities;
 
+import java.util.Random;
+
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
@@ -8,7 +10,8 @@ import com.whtss.assets.hex.HexPoint;
 
 public class SimpleEnemy extends Entity implements Damageable
 {
-	final int speed = 50;
+	Random rand = new Random(); 
+	int speed = 5;
 	int move = 0;
 	//hi
 	int health = 100;
@@ -20,11 +23,21 @@ public class SimpleEnemy extends Entity implements Damageable
 	}
 	public void goclose()
 	{
+	  Entity best = null;
+	  int min = 12345678;
 	  for(Entity e : getLevel().getEntities())
 	  {
 		  e.getLocation();
 		  
+		if(min > getLocation().dist(e.getLocation()))
+		   best = e;
 	  }
+	   int a = best.getLocation().getA()-getLocation().getA();
+	   int b = best.getLocation().getB()- getLocation().getB();
+	   int y = getLocation().getY()-best.getLocation().getY();
+	   move(a-1,b,y);
+	   System.out.print("aerg");
+	   
 	}
 
 	public int gethealth()
@@ -41,11 +54,21 @@ public class SimpleEnemy extends Entity implements Damageable
 	{
 		super(location, level);
 	}
-
+	public void noone()
+	{ 
+		
+		speed++;
+//		if (move(rand.nextInt(2),rand.nextInt(2),rand.nextInt(2)) == false){
+//			while(move(rand.nextInt(4),rand.nextInt(2),rand.nextInt(2)) == false){
+//				move(rand.nextInt(2),rand.nextInt(2),rand.nextInt(2));
+//				speed++;
+//			}
+//		}
+	}
 	@Override
 	public void endTurn()
-	{
-
+	{ 
+		goclose();
 	}
 
 	@Override
