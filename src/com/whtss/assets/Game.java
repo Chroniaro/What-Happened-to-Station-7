@@ -21,9 +21,15 @@ public class Game
 	{
 		floor++;
 	}
+	
 	public void update(long deltaT)
 	{
 		
+	}
+	
+	public void nextTurn()
+	{
+		getCurrentLevel().nextTurn();
 	}
 	
 	public HexPoint processAction(HexPoint select, HexPoint mouse, KeyEvent key)

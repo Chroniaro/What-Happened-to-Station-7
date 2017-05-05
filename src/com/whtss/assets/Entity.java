@@ -58,11 +58,23 @@ public abstract class Entity implements LightSource
 		this.location = location;
 	}
 	
-	public void move(int da, int db, int dhy)
+	public boolean move(int da, int db, int dhy)
 	{
 		HexPoint newLocation = location.mABY(da, db, 2 * dhy);
 		if(lvl.getCells().contains(newLocation))
+		{
+			for(Entity e : lvl.getEntities())
+				if(e.location.equals(newLocation))
+					return false;
 			setLocation(newLocation);
+			return true;
+		}
+		return false;
+	}
+	
+	protected Level getLevel()
+	{
+		return lvl;
 	}
 
 	protected abstract class UIAction

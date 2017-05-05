@@ -2,8 +2,6 @@ package com.whtss.assets.render;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -33,6 +31,7 @@ public class GameRenderer extends JComponent
 	public GameRenderer(Game game)
 	{
 		this.game = game;
+		requestFocusInWindow();
 	}
 	
 	public void addListeners(JFrame container)
@@ -103,6 +102,8 @@ public class GameRenderer extends JComponent
 		super.paintComponent(_g);
 		Graphics2D g = (Graphics2D) _g;
 		
+		final int s = cellSize();
+		
 		TStack tstack = new TStack(g);
 		Level lvl = game.getCurrentLevel();
 		HexRect viewRect = lvl.getCells();
@@ -119,17 +120,17 @@ public class GameRenderer extends JComponent
 			g.setColor(Color.red);
 		g.drawString(String.valueOf(mouse), 0, getHeight());
 		
-		int floor = game.getfloor();
-		g.setColor(Color.BLUE);
-		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-		drawStringCenteredly(g, "Floor " + floor, getWidth() / 2, 5);
+//		int floor = game.getfloor();
+//		g.setColor(Color.BLUE);
+//		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+//		drawStringCenteredly(g, "Floor " + floor, getWidth() / 2, 5);
 		
 		g.translate(getWidth() / 2, getHeight() / 2);
 		
 		tstack.push();
 		
 		g.setColor(Color.red);
-		g.fill(lvl.getstart().getBorder(cellSize()));
+		g.fill(lvl.getstart().getBorder(s));
 		
 		tstack.revert();
 		
@@ -138,32 +139,19 @@ public class GameRenderer extends JComponent
 		{
 			tstack.push();
 			
-			g.setColor(Color.WHITE);
-			g.fill(hex.getBorder(cellSize()));
 //			g.drawString(lvl.getValue(iterator.x(), iterator.y()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
 			
 			if(mouse != null)
 			{
-				g.setColor(new Color(1f - 1f / (1 + hex.dist(mouse)), 1f - 4f / (4 + hex.dist(mouse)), 1f - 3f / (3 + hex.dist(mouse))));
-				if(!hex.equals(mouse))
-					g.fill(hex.getBorder(cellSize()));
+				final int d = hex.dist(mouse);
+				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
 			}
+			else
+				g.setColor(Color.white);
+			
+			g.fill(hex.getBorder(s));
 			
 			tstack.pop();
-		}
-		
-		if(mouseIn)
-		{
-			g.setColor(new Color(1f, 1f, 1f, .8f));
-			g.setStroke(new BasicStroke(5));
-			g.draw(mouse.getBorder(cellSize()));
-		}
-		
-		if(select != null)
-		{
-			g.setColor(new Color(1f, .5f, .5f, .9f));
-			g.setStroke(new BasicStroke(7));
-			g.draw(select.getBorder(cellSize()));
 		}
 		
 		tstack.revert();
@@ -172,19 +160,33 @@ public class GameRenderer extends JComponent
 		for(Entity e : lvl.getEntities())
 		{
 			if(e.getClass().equals(Player.class))
-			{ 
-				int y = Player.gethealth();
-				Color myNewBlue = new Color (128,y,128);
+			{
+				int y = ((Player) e).gethealth();
+				Color myNewBlue = new Color (155 + y, 2 * y, 200 - y);
 				g.setColor(myNewBlue);
-				g.fill(e.getLocation().getBorder(cellSize()));
+				g.fill(e.getLocation().getBorder(s));
 			}
+		}
+		
+		if(mouseIn)
+		{
+			g.setColor(new Color(1f, 1f, 1f));
+			g.setStroke(new BasicStroke(5));
+			g.draw(mouse.getBorder(s));
+		}
+		
+		if(select != null)
+		{
+			g.setColor(new Color(1f, .5f, .5f));
+			g.setStroke(new BasicStroke(7));
+			g.draw(select.getBorder(s));
 		}
 	}
 	
 	private int cellSize()
 	{
-		final double limiter = Math.min(getWidth() / 1000.0, getHeight() / (1000.0 * .6));
-		return (int)Math.round(35 * limiter);
+		final double limiter = Math.min(getWidth() / 1000.0, getHeight() / (1000.0 * .55));
+		return (int)Math.round(30 * limiter);
 	}
 	
 	private boolean mouseIn()
@@ -192,11 +194,11 @@ public class GameRenderer extends JComponent
 		return mouse != null && game.getCurrentLevel().getCells().contains(mouse);
 	}
 	
-	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)
-	{
-		final FontMetrics m = g.getFontMetrics();
-		final int w = m.stringWidth(str);
-		final int h = m.getHeight();
-		g.drawString(str, cx - w/2, cy + h/2);
-	}
+//	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)
+//	{
+//		final FontMetrics m = g.getFontMetrics();
+//		final int w = m.stringWidth(str);
+//		final int h = m.getHeight();
+//		g.drawString(str, cx - w/2, cy + h/2);
+//	}
 }
