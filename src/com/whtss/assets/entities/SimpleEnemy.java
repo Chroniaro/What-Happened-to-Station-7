@@ -28,6 +28,6 @@ public class SimpleEnemy extends Entity
 	@Override
 	public void endTurn()
 	{
-		
+		enmove();
 	}
 }

@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import com.whtss.assets.Game;
 
 public class GameInfo extends JComponent
@@ -34,6 +36,9 @@ public class GameInfo extends JComponent
 		g.fill(g.getClip());
 		g.setColor(Color.GREEN);
 		g.fill(getNextTurnButton());
+		
+		
+		
 	}
 	
 	public void addListeners(JFrame container)
