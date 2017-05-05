@@ -9,7 +9,9 @@ public class SimpleEnemy extends Entity
 {
 	final int speed = 50;
 	int move = 0;
+	//hi
 	int health = 100;
+	int playersleft = 0;
 	public void enmove(){
 		move(0,2,2);
 	}
