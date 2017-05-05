@@ -17,6 +17,10 @@ public class SimpleEnemy extends Entity
 		
 		
 	}
+	public int gethealth()
+	{
+		return health;
+	}
 	public SimpleEnemy(HexPoint location, Level level)
 	{
 		super(location, level);
