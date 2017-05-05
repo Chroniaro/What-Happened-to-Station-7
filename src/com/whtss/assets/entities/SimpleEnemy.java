@@ -22,6 +22,12 @@ public class SimpleEnemy extends Entity implements Damageable
 		move(0, 2, 2);
 	}
 	
+//	@Override
+//	public void nextTurn()
+//	{ 
+//		goclose();
+//	}
+	
 	@UIEventHandle("Next Turn")
 	public void goclose()
 	{
@@ -67,11 +73,6 @@ public class SimpleEnemy extends Entity implements Damageable
 //			}
 //		}
 	}
-//	@Override
-//	public void Turn()
-//	{ 
-//		goclose();
-//	}
 
 	@Override
 	public int getHealth()
