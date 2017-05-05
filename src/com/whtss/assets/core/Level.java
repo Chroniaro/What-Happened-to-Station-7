@@ -1,9 +1,10 @@
-package com.whtss.assets;
+package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import com.whtss.assets.LevelObject;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;

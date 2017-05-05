@@ -1,6 +1,7 @@
 package com.whtss.assets;
 
 import java.awt.event.KeyEvent;
+import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 
 public class Game
