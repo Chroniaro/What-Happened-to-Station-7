@@ -16,12 +16,21 @@ public class SimpleEnemy extends Entity
 		move(0,2,2);
 	}
 	public void goclose(){
-		
+	
+	  for(Entity e : lvl.getEntities()){
+		  e.getLocation();
+		  
+	  }
 		
 	}
 	public int gethealth()
 	{
 		return health;
+	}
+	public int getdist(int da,int db,int dhy)
+	{
+		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);	
+		return dist;
 	}
 	public SimpleEnemy(HexPoint location, Level level)
 	{
@@ -30,6 +39,6 @@ public class SimpleEnemy extends Entity
 	@Override
 	public void endTurn()
 	{
-		enmove();
+		
 	}
 }

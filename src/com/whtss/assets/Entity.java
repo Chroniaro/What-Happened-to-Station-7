@@ -9,7 +9,7 @@ public abstract class Entity implements LightSource
 {
 	private HexPoint location;
 	private boolean active = true;
-	private final Level lvl;
+	protected final Level lvl;
 	protected final UIAction success = new UIAction() 
 	{
 		public HexPoint selectTile() 
