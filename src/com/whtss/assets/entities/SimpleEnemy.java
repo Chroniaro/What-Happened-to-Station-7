@@ -10,6 +10,13 @@ public class SimpleEnemy extends Entity
 	final int speed = 50;
 	int move = 0;
 	int health = 100;
+	public void enmove(){
+		move(0,2,2);
+	}
+	public void goclose(){
+		
+		
+	}
 	public SimpleEnemy(HexPoint location, Level level)
 	{
 		super(location, level);
