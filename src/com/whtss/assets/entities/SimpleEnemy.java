@@ -37,7 +37,6 @@ public class SimpleEnemy extends Entity implements Damageable
 		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);	
 		return dist;
 	}
-
 	public SimpleEnemy(HexPoint location, Level level)
 	{
 		super(location, level);

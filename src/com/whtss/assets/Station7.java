@@ -1,18 +1,38 @@
 package com.whtss.assets;
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
+import java.applet.*;
+import java.net.*;
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
 
 public class Station7
 {
-	public static void main(String... args)
+	public static void main(String... args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		Game game = new Game();
-		
+		try {
+			File audioFile = new File("na_sweden.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			AudioFormat format = audioStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			Clip audioClip = (Clip) AudioSystem.getLine(info);
+			audioClip.open(audioStream);
+			audioClip.start();
+			} catch (MalformedURLException murle) {
+			System.out.println(murle);
+			}
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setTitle("What Happened to Station 7");
