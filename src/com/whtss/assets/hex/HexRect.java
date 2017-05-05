@@ -18,6 +18,7 @@ public class HexRect implements Iterable<HexPoint>
 		Iterator i = iterator();
 		for(HexPoint cell : i)
 			array[i.x()][i.y()] = cell;
+		array[0][0] = array[0][w - 1] = null;
 		return array;
 	}
 	
@@ -28,18 +29,20 @@ public class HexRect implements Iterable<HexPoint>
 	
 	public int X(HexPoint p)
 	{
-		return (p.getX() - tl.getX()) / 2;
+		return p.getX() - tl.getX();
 	}
 	
 	public int Y(HexPoint p)
 	{
-		return p.getY() - tl.getY();
+		return (p.getY() - tl.getY()) / 2;
 	}
 	
 	public boolean contains(HexPoint point)
 	{
 		final HexPoint br = fromArrayCoords(w, h);
 		
+		if(point == null || point.equals(tl) || point.equals(tl.mX(w - 1)))
+			return false;
 		return
 				point.getX() >= tl.getX() &&
 				point.getY() >= tl.getY() &&
@@ -70,7 +73,7 @@ public class HexRect implements Iterable<HexPoint>
 	
 	public class Iterator implements java.util.Iterator<HexPoint>, Iterable<HexPoint>
 	{
-		int x = 0, y = 0;
+		int x = 1, y = 0;
 		int lx, ly;
 		
 		@Override
@@ -79,7 +82,7 @@ public class HexRect implements Iterable<HexPoint>
 			lx = x; 
 			ly = y;
 			
-			if(++x >= w)
+			if(++x >= (y == 0 ? w - 1 : w))
 			{
 				x = 0;
 				y++;

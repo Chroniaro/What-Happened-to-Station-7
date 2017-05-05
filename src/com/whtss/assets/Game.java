@@ -7,6 +7,8 @@ public class Game
 {
 	Level x = new Level();
 	int floor = 1;
+	private Runnable turnUpdateStuff;
+	
 	public Level getCurrentLevel()
 	{
 		return x;
@@ -22,13 +24,14 @@ public class Game
 		floor++;
 	}
 	
-	public void update(long deltaT)
+	public void setNextTurnRunnable(Runnable nextTurn)
 	{
-		
+		turnUpdateStuff = nextTurn;
 	}
 	
 	public void nextTurn()
 	{
+		turnUpdateStuff.run();
 		getCurrentLevel().nextTurn();
 	}
 	

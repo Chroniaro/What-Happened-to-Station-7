@@ -43,6 +43,7 @@ public class GameRenderer extends JComponent
 					public void mouseMoved(MouseEvent e)
 					{	
 						mouse = fromVisual(e);
+						repaint();
 					}
 					
 					@Override
@@ -66,6 +67,8 @@ public class GameRenderer extends JComponent
 						}
 						else
 							select = null;
+						
+						repaint();
 					}
 					
 					@Override public void mousePressed(MouseEvent e) {}
@@ -86,6 +89,7 @@ public class GameRenderer extends JComponent
 						public void keyReleased(KeyEvent e)
 						{
 							select = game.processAction(select, mouseIn() ? mouse : null, e);
+							repaint();
 						}
 					}
 				);
@@ -114,16 +118,6 @@ public class GameRenderer extends JComponent
 		tstack.revert();
 		
 		final boolean mouseIn = mouseIn();
-		if(mouseIn)
-			g.setColor(Color.white);
-		else
-			g.setColor(Color.red);
-		g.drawString(String.valueOf(mouse), 0, getHeight());
-		
-//		int floor = game.getfloor();
-//		g.setColor(Color.BLUE);
-//		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-//		drawStringCenteredly(g, "Floor " + floor, getWidth() / 2, 5);
 		
 		g.translate(getWidth() / 2, getHeight() / 2);
 		
@@ -136,15 +130,16 @@ public class GameRenderer extends JComponent
 		
 		HexRect.Iterator iterator = viewRect.new Iterator();
 		for(HexPoint hex = iterator.next(); iterator.hasNext(); hex = iterator.next())
-		{
+		{ 
 			tstack.push();
 			
-//			g.drawString(lvl.getValue(iterator.x(), iterator.y()), hex.getVisualX(cellSize()), hex.getVisualY(cellSize()));
-			
-			if(mouse != null)
+			int d;
+			if(game.getCurrentLevel().getFloorTile(iterator.x(), iterator.y()) % 2 != 0)
+				g.setColor(Color.GRAY);
+			else if(mouseIn && (d = hex.dist(mouse)) < 25)
 			{
-				final int d = hex.dist(mouse);
-				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
+					d *= d;
+					g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
 			}
 			else
 				g.setColor(Color.white);
@@ -154,11 +149,16 @@ public class GameRenderer extends JComponent
 			tstack.pop();
 		}
 		
+		g.setColor(Color.CYAN);
+		g.fill(lvl.getEnd().getBorder(s));
+		
 		tstack.revert();
 		tstack.push();
 		
 		for(Entity e : lvl.getEntities())
 		{
+			if(!e.isActive())
+				continue;
 			if(e.getClass().equals(Player.class))
 			{
 				int y = ((Player) e).gethealth();
@@ -191,14 +191,6 @@ public class GameRenderer extends JComponent
 	
 	private boolean mouseIn()
 	{
-		return mouse != null && game.getCurrentLevel().getCells().contains(mouse);
+		return game.getCurrentLevel().getCells().contains(mouse);
 	}
-	
-//	private static void drawStringCenteredly(Graphics2D g, String str, int cx, int cy)
-//	{
-//		final FontMetrics m = g.getFontMetrics();
-//		final int w = m.stringWidth(str);
-//		final int h = m.getHeight();
-//		g.drawString(str, cx - w/2, cy + h/2);
-//	}
 }

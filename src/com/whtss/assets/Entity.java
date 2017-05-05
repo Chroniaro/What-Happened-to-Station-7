@@ -8,6 +8,7 @@ import com.whtss.assets.hex.HexPoint;
 public abstract class Entity implements LightSource
 {
 	private HexPoint location;
+	private boolean active = true;
 	private final Level lvl;
 	protected final UIAction success = new UIAction() 
 	{
@@ -26,7 +27,7 @@ public abstract class Entity implements LightSource
 	public int light() { return 0; }
 	
 	final HexPoint input(KeyEvent key, HexPoint target)
-	{
+	{	
 		String meth = "_" + KeyEvent.getKeyText(key.getKeyCode());
 		Method m;
 		try
@@ -61,10 +62,10 @@ public abstract class Entity implements LightSource
 	public boolean move(int da, int db, int dhy)
 	{
 		HexPoint newLocation = location.mABY(da, db, 2 * dhy);
-		if(lvl.getCells().contains(newLocation))
+		if(lvl.getCells().contains(newLocation) && lvl.getFloorTile(newLocation) % 2 == 0)
 		{
 			for(Entity e : lvl.getEntities())
-				if(e.location.equals(newLocation))
+				if(e.isActive() && e.location.equals(newLocation))
 					return false;
 			setLocation(newLocation);
 			return true;
@@ -75,6 +76,16 @@ public abstract class Entity implements LightSource
 	protected Level getLevel()
 	{
 		return lvl;
+	}
+
+	public boolean isActive()
+	{
+		return active;
+	}
+
+	protected void setActive(boolean active)
+	{
+		this.active = active;
 	}
 
 	protected abstract class UIAction

@@ -10,7 +10,7 @@ import com.whtss.assets.render.GameRenderer;
 public class Station7
 {
 	public static void main(String... args)
-	{	
+	{
 		Game game = new Game();
 		
 		JFrame window = new JFrame();
@@ -39,16 +39,18 @@ public class Station7
 		layoutInfo.gridy = 1;
 		window.add(info, layoutInfo);
 		
+		game.setNextTurnRunnable(render::repaint);
+		
 		window.setVisible(true);
 		
-		long t = System.currentTimeMillis();
-		
-		while(true)
-		{
-			long s = System.currentTimeMillis();
-			game.update(s - t);
-			t = s;
-			render.repaint();
-		}
+//		long t = System.currentTimeMillis();
+//		
+//		while(true)
+//		{
+//			long s = System.currentTimeMillis();
+//			game.update(s - t);
+//			t = s;
+//			render.repaint();
+//		}
 	}
 }
