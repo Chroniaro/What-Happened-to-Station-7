@@ -1,16 +1,10 @@
 package com.whtss.assets.entities;
 
-import java.io.IOException;
 import java.util.Random;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
-import com.whtss.assets.core.SoundStuff;
-// import com.whtss.assets.Entity.UIAction;
 import com.whtss.assets.hex.HexPoint;
 
 public class HealBox extends Entity implements Damageable {
