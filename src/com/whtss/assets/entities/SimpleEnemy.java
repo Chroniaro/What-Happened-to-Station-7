@@ -87,5 +87,7 @@ public class SimpleEnemy extends Entity implements Damageable
 	public void takeDamage(int amount)
 	{
 		health -= amount;
+		if(health < 0)
+			setActive(false);
 	}
 }
