@@ -30,8 +30,9 @@ public class SimpleEnemy extends Entity implements Damageable {
 	public void Turn() {
 
 		// takeDamage(10);
+		for(int i=0;i<=5;i++){
 		goveryclose();
-
+		}
 	}
 
 	public void goveryclose() {
@@ -46,13 +47,13 @@ public class SimpleEnemy extends Entity implements Damageable {
 		int a = 0;
 		int b = 0;
 		int y = 0;
-		if (best.getLocation().getA() >= getLocation().getA()) {
+		if (best.getLocation().getA() <= getLocation().getA()) {
 			a = best.getLocation().getA() - getLocation().getA();
 		}
-		if (best.getLocation().getB() >= getLocation().getB()) {
+		if (best.getLocation().getB() <= getLocation().getB()) {
 			b = best.getLocation().getB() - getLocation().getB();
 		}
-		if (best.getLocation().getY() >= getLocation().getY()) {
+		if (best.getLocation().getY() <= getLocation().getY()) {
 			y = best.getLocation().getY() - getLocation().getY();
 		}
 		if (best.getLocation().getA() < getLocation().getA()) {
@@ -63,51 +64,40 @@ public class SimpleEnemy extends Entity implements Damageable {
 		}
 		if (best.getLocation().getY() < getLocation().getY()) {
 			y = getLocation().getY() - best.getLocation().getY();
+		}		   
+		int u =0;
+		int uu = 0;
+		int uuu = 0;
+		if (y>=1){
+			uuu = 1;
 		}
-
-		boolean potato = true;
-		int zzz = -1;
-		int zzzz = 0;
-		while (potato == true){
-			zzz++;
-			zzzz = -zzz;
-		if (move(a+zzz,b+zzz,y+zzz)== true) {
-			move(a+zzz,b+zzz,y+zzz);
-		break;
-		}	
-		else if (move(a+zzzz,b+zzzz,y+zzzz)== true) {
-			move(a+zzzz,b+zzzz,y+zzzz);
-		break;
+		if (a>=1){
+			u = -1;
 		}
-		else if (move(a+zzz+1,b+zzz,y+zzz)== true) {
-			move(a+zzz+1,b+zzz,y+zzz);
-		break;
+		if (b>=1){
+			uu = -1;
 		}
-		else if (move(a+zzz,b+zzz+1,y+zzz)== true) {
-			move(a+zzz,b+zzz+1,y+zzz);
-		break;
+		if (y<1){
+			uuu = -1;
 		}
-		else if (move(a+zzz,b+zzz,y+zzz+1)== true) {
-			move(a+zzz,b+zzz,y+zzz+1);
-		break;
+		if (a<1){
+			u = 1;
 		}
-		else if (move(a+zzzz-1,b+zzzz,y+zzzz)== true) {
-			move(a+zzzz-1,b+zzzz,y+zzzz);
-		break;
-		}
-		else if (move(a+zzzz,b+zzzz-1,y+zzzz)== true) {
-			move(a+zzzz,b+zzzz-1,y+zzzz);
-		break;
-		}
-		else if (move(a+zzzz,b+zzzz,y+zzzz-1)== true) {
-			move(a+zzzz,b+zzzz,y+zzzz-1);
-		break;
-		}
-		}
+		if (b<1){
+			uu = 1;
+		} 
+		
+		move(u,uu,uuu);
+	
 		System.out.print("best");
 		System.out.print(" " + best.getLocation().getA());
 		System.out.print(" " + best.getLocation().getB());
 		System.out.print(" " + best.getLocation().getY());
+		System.out.println(" ");
+		System.out.print("current");
+		System.out.print(" " + getLocation().getA());
+		System.out.print(" " + getLocation().getB());
+		System.out.print(" " + getLocation().getY());
 		System.out.println(" ");
 		System.out.print(a);
 		System.out.print("," + b);
