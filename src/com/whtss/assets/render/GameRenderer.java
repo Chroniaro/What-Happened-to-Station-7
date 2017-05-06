@@ -127,20 +127,18 @@ public class GameRenderer extends JComponent
 		else
 			g.setColor(Color.RED);
 		g.drawString(String.valueOf(mouse), 0, getHeight());
-		g.drawString(mouse == null ? "null" : mouse.abCoords(), 0, getHeight() - 20);
-		g.drawString(mouse == null ? "null" : "(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
+		if(mouse != null)
+		{
+			g.drawString(mouse.abCoords(), 0, getHeight() - 20);
+			g.drawString("(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
+		}
 		
 		g.translate(getWidth() / 2, getHeight() / 2);
 		
 		tstack.push();
 		
-		g.setColor(Color.red);
-		g.fill(lvl.getstart().getBorder(s));
-		
-		tstack.revert();
-		
 		HexRect.Iterator iterator = viewRect.new Iterator();
-		for(HexPoint hex = iterator.next(); iterator.hasNext(); hex = iterator.next())
+		for(HexPoint hex : iterator)
 		{ 
 			tstack.push();
 			
