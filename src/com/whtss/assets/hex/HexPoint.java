@@ -74,6 +74,17 @@ public class HexPoint implements Serializable, Cloneable
 	public int dB(HexPoint h) { return Math.abs(h.getB() - getB()); }
 	public int dist(HexPoint h) { return Math.max(Math.max(dA(h), dB(h)), dX(h)); }
 	
+	public HexPoint[] adjacentCells()
+	{
+		HexPoint[] _return = new HexPoint[6];
+		int i = 0;
+		for(int da = -1; da <= 1; da++)
+			for(int db = -1; db <= 1; db++)
+				if(da != db)
+					_return[i++] = mAB(da, db);
+		return _return;
+	}
+	
 	public Shape getBorder(double size)
 	{
 		AffineTransform at = new AffineTransform();
