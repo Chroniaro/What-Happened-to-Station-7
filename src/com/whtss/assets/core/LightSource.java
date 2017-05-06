@@ -1,4 +1,4 @@
-package com.whtss.assets;
+package com.whtss.assets.core;
 
 public interface LightSource
 {

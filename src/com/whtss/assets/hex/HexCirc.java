@@ -1,50 +1,77 @@
 package com.whtss.assets.hex;
 
-import java.util.Iterator;
-
-public class HexCirc implements Iterator<HexPoint>, Iterable<HexPoint>
+public class HexCirc implements Iterable<HexPoint>
 {
 	private final HexPoint c;
 	private final int r;
 	
-	private int a, b;
-	
 	public HexCirc(HexPoint center, int radius)
 	{
-		
 		c = center;
 		r = radius;
-		
-		a = -radius;
-		b = 0;
-		
-		throw new UnsupportedOperationException("This class doesn't work yet.");
 	}
 	
-	@Override
-	public HexPoint next()
+	public boolean contains(HexPoint point)
 	{
-		final HexPoint _return = c.mAB(a, b);
-		
-		if(b++ > r - Math.max(a, 0))
-		{
-			b = -r - Math.min(a, 0);
-			if(a++ > r)
-				return null;
-		}
-		
-		return _return;
-	}
-	
-	@Override
-	public boolean hasNext()
-	{
-		return a < r || b < 0;
+		return c.dist(point) <= r;
 	}
 
 	@Override
-	public Iterator<HexPoint> iterator()
+	public Iterator iterator()
 	{
-		return this;
+		return new Iterator();
+	}
+	
+	public int getRadius()
+	{
+		return r;
+	}
+	
+	public HexPoint getCenterPoint()
+	{
+		return c;
+	}
+	
+	public class Iterator implements java.util.Iterator<HexPoint>, Iterable<HexPoint>
+	{
+		int a = -r, b = 0;
+		int la, lb;
+		
+		@Override
+		public HexPoint next()
+		{
+			la = a; 
+			lb = b;
+			
+			if(++b >= r - Math.max(a, 0))
+			{
+				b = -r - Math.min(a, 0);
+				a++;
+			}
+			
+			return c.mAB(la, lb);
+		}
+		
+		public int a()
+		{
+			return la;
+		}
+		
+		public int b()
+		{
+			return lb;
+		}
+		
+		@Override
+		public boolean hasNext()
+		{
+			return la < r;
+		}
+		
+		@Override
+		public java.util.Iterator<HexPoint> iterator()
+		{
+			return this;
+		}
 	}
 }
