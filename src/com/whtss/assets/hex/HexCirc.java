@@ -40,13 +40,13 @@ public class HexCirc implements Iterable<HexPoint>
 		@Override
 		public HexPoint next()
 		{
-			la = a; 
+			la = a;
 			lb = b;
 			
-			if(++b >= r - Math.max(a, 0))
+			if(++b > r - Math.max(a, 0))
 			{
-				b = -r - Math.min(a, 0);
 				a++;
+				b = -r - Math.min(a, 0);
 			}
 			
 			return c.mAB(la, lb);
@@ -65,7 +65,7 @@ public class HexCirc implements Iterable<HexPoint>
 		@Override
 		public boolean hasNext()
 		{
-			return la < r;
+			return la < r || lb < 0;
 		}
 		
 		@Override
