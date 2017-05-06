@@ -32,6 +32,16 @@ public class SimpleEnemy extends Entity implements Damageable {
 		// takeDamage(10);
 		for(int i=0;i<=5;i++){
 		goveryclose();
+		Player best = null;
+		for (Entity e : getLevel().getEntities()) {
+			e.getLocation();
+           if(e instanceof Player){
+			if (7 > getLocation().dist(e.getLocation()) && getLocation() != e.getLocation())
+				best = (Player)e;
+			    best.takeDamage(37);
+		}
+		}
+		best.takeDamage(37);
 		}
 	}
 
