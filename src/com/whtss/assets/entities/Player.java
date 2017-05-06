@@ -3,10 +3,8 @@ package com.whtss.assets.entities;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
