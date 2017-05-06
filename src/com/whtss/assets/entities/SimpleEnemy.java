@@ -1,16 +1,9 @@
 package com.whtss.assets.entities;
 
-import java.io.IOException;
 import java.util.Random;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
-import com.whtss.assets.core.SoundStuff;
-// import com.whtss.assets.Entity.UIAction;
 import com.whtss.assets.hex.HexPoint;
 
 public class SimpleEnemy extends Entity implements Damageable {
@@ -30,18 +23,18 @@ public class SimpleEnemy extends Entity implements Damageable {
 	public void Turn() {
 
 		// takeDamage(10);
-		for(int i=0;i<=5;i++){
+		for(int i=0;i<=7;i++){
 		goveryclose();
 		Player best = null;
 		for (Entity e : getLevel().getEntities()) {
 			e.getLocation();
            if(e instanceof Player){
-			if (7 > getLocation().dist(e.getLocation()) && getLocation() != e.getLocation())
+			if (6 > getLocation().dist(e.getLocation()) && getLocation() != e.getLocation())
 				best = (Player)e;
-			    best.takeDamage(37);
+			    best.takeDamage(7);
 		}
 		}
-		best.takeDamage(37);
+		best = null;
 		}
 	}
 

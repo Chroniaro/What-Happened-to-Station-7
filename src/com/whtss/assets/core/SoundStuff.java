@@ -56,6 +56,17 @@ public class SoundStuff {
 			System.out.println(murle);
 		}
 	}
+	public void dbol() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		try {
+			audioClip.close();
+			audioStream.close();
+			aC.open(aS);
+			aC.start();
+			aC.loop(10);
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
+	}
 
 	public void dbc() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		aC.close();
