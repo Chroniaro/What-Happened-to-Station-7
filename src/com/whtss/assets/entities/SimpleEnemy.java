@@ -29,18 +29,17 @@ public class SimpleEnemy extends Entity implements Damageable
 	
 //	@Override
 	@UIEventHandle("Next Turn")
-	public void Turn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
+	public void Turn()
 	{ 
-		System.out.print("adgasdgfa");
-		takeDamage(10);
-		SoundStuff cam = new SoundStuff();
-		cam.dbo();
+		
+		//takeDamage(10);
+		goveryclose();
 		
 	}
 	
 	
 	
-	public void goclose()
+	public void goveryclose()
 	{
 	  Entity best = null;
 	  int min = 12345678;
@@ -48,15 +47,74 @@ public class SimpleEnemy extends Entity implements Damageable
 	  {
 		  e.getLocation();
 		  
-		if(min > getLocation().dist(e.getLocation()))
+		if(min > getLocation().dist(e.getLocation()) && getLocation()!=e.getLocation())
 		   best = e;
 	  }
-	   int a = best.getLocation().getA()-getLocation().getA();
-	   int b = best.getLocation().getB()- getLocation().getB();
-	   int y = getLocation().getY()-best.getLocation().getY();
-	   move(a-1,b,y);
-	   System.out.print("aerg");
+	  int a = 0;
+	  int b = 0;
+	  int y = 0;
+	  if (best.getLocation().getA()>= getLocation().getA()){
+	       a = best.getLocation().getA()- getLocation().getA();
+	  }
+	  if (best.getLocation().getB()>= getLocation().getB()){
+		   b = best.getLocation().getB()- getLocation().getB();
+	  }
+	  if (best.getLocation().getY()>= getLocation().getY()){
+		   y = best.getLocation().getY()- getLocation().getY();
+	  }
+	  if (best.getLocation().getA()< getLocation().getA()){
+		   a = getLocation().getA()- best.getLocation().getA();
+	  }
+      if (best.getLocation().getB()< getLocation().getB()){
+		   b = getLocation().getB() - best.getLocation().getB();
+      }
+      if (best.getLocation().getY()< getLocation().getY()){
+		   y = getLocation().getY()- best.getLocation().getY();
+      }
+	
+	   move(a-1,b-1,y);
 	   
+	   if(move(a-1,b-1,y) == false){
+		   move(a+1,b+1,y); 
+		   System.out.print("not_ok ");
+		   if(move(a+1,b+1,y) == false){
+			   move(a+2,b+2,y); 
+			   System.out.print("not_ok ");
+			   if(move(a+2,b+2,y) == false){
+				   move(a+1,b,y); 
+				   System.out.print("not_ok ");
+				   if(move(a+1,b,y) == false){
+					   move(a,b,y+1); 
+					   System.out.print("not_ok ");
+					   if(move(a,b,y+1) == false){
+						   move(a+1,b,y+1); 
+						   System.out.print("not_ok ");
+						   if(move(a+1,b,y+1) == false){
+							   move(a,b+1,y+1); 
+							   System.out.print("not_ok ");
+							   if(move(a,b+1,y+1) == false){
+								   move(a+2,b,y+2); 
+								   System.out.print("not_ok ");
+								   if(move(a+2,b,y+2) == false){
+									   move(a,b+2,y+2); 
+									   System.out.print("not_ok_how_did_you ");
+								   }
+								   }
+						   }
+						   }
+				   }
+				   }
+		   }
+		   }
+	   System.out.print("best");
+	   System.out.print(" "+best.getLocation().getA());
+	   System.out.print(" "+best.getLocation().getB());
+	   System.out.print(" "+best.getLocation().getY());
+	   System.out.println(" ");
+	   System.out.print(a);
+	   System.out.print(","+b);
+	   System.out.print(","+y);
+	   System.out.println(" ");
 	}
 
 	public int gethealth()
@@ -77,12 +135,13 @@ public class SimpleEnemy extends Entity implements Damageable
 	{ 
 		
 		speed++;
-//		if (move(rand.nextInt(2),rand.nextInt(2),rand.nextInt(2)) == false){
-//			while(move(rand.nextInt(4),rand.nextInt(2),rand.nextInt(2)) == false){
-//				move(rand.nextInt(2),rand.nextInt(2),rand.nextInt(2));
-//				speed++;
-//			}
-//		}
+		
+	if (move(rand.nextInt(2),rand.nextInt(2),rand.nextInt(2)) == false){
+			while(move(rand.nextInt(4),rand.nextInt(2),rand.nextInt(2)) == false){
+				move(rand.nextInt(2),rand.nextInt(2),rand.nextInt(2));
+				speed++;
+			}
+		}
 	}
 
 	@Override
