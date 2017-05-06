@@ -172,14 +172,18 @@ public class GameRenderer extends JComponent
 			if(e.getClass().equals(Player.class))
 			{
 				int y = ((Player) e).gethealth();
-				Color myNewBlue = new Color (255 - y, y/2, 100 + y);
-				g.setColor(myNewBlue);
+				Color myNewP = new Color (255 - y, y/2, 100 + y);
+				g.setColor(myNewP);
 				g.fill(e.getLocation().getBorder(s));
 			}
 			if(e.getClass().equals(SimpleEnemy.class))
 			{
 				int y = ((SimpleEnemy) e).gethealth();
-				Color myNewBlue = new Color (255 - y,255, 0);
+				int k = (int) (250 - ((Math.pow((100-y)/2,2))/10));
+				int u = (int)((Math.pow((int)(100-y)/2,2))/10);
+				int t = Math.abs(u);
+				int z = Math.abs(k); 
+				Color myNewBlue = new Color (t,t,z);
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
 			}

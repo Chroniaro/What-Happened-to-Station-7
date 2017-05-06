@@ -1,8 +1,14 @@
 package com.whtss.assets.entities;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
+import com.whtss.assets.core.SoundStuff;
 import com.whtss.assets.hex.HexPoint;
 
 public class Player extends Entity implements Damageable
@@ -17,13 +23,16 @@ public class Player extends Entity implements Damageable
 	}
 
 	@UIEventHandle("Next Turn")
-	public void resetMoves()
+	public void resetMoves() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException
 	{
+		SoundStuff cam = new SoundStuff();
+		cam.swnat();
 		move = 0;
 	}
 
 	public int gethealth()
 	{
+		
 		return health;
 	}
 
