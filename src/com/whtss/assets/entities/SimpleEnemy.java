@@ -28,6 +28,7 @@ public class SimpleEnemy extends Entity implements Damageable
 	{ 
 		System.out.print("adgasdgfa");
 		takeDamage(10);
+		
 	}
 	
 	

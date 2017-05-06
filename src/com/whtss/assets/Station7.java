@@ -22,17 +22,7 @@ public class Station7
 	public static void main(String... args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		Game game = new Game();
-		try {
-			File audioFile = new File("na_sweden.wav");
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-			AudioFormat format = audioStream.getFormat();
-			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			Clip audioClip = (Clip) AudioSystem.getLine(info);
-			audioClip.open(audioStream);
-			audioClip.start();
-			} catch (MalformedURLException murle) {
-			System.out.println(murle);
-			}
+		
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setTitle("What Happened to Station 7");
