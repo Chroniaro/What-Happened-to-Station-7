@@ -20,6 +20,8 @@ import javax.swing.text.Caret;
 
 import java.applet.*;
 import java.net.*;
+
+import com.whtss.assets.core.SoundStuff;
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
 
@@ -54,7 +56,8 @@ public class Station7
 		layoutGame.fill = GridBagConstraints.BOTH;
 		layoutGame.anchor = GridBagConstraints.NORTH;
 		window.add(render, layoutGame);
-		
+		SoundStuff cam = new SoundStuff();
+		cam.dbol();
 		GameInfo info = new GameInfo(game);
 		info.addListeners(window);
 		GridBagConstraints layoutInfo = new GridBagConstraints();
