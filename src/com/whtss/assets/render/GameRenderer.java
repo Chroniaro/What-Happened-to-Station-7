@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import com.whtss.assets.Game;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
+import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
@@ -184,6 +185,13 @@ public class GameRenderer extends JComponent
 				int t = Math.abs(u);
 				int z = Math.abs(k); 
 				Color myNewBlue = new Color (t,t,z);
+				g.setColor(myNewBlue);
+				g.fill(e.getLocation().getBorder(s));
+			}
+			if(e.getClass().equals(HealBox.class))
+			{
+				int y = ((HealBox) e).gethealth();
+				Color myNewBlue = new Color (255-(y/2),0,255-(y/2));
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
 			}
