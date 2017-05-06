@@ -23,7 +23,7 @@ public class SimpleEnemy extends Entity implements Damageable {
 	public void Turn() {
 
 		// takeDamage(10);
-		for(int i=0;i<=6;i++){
+		for(int i=0;i<=7;i++){
 		goveryclose();
 		Player best = null;
 		for (Entity e : getLevel().getEntities()) {
