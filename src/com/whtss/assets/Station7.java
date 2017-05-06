@@ -25,7 +25,8 @@ public class Station7
 		window.setMinimumSize(new Dimension(400, 225));
 		window.setLayout(new GridBagLayout());
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		opening_text.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		opening_text.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		opening_text.setTitle("This Is What Happened to Station 7");
 		JTextArea textField = new JTextArea("The date is 123.5432.1241511    Station 7 is in full operation when suddenly one of the arachnids spot a rather large blue and yellow battle-cruiser barreling towards the aft section of the outer wheel. It suddenly plunges it self deep within the station. The flag suddenly comes within view… Its the swedes on their eternal quest to increase their GDP. They start to scatter but they are not quick enough to survive the army of Carl XVI Gustaf. The Dramatic entrance of the battle-cruiser had created a hull breach and the amount of air in the station was starting to drop; those blast doors can only hold so long….																																																		You Play as the aliens represented by the Purple hexes your objective is to get to the next floor of Staition 7 via the cyan ecape doors the sweds represented by the blue tiles are out to get you it would be in your best intrests to avoid them as they will kill you very quickly, if you notics your color shifting it indicats a change in helth and you will be best adviced to seek out the red health boxes but be carful as they will only heal you so much");
 
