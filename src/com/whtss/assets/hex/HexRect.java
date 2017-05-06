@@ -104,7 +104,7 @@ public class HexRect implements Iterable<HexPoint>
 		@Override
 		public boolean hasNext()
 		{
-			return ly < h;
+			return y < h;
 		}
 		
 		@Override
