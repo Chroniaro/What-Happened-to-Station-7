@@ -23,7 +23,7 @@ public class Player extends Entity implements Damageable
 	}
 
 	@UIEventHandle("Next Turn")
-	public void resetMoves() throws UnsupportedAudioFileException, IOException, LineUnavailableException
+	public void resetMoves() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException
 	{
 		SoundStuff cam = new SoundStuff();
 		cam.swnat();
