@@ -24,9 +24,7 @@ public class Level
 	private List<Entity> entities;
 	
 	private final HexRect bounds;
-	private HexPoint start;
 	private HexPoint end;
-	private HexPoint enimy1;
 	
 	public Level()
 	{
@@ -49,34 +47,7 @@ public class Level
 			floorLayer[0][y] = floorLayer[width - 1][y] = 1;
 		
 		HexPoint[] rooms = buildFloorPlan();
-		int playerStart = rand.nextInt(rooms.length);
-		getEntities().add(new Player(rooms[playerStart], this));
-		getEntities().add(new Player(rooms[playerStart].mABY(1, 0, 0), this));
-		getEntities().add(new Player(rooms[playerStart].mABY(0, -1, 0), this));
-		getEntities().add(new Player(rooms[playerStart].mABY(0, 0, 2), this));
-		
-		int enemyStart = (rand.nextInt(rooms.length - 1) + playerStart + 1) % rooms.length;
-		getEntities().add(new SimpleEnemy(rooms[enemyStart], this));
-		
-		int end = (rand.nextInt(rooms.length - 1) + playerStart + 1) % rooms.length;
-		this.end = rooms[end];
-		
-//		start = getCells().fromArrayCoords(rand.nextInt(width - 4) + 2, rand.nextInt(height - 4) + 2);
-//		//enimy1 = getCells().fromArrayCoords(7, 7);
-//		int zz =rand.nextInt(width);
-//		int yy = rand.nextInt(height);
-//		enimy1 = getCells().fromArrayCoords(zz, yy);
-//		
-//		do {
-//			end = getCells().fromArrayCoords(rand.nextInt(width), rand.nextInt(height));
-//		} while(end.dist(start) < 3 || !getCells().contains(end));
-//		
-//		getEntities().add(new Player(start, this));
-//		getEntities().add(new Player(start.mABY(1, 0, 0), this));
-//		getEntities().add(new Player(start.mABY(0, -1, 0), this));
-//		getEntities().add(new Player(start.mABY(0, 0, 2), this));
-//		getEntities().add(new SimpleEnemy(enimy1, this));
-		
+		populateLevel(rooms);
 	}
 	
 	private HexPoint[] buildFloorPlan()
@@ -87,6 +58,7 @@ public class Level
 					HexPoint.XY(-16, 10),
 					HexPoint.XY(-16, -10),
 					HexPoint.XY(-2, -8),
+					HexPoint.XY(0, 0),
 					HexPoint.XY(3, 9),
 					HexPoint.XY(16, 12),
 					HexPoint.XY(15, -9)
@@ -95,10 +67,10 @@ public class Level
 		//
 		
 		HexRect r = getCells();
-		int[][] owners = new int[width][height];
-		for(int x = 0; x < owners.length; x++)
-			for(int y = 0; y < owners[x].length; y++) 
-				owners[x][y] = -1;
+		int[][] roomIds = new int[width][height];
+		for(int x = 0; x < roomIds.length; x++)
+			for(int y = 0; y < roomIds[x].length; y++) 
+				roomIds[x][y] = -1;
 		RigidList<List<HexPoint>> borders = new RigidList<>(centers.length);
 		for(int room = 0; room < centers.length; room++)
 		{
@@ -106,7 +78,7 @@ public class Level
 			
 			for(HexPoint tile : HexPoint.circ(centers[room], 2))
 			{
-				owners[r.X(tile)][r.Y(tile)] = room;
+				roomIds[r.X(tile)][r.Y(tile)] = room;
 				if(centers[room].dist(tile) == 2)
 					borders.get(room).add(tile);
 			}
@@ -142,7 +114,7 @@ public class Level
 				unclaimedTerritory = new HashSet<HexPoint>();
 				for(HexPoint adjCell : borderCell.adjacentCells())
 					if(r.contains(adjCell))
-						if(owners[r.X(adjCell)][r.Y(adjCell)] == -1)
+						if(roomIds[r.X(adjCell)][r.Y(adjCell)] == -1)
 							unclaimedTerritory.add(adjCell);
 				
 				if(!unclaimedTerritory.isEmpty())
@@ -155,11 +127,9 @@ public class Level
 				continue;
 			}
 			
-//			border.remove(borderCell);
-			
 			for(HexPoint cell : unclaimedTerritory)
 			{
-				owners[r.X(cell)][r.Y(cell)] = room;
+				roomIds[r.X(cell)][r.Y(cell)] = room;
 				border.add(cell);
 			}
 			
@@ -171,7 +141,7 @@ public class Level
 				for(HexPoint a : cell.adjacentCells())
 					if(r.contains(a))
 					{
-						int owner = owners[r.X(a)][r.Y(a)];
+						int owner = roomIds[r.X(a)][r.Y(a)];
 						if(owner != room && (owner == -1 || !borders.get(owner).contains(a)))
 							surrounded = false;
 					}
@@ -187,9 +157,9 @@ public class Level
 		
 		//Clean it up
 		for(int x = 0; x < width; x++)
-			owners[x][0] = owners[x][height - 1] = -1;
+			roomIds[x][0] = roomIds[x][height - 1] = -1;
 		for(int y = 0; y < height; y++)
-			owners[0][y] = owners[width - 1][y] = -1;
+			roomIds[0][y] = roomIds[width - 1][y] = -1;
 		
 		for(int x = 1; x < width - 2; x++)
 			for(int y = 1; y < height - 2; y++)
@@ -197,7 +167,7 @@ public class Level
 				int c = 0;
 				HexPoint cell = r.fromArrayCoords(x, y);
 				for(HexPoint a : cell.adjacentCells())
-					if(!r.contains(a) || owners[r.X(a)][r.Y(a)] == owners[x][y])
+					if(!r.contains(a) || roomIds[r.X(a)][r.Y(a)] == roomIds[x][y])
 						c++;
 				if(c < 3)
 					floorLayer[x][y] = 1;
@@ -214,7 +184,7 @@ public class Level
 				{
 					if(!r.contains(a))
 						continue;
-					int owner = owners[r.X(a)][r.Y(a)];
+					int owner = roomIds[r.X(a)][r.Y(a)];
 					if(owner == next || owner == prev)
 					{
 						if(owner == next)
@@ -242,6 +212,38 @@ public class Level
 		return centers;
 	}
 
+	//This bit will have to be way more complicated once we have a randomized room layout
+	private void populateLevel(HexPoint[] rooms)
+	{
+		final int[] leftRooms = {0, 1};
+		final int[] centerRooms = {2, 3, 4};
+		final int[] rightRooms = {5, 6};
+		
+		int startRoom, endRoom, enemyRoom;
+		
+		if(rand.nextBoolean())
+		{
+			startRoom = leftRooms[rand.nextInt(leftRooms.length)];
+			endRoom = rightRooms[rand.nextInt(rightRooms.length)];
+		}
+		else
+		{
+			endRoom = leftRooms[rand.nextInt(leftRooms.length)];
+			startRoom = rightRooms[rand.nextInt(rightRooms.length)];
+		}
+		
+		enemyRoom = centerRooms[rand.nextInt(centerRooms.length)];
+		
+		getEntities().add(new Player(rooms[startRoom], this));
+		getEntities().add(new Player(rooms[startRoom].mABY(1, 0, 0), this));
+		getEntities().add(new Player(rooms[startRoom].mABY(0, -1, 0), this));
+		getEntities().add(new Player(rooms[startRoom].mABY(0, 0, 2), this));
+		
+		getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
+		
+		this.end = rooms[endRoom];
+	}
+	
 	public HexPoint performAction(HexPoint select, HexPoint mouse, KeyEvent key)
 	{
 		for(Entity e : getEntities())
@@ -257,7 +259,6 @@ public class Level
 			e.endTurn();
 	}
 	
-	public HexPoint getstart() { return start; }
 	public HexPoint getEnd() { return end; }
 	public int getWidth() { return floorLayer.length; }
 	public int getHeight() { return floorLayer[0].length; }
