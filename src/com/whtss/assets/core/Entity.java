@@ -43,6 +43,16 @@ public abstract class Entity implements LightSource
 							params[i] = key.getModifiers();
 						else if(HexPoint.class.isAssignableFrom(mparams[i]))
 							params[i] = target;
+						else if(Entity.class.isAssignableFrom(mparams[i]))
+						{
+							params[i] = null;
+							for(Entity e : lvl.getEntities())
+								if(e.getLocation().equals(target))
+								{
+									params[i] = e;
+									break;
+								}
+						}
 						else
 							params[i] = null;
 					UIAction action = (UIAction) m.invoke(this, params);

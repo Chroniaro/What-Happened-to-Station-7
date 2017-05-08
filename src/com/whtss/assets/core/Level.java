@@ -25,7 +25,7 @@ public class Level
 	
 	private final HexRect bounds;
 	private HexPoint end;
-	
+	 
 	public Level()
 	{
 		floorLayer = new int[width][height];
@@ -63,8 +63,6 @@ public class Level
 					HexPoint.XY(16, 12),
 					HexPoint.XY(15, -9)
 				};
-		
-		//
 		
 		HexRect r = getCells();
 		int[][] roomIds = new int[width][height];

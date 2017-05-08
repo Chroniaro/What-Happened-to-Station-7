@@ -175,7 +175,7 @@ public class GameRenderer extends JComponent
 				g.setColor(myNewP);
 				g.fill(e.getLocation().getBorder(s));
 			}
-			if(e.getClass().equals(SimpleEnemy.class))
+			else if(e.getClass().equals(SimpleEnemy.class))
 			{
 				int y = ((SimpleEnemy) e).gethealth();
 				int k = (int) (250 - ((Math.pow((100-y)/2,2))/10));
@@ -186,7 +186,7 @@ public class GameRenderer extends JComponent
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
 			}
-			if(e.getClass().equals(HealBox.class))
+			else if(e.getClass().equals(HealBox.class))
 			{
 				int y = ((HealBox) e).gethealth();
 				Color myNewBlue = new Color (255-(y/2),0,255-(y/2));

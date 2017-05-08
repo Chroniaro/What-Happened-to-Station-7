@@ -1,14 +1,8 @@
 package com.whtss.assets.entities;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
-import com.whtss.assets.core.SoundStuff;
 import com.whtss.assets.hex.HexPoint;
 
 public class Player extends Entity implements Damageable
@@ -55,6 +49,26 @@ public class Player extends Entity implements Damageable
 			return success;
 	}
 
+	@UIEventHandle("Key_P")
+	public UIAction attack(Entity target)
+	{
+		System.out.println(target);
+		
+		if(move + 2 > speed)
+			return success;
+		if(target == null)
+			return null;
+		if(!(target instanceof Damageable))
+			return null;
+		
+		final int d = getLocation().dist(target.getLocation());
+		if(d > 4)
+			return null;
+		move += 2;
+		((Damageable)target).takeDamage(10 * (5 - d));
+		return null;
+	}
+	
 	@UIEventHandle("Key_Q")
 	public UIAction walkNA(int modifiers, HexPoint target)
 	{
@@ -100,8 +114,9 @@ public class Player extends Entity implements Damageable
 	@Override
 	public void takeDamage(int amount)
 	{
+		System.out.println(getHealth());
 		health -= amount;
-		if(health < 0)
+		if(getHealth() < 0)
 			setActive(false);
 	}
 }

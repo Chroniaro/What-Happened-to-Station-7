@@ -1,6 +1,6 @@
 package com.whtss.assets.util;
 
-import java.util.Arrays;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +9,11 @@ import java.util.ListIterator;
 public class RigidList<T extends Object> implements List<T>
 {
 	private Object[] list;
+	
+	private RigidList(Object[] list)
+	{
+		this.list = list;
+	}
 	
 	public RigidList(int size)
 	{
@@ -30,7 +35,7 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public boolean contains(Object o)
 	{
-		for(Object n : list)
+		for(Object n : this)
 			if(n == null && o == null)
 				return true;
 			else if(n.equals(o))
@@ -41,35 +46,24 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public Iterator<T> iterator()
 	{
-		return new Iterator<T>()
-				{
-					int x = 0;
-					
-					@Override
-					public boolean hasNext()
-					{
-						return x < size();
-					}
-
-					@SuppressWarnings("unchecked")
-					@Override
-					public T next()
-					{
-						return (T) list[x++];
-					}
-				};
+		return listIterator();
 	}
 
 	@Override
 	public Object[] toArray()
 	{
-		return Arrays.copyOf(list, list.length);
+		return toArray(new Object[list.length]);
 	}
 
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <Q> Q[] toArray(Q[] a)
 	{
-		return null;
+		Q[] _return = a.length >= list.length ? a : (Q[]) Array.newInstance(a.getClass(), list.length);
+		for(int i = 0; i < size(); i++)
+			_return[i] = (Q) get(i);
+		return _return;
 	}
 
 	@Override
@@ -81,42 +75,62 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public boolean remove(Object o)
 	{
-		throw new UnsupportedOperationException("This list is of fixed length");
+		if(o == null)
+			return false;
+		
+		int n = indexOf(o);
+		if(n < 0)
+			return false;
+		
+		set(indexOf(o), null);
+		return true;
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> c)
 	{
-		return false;
+		for(Object o : c)
+			if(!contains(o))
+				return false;
+		return true;
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends T> c)
 	{
-		return false;
+		throw new UnsupportedOperationException("This list is of fixed length");
 	}
 
 	@Override
 	public boolean addAll(int index, Collection<? extends T> c)
 	{
-		return false;
+		throw new UnsupportedOperationException("This list is of fixed length");
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c)
 	{
-		return false;
+		boolean changed = false;
+		for(Object o : this)
+			changed |= remove(o);
+		return changed;
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c)
 	{
-		return false;
+		boolean changed = false;
+		for(Object o : this)
+			if(!c.contains(o))
+				changed |= remove(o);
+		return changed;
 	}
 
 	@Override
 	public void clear()
 	{
+		for(int i = 0; i < size(); i++)
+			remove(i);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -138,47 +152,51 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public void add(int index, T element)
 	{
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("This list is of fixed length");
 	}
 
 	@Override
 	public T remove(int index)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		T _return = get(index);
+		set(index, null);
+		return _return;
 	}
 
 	@Override
 	public int indexOf(Object o)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		for(int i = 0; i < size(); i++)
+			if(get(i).equals(o))
+				return i;
+		return -1;
 	}
 
 	@Override
 	public int lastIndexOf(Object o)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		for(int i = size() - 1; i >= 0; i--)
+			if(get(i).equals(o))
+				return i;
+		return -1;
 	}
 
 	@Override
 	public ListIterator<T> listIterator()
 	{
-		return null;
+		return new RigidListIterator();
 	}
 
 	@Override
 	public ListIterator<T> listIterator(int index)
 	{
-		return null;
+		return new RigidListIterator(index);
 	}
 
 	@Override
-	public List<T> subList(int fromIndex, int toIndex)
+	public RigidList<T> subList(int fromIndex, int toIndex)
 	{
-		return null;
+		return new SubList(fromIndex, toIndex);
 	}
 	
 	@Override
@@ -192,5 +210,98 @@ public class RigidList<T extends Object> implements List<T>
 		s += "]";
 		
 		return s;
+	}
+	
+	class RigidListIterator implements ListIterator<T>
+	{
+		private int x = 0;
+		private int lastRet = 0;
+		
+		public RigidListIterator(int startingIndex) { x = startingIndex; }
+		public RigidListIterator() { this(0); }
+		
+		@Override
+		public boolean hasNext()
+		{
+			return x < size();
+		}
+
+		@Override
+		public T next()
+		{
+			return get(lastRet = x++);
+		}
+
+		@Override
+		public T previous()
+		{
+			return get(lastRet = --x);
+		}
+
+		@Override
+		public boolean hasPrevious()
+		{
+			return x > 0;
+		}
+
+		@Override
+		public int nextIndex()
+		{
+			return x;
+		}
+
+		@Override
+		public int previousIndex()
+		{
+			return lastRet;
+		}
+
+		@Override
+		public void remove()
+		{
+			RigidList.this.remove(previousIndex());
+		}
+		
+		@Override
+		public void set(T e)
+		{
+			RigidList.this.set(previousIndex(), e);
+		}
+
+		@Override
+		public void add(T e)
+		{
+			RigidList.this.add(e);
+		}
+	}
+	
+	class SubList extends RigidList<T>
+	{
+		private final int from, to;
+		
+		public SubList(int from, int to)
+		{
+			super(list);
+			this.from = from;
+			this.to = to;
+		}
+		
+		@Override
+		public T set(int index, T element)
+		{
+			return super.set(index + from, element);
+		}
+		
+		@Override
+		public T get(int index)
+		{
+			return super.get(index + from);
+		}
+		
+		@Override
+		public int size()
+		{
+			return to - from;
+		}
 	}
 }
