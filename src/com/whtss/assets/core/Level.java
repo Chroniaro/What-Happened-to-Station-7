@@ -10,6 +10,7 @@ import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
+import com.whtss.assets.render.GameRenderer.UIInterface;
 import com.whtss.assets.util.RigidList;
 
 public class Level
@@ -25,9 +26,12 @@ public class Level
 	
 	private final HexRect bounds;
 	private HexPoint end;
+	private UIInterface uiinterface;
 	 
-	public Level()
+	public Level(UIInterface UIInterface)
 	{
+		uiinterface = UIInterface;
+		
 		floorLayer = new int[width][height];
 		int dw = -width/2;
 		int dh = 1 - height;
@@ -242,19 +246,23 @@ public class Level
 		this.end = rooms[endRoom];
 	}
 	
-	public HexPoint performAction(HexPoint select, HexPoint mouse, KeyEvent key)
+	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)
 	{
 		for(Entity e : getEntities())
 			if(e.getLocation().equals(select))
 				if(e.isActive())
-					return e.input(key, mouse);
-		return select;
+					e.input(key, mouse, turn);
 	}
 	
-	public void nextTurn()
+	public UIInterface getUIInterface()
+	{
+		return uiinterface;
+	}
+	
+	public void nextTurn(String turn)
 	{
 		for(Entity e : entities)
-			e.endTurn();
+			e.doTurn(turn);
 	}
 	
 	public HexPoint getEnd() { return end; }

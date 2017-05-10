@@ -15,14 +15,6 @@ public abstract class Entity implements LightSource
 	private boolean active = true;
 	private final Level lvl;
 	
-	protected final UIAction success = new UIAction() 
-	{
-		public HexPoint selectTile() 
-		{
-			return null;
-		};
-	};
-	
 	public Entity(HexPoint location, Level level)
 	{
 		setLocation(location);
@@ -31,9 +23,9 @@ public abstract class Entity implements LightSource
 	
 	public int light() { return 0; }
 	
-	public final HexPoint input(KeyEvent key, HexPoint target)
+	public final void input(KeyEvent key, HexPoint target, String turn)
 	{
-		return methodsWithUIHandle("Key_" + KeyEvent.getKeyText(key.getKeyCode()), 
+		methodsWithUIHandle("Key_" + KeyEvent.getKeyText(key.getKeyCode()), turn,
 				(Method m) -> 
 				{
 					Class<?>[] mparams = m.getParameterTypes();
@@ -55,28 +47,25 @@ public abstract class Entity implements LightSource
 						}
 						else
 							params[i] = null;
-					UIAction action = (UIAction) m.invoke(this, params);
-					if(action == null)
-						return getLocation();
-					else
-						return action.selectTile();
+					return m.invoke(this, params);
 				}
 			);
 	}
 	
-	public final void endTurn()
+	public final void doTurn(String turn)
 	{
-		methodsWithUIHandle("Next Turn", (Method m) -> m.invoke(this, new Object[m.getParameterCount()]));
+		methodsWithUIHandle("Next Turn", turn, (Method m) -> m.invoke(this, new Object[m.getParameterCount()]));
 	}
 	
 	private static interface MethodRunnable<T> { T run(Method m) throws Exception; }
-	private <T> T methodsWithUIHandle(String handle, MethodRunnable<T> r)
+	private <T> T methodsWithUIHandle(String handle, String turn, MethodRunnable<T> r)
 	{
 		T l = null;
 		for(Method m : getClass().getDeclaredMethods())
 			try
 			{
-				if(handle.equals(m.getAnnotation(UIEventHandle.class).value()))
+				UIEventHandle eHandle = m.getAnnotation(UIEventHandle.class);
+				if(eHandle.value().equals(handle) && eHandle.turn().matches(turn))
 				{
 					try
 					{
@@ -127,22 +116,14 @@ public abstract class Entity implements LightSource
 	{
 		this.active = active;
 	}
-
-	public abstract class UIAction
-	{
-		protected HexPoint selectTile() { return location; }
-	}
 	
-	/**
-	 * Use this annotation to make this event respond to key presses when this entity is selected.
-	 * Note that the method must have the parameters (int, HexPoint) and return type UIAction to be run, 
-	 * and will be passed the modifier mask for the key press and the location of the mouse, respectively.
-	 */
 	@Documented
 	@Retention(RUNTIME)
 	@Target(METHOD)
 	protected @interface UIEventHandle
 	{
 		String value();
+		String turn() default "";
+		int priority() default 0;
 	}
 }

@@ -48,7 +48,7 @@ public class GameInfo extends JComponent
 					@Override public void mouseClicked(MouseEvent e) 
 					{
 						if(getNextTurnButton().contains(e.getPoint()))
-							game.nextTurn();
+							game.endPlayerTurn();
 					}
 					
 					@Override public void mousePressed(MouseEvent e) {}

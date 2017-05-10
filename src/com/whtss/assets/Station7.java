@@ -57,7 +57,7 @@ public class Station7
 		layoutInfo.gridy = 1;
 		window.add(info, layoutInfo);
 		
-		game.setNextTurnRunnable(render::repaint);
+		game.init(render.new UIInterface());
 		
 		window.setVisible(true);
 		

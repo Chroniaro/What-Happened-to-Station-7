@@ -4,10 +4,12 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.Animation;
+import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 5;
+	final int speed = 500;
 	int move = 0;
 	int health = 100;
 
@@ -16,7 +18,7 @@ public class Player extends Entity implements Damageable
 		super(location, level);
 	}
 
-	@UIEventHandle("Next Turn")
+	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves() //throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException
 	{
 		//SoundStuff cam = new SoundStuff();
@@ -26,83 +28,108 @@ public class Player extends Entity implements Damageable
 
 	public int gethealth()
 	{
-		
 		return health;
 	}
 
-	public UIAction walk(int da, int db, int dhy)
+	public void walk(int da, int db, int dhy)
 	{
 		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);
 		if (getLocation().mABY(da, db, 2 * dhy).equals(getLevel().getEnd()))
 		{
 			setActive(false);
-			return success;
+			getLevel().getUIInterface().deselect().execute();
 		}
-		if (dist + move <= speed)
+		else if (dist + move <= speed)
 		{
 			if (move(da, db, dhy))
+			{
 				move += dist;
+				getLevel().getUIInterface().new UIAction()
+				{
+					public HexPoint selectTile() { return getLocation(); };
+				}.execute();
+			}
 
-			return null;
+			if(move >= speed)
+				getLevel().getUIInterface().deselect().execute();
 		}
 		else
-			return success;
+			getLevel().getUIInterface().deselect().execute();
 	}
 
-	@UIEventHandle("Key_P")
-	public UIAction attack(Entity target)
+	@UIEventHandle(value = "Key_P", turn = "Player")
+	public void attack(Entity target)
 	{
 		System.out.println(target);
 		
 		if(move + 2 > speed)
-			return success;
+		{
+			getLevel().getUIInterface().deselect().execute();
+			return;
+		}
 		if(target == null)
-			return null;
+			return;
 		if(!(target instanceof Damageable))
-			return null;
+			return;
 		
 		final int d = getLocation().dist(target.getLocation());
 		if(d > 4)
-			return null;
+			return;
 		move += 2;
 		((Damageable)target).takeDamage(10 * (5 - d));
-		return null;
+		getLevel().getUIInterface().new UIAction()
+				{
+					@Override
+					public Animation startAnimation()
+					{	
+						return new TileDamage(target.getLocation());
+					}
+					
+					@Override
+					public HexPoint selectTile()
+					{
+						if(move >= speed)
+							return null;
+						else
+							return getLocation();
+					}
+				}.execute();
 	}
 	
-	@UIEventHandle("Key_Q")
-	public UIAction walkNA(int modifiers, HexPoint target)
+	@UIEventHandle(value = "Key_Q", turn = "Player")
+	public void walkNA(int modifiers, HexPoint target)
 	{
-		return walk(-1, 0, 0);
+		walk(-1, 0, 0);
 	}
 
-	@UIEventHandle("Key_W")
-	public UIAction walkPY(int modifiers, HexPoint target)
+	@UIEventHandle(value = "Key_W", turn = "Player")
+	public void walkPY(int modifiers, HexPoint target)
 	{
-		return walk(0, 0, 1);
+		walk(0, 0, 1);
 	}
 
-	@UIEventHandle("Key_E")
-	public UIAction walkPB(int modifiers, HexPoint target)
+	@UIEventHandle(value = "Key_E", turn = "Player")
+	public void walkPB(int modifiers, HexPoint target)
 	{
-		return walk(0, 1, 0);
+		walk(0, 1, 0);
 	}
 
-	@UIEventHandle("Key_A")
-	public UIAction walkNB(int modifiers, HexPoint target)
+	@UIEventHandle(value = "Key_A", turn = "Player")
+	public void walkNB(int modifiers, HexPoint target)
 	{
-		return walk(0, -1, 0);
+		walk(0, -1, 0);
 	}
 
-	@UIEventHandle("Key_S")
-	public UIAction walkNY(int modifiers, HexPoint target)
+	@UIEventHandle(value = "Key_S", turn = "Player")
+	public void walkNY(int modifiers, HexPoint target)
 	{
-		return walk(0, 0, -1);
+		walk(0, 0, -1);
 	}
 
-	@UIEventHandle("Key_D")
-	public UIAction walkPA(int modifiers, HexPoint target)
+	@UIEventHandle(value = "Key_D", turn="Player")
+	public void walkPA(int modifiers, HexPoint target)
 	{
-		return walk(1, 0, 0);
+		walk(1, 0, 0);
 	}
 
 	@Override

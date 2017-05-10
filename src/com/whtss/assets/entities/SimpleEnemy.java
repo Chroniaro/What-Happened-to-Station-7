@@ -21,11 +21,11 @@ public class SimpleEnemy extends Entity implements Damageable
 	}
 
 	// @Override
-	@UIEventHandle("Next Turn")
+	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void Turn()
 	{
 
-		System.out.println("Turn");
+//		System.out.println("Turn");
 
 		// takeDamage(10);
 		for (int i = 0; i <= 10; i++)

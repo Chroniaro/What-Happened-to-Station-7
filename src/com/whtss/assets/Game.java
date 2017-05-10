@@ -3,16 +3,24 @@ package com.whtss.assets;
 import java.awt.event.KeyEvent;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.GameRenderer.UIInterface;
 
 public class Game
 {
-	Level x = new Level();
+	private Level currentLevel;
+	private boolean playersTurn = true;
 	int floor = 1;
-	private Runnable turnUpdateStuff;
+	private UIInterface uiinterface;
+	
+	public void init(UIInterface UIInterface)
+	{
+		uiinterface = UIInterface;
+		currentLevel = new Level(UIInterface);
+	}
 	
 	public Level getCurrentLevel()
 	{
-		return x;
+		return currentLevel;
 	}
 	
 	public int getfloor()
@@ -25,26 +33,37 @@ public class Game
 		floor++;
 	}
 	
-	public void setNextTurnRunnable(Runnable nextTurn)
+	public void endPlayerTurn()
 	{
-		turnUpdateStuff = nextTurn;
+		playersTurn = false;
+		getCurrentLevel().nextTurn("Enemy");
+		uiinterface.refresh();;
+		endEnemyTurn();
 	}
 	
-	public void nextTurn()
+	public void endEnemyTurn()
 	{
-		turnUpdateStuff.run();
-		getCurrentLevel().nextTurn();
+		playersTurn = true;
+		getCurrentLevel().nextTurn("Player");
+		uiinterface.refresh();
 	}
 	
-	public HexPoint processAction(HexPoint select, HexPoint mouse, KeyEvent key)
+	public void processAction(HexPoint select, HexPoint mouse, KeyEvent key)
 	{
 		switch(key.getKeyCode())
 		{
 			default:
-				if(select == null)
-					return null;
-				else
-					return getCurrentLevel().performAction(select, mouse, key);
+				getCurrentLevel().processInput(select, mouse, key, isPlayersTurn() ? "Player" : "Enemy");
 		}
+	}
+	
+	public boolean isPlayersTurn()
+	{
+		return playersTurn;
+	}
+	
+	public boolean isEnemyTurn()
+	{
+		return !playersTurn;
 	}
 }
