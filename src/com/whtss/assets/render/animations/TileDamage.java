@@ -29,7 +29,7 @@ public class TileDamage extends Animation
 		Paint grad = new RadialGradientPaint(f, s / 3, new float[] {0, .7f, 1}, new Color[]{
 				new Color(1, 0, 0, 0), 
 				new Color(1, 0, 0, .2f * (getLength() - T()) / getLength()), 
-				new Color(1, 0, 0, .8f * (getLength() - T()) / getLength())});
+				new Color(1, 0, 0, Math.min(1, .8f * (getLength() - T()) / getLength()))});
 		g.setPaint(grad);
 		g.fill(bound);
 	}

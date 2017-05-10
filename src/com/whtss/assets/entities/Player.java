@@ -4,12 +4,11 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
-import com.whtss.assets.render.Animation;
 import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 500;
+	final int speed = 7;
 	int move = 0;
 	int health = 100;
 
@@ -37,39 +36,36 @@ public class Player extends Entity implements Damageable
 		if (getLocation().mABY(da, db, 2 * dhy).equals(getLevel().getEnd()))
 		{
 			setActive(false);
-			getLevel().getUIInterface().deselect.execute();
+			getLevel().getUIInterface().selectTile(null);
 		}
 		else if (dist + move <= speed)
 		{
 			if (move(da, db, dhy))
 			{
 				move += dist;
-				getLevel().getUIInterface().new UIAction()
-				{
-					public HexPoint selectTile() { return getLocation(); };
-				}.execute();
+				getLevel().getUIInterface().selectTile(getLocation());
 			}
 
 			if(move >= speed)
-				getLevel().getUIInterface().deselect.execute();
+				getLevel().getUIInterface().selectTile(null);
 		}
 		else
-			getLevel().getUIInterface().deselect.execute();
+			getLevel().getUIInterface().selectTile(null);
 	}
 
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)
-	{
-		System.out.println(target);
-		
+	{	
 		if(move + 2 > speed)
 		{
-			getLevel().getUIInterface().deselect.execute();
+			getLevel().getUIInterface().selectTile(null);
 			return;
 		}
 		if(target == null)
 			return;
 		if(!(target instanceof Damageable))
+			return;
+		if(!target.isActive())
 			return;
 		
 		final int d = getLocation().dist(target.getLocation());
@@ -77,23 +73,11 @@ public class Player extends Entity implements Damageable
 			return;
 		move += 2;
 		((Damageable)target).takeDamage(10 * (5 - d));
-		getLevel().getUIInterface().new UIAction()
-				{
-					@Override
-					public Animation startAnimation()
-					{	
-						return new TileDamage(target.getLocation());
-					}
-					
-					@Override
-					public HexPoint selectTile()
-					{
-						if(move >= speed)
-							return null;
-						else
-							return getLocation();
-					}
-				}.execute();
+		getLevel().getUIInterface().startAnimation(new TileDamage(target.getLocation()));
+		if(move >= speed)
+			getLevel().getUIInterface().selectTile(null);
+		else
+			getLevel().getUIInterface().selectTile(getLocation());
 	}
 	
 	@UIEventHandle(value = "Key_Q", turn = "Player")

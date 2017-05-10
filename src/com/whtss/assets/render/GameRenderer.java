@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import com.whtss.assets.Game;
@@ -20,7 +19,6 @@ import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
-import com.whtss.assets.render.GameRenderer.UIInterface.UIAction;
 
 public class GameRenderer extends JComponent
 {
@@ -259,18 +257,11 @@ public class GameRenderer extends JComponent
 		return game.getCurrentLevel().getCells().contains(mouse);
 	}
 
-	public void performAction(UIAction action)
-	{
-		select = action.selectTile();
-		playAnimation(action.startAnimation());
-	}
-
 	public void playAnimation(Animation a)
 	{
 		if (a == null)
 			return;
 
-		System.out.println(a.getLength());
 		activeAnimation = a;
 		a.resetTimer();
 		new Thread(() ->
@@ -292,42 +283,20 @@ public class GameRenderer extends JComponent
 	}
 
 	public class UIInterface
-	{
-		public final UIAction deselect = new UIAction()
-		{
-			@Override
-			public HexPoint selectTile()
-			{
-				return null;
-			}
-		};
-		
+	{	
 		public void refresh()
 		{
 			repaint();
 		}
-
-		public abstract class UIAction
+		
+		public void selectTile(HexPoint sel)
 		{
-			public HexPoint selectTile()
-			{
-				return select;
-			}
-
-			public Animation startAnimation()
-			{
-				return null;
-			}
-
-			public File playSound()
-			{
-				return null;
-			}
-			
-			public final void execute()
-			{
-				performAction(this);
-			}
+			select = sel;
+		}
+		
+		public void startAnimation(Animation a)
+		{
+			playAnimation(a);
 		}
 	}
 }
