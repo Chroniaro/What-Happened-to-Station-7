@@ -37,7 +37,7 @@ public class Player extends Entity implements Damageable
 		if (getLocation().mABY(da, db, 2 * dhy).equals(getLevel().getEnd()))
 		{
 			setActive(false);
-			getLevel().getUIInterface().deselect().execute();
+			getLevel().getUIInterface().deselect.execute();
 		}
 		else if (dist + move <= speed)
 		{
@@ -51,10 +51,10 @@ public class Player extends Entity implements Damageable
 			}
 
 			if(move >= speed)
-				getLevel().getUIInterface().deselect().execute();
+				getLevel().getUIInterface().deselect.execute();
 		}
 		else
-			getLevel().getUIInterface().deselect().execute();
+			getLevel().getUIInterface().deselect.execute();
 	}
 
 	@UIEventHandle(value = "Key_P", turn = "Player")
@@ -64,7 +64,7 @@ public class Player extends Entity implements Damageable
 		
 		if(move + 2 > speed)
 		{
-			getLevel().getUIInterface().deselect().execute();
+			getLevel().getUIInterface().deselect.execute();
 			return;
 		}
 		if(target == null)

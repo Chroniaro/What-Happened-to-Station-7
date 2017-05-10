@@ -293,21 +293,18 @@ public class GameRenderer extends JComponent
 
 	public class UIInterface
 	{
+		public final UIAction deselect = new UIAction()
+		{
+			@Override
+			public HexPoint selectTile()
+			{
+				return null;
+			}
+		};
+		
 		public void refresh()
 		{
 			repaint();
-		}
-
-		public UIAction deselect()
-		{
-			return new UIAction()
-			{
-				@Override
-				public HexPoint selectTile()
-				{
-					return null;
-				}
-			};
 		}
 
 		public abstract class UIAction
