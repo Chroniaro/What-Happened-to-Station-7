@@ -202,7 +202,7 @@ public class GameRenderer extends JComponent
 			}
 			else if (e.getClass().equals(SimpleEnemy.class))
 			{
-				int y = ((SimpleEnemy) e).gethealth();
+				int y = Math.min(100, ((SimpleEnemy) e).gethealth());
 				int k = (int) (250 - ((Math.pow((100 - y) / 2, 2)) / 10));
 				int u = (int) ((Math.pow((int) (100 - y) / 2, 2)) / 10);
 				int t = Math.abs(u);
@@ -279,6 +279,7 @@ public class GameRenderer extends JComponent
 				}
 			}
 			activeAnimation = null;
+			repaint();
 		}).start();
 	}
 

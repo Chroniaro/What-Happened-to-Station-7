@@ -100,6 +100,8 @@ public abstract class CompoundAnimation extends Animation implements Iterable<An
 		@Override
 		public void resetTimer()
 		{
+			super.resetTimer();
+			
 			int t = 0;
 			for (Animation a : this)
 			{
@@ -108,13 +110,12 @@ public abstract class CompoundAnimation extends Animation implements Iterable<An
 			}
 			if(t != getLength())
 				throw new Error("Times don't match");
-			super.resetTimer();
 		}
 
 		public Animation getCurrentAnimation()
 		{
 			for(Animation a : this)
-				if(a.hasStarted())
+				if(a.stillGoing())
 					return a;
 			return null;
 		}
@@ -122,19 +123,25 @@ public abstract class CompoundAnimation extends Animation implements Iterable<An
 		@Override
 		public void drawUnderEntities(Graphics2D g, int s)
 		{
-			getCurrentAnimation().drawUnderEntities(g, s);
+			Animation c = getCurrentAnimation();
+			if(c != null)
+				c.drawUnderEntities(g, s);
 		}
 
 		@Override
 		public void drawOverEntities(Graphics2D g, int s)
 		{
-			getCurrentAnimation().drawOverEntities(g, s);
+			Animation c = getCurrentAnimation();
+			if(c != null)
+				c.drawOverEntities(g, s);
 		}
 
 		@Override
 		public void drawOverGUI(Graphics2D g, int s)
 		{
-			getCurrentAnimation().drawOverGUI(g, s);
+			Animation c = getCurrentAnimation();
+			if(c != null)
+				c.drawOverGUI(g, s);
 		}
 
 	}

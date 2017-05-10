@@ -4,11 +4,14 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.animations.BigDamage;
+import com.whtss.assets.render.animations.CompoundAnimation;
+import com.whtss.assets.render.animations.Laser;
 import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 7;
+	final int speed = 500;
 	int move = 0;
 	int health = 100;
 
@@ -69,11 +72,14 @@ public class Player extends Entity implements Damageable
 			return;
 		
 		final int d = getLocation().dist(target.getLocation());
-		if(d > 4)
-			return;
+//		if(d > 4)
+//			return;
 		move += 2;
 		((Damageable)target).takeDamage(10 * (5 - d));
-		getLevel().getUIInterface().startAnimation(new TileDamage(target.getLocation()));
+		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Sequential(
+				new Laser(getLocation(), target.getLocation()), 
+				new TileDamage(target.getLocation()))
+			);
 		if(move >= speed)
 			getLevel().getUIInterface().selectTile(null);
 		else
@@ -128,6 +134,9 @@ public class Player extends Entity implements Damageable
 		System.out.println(getHealth());
 		health -= amount;
 		if(getHealth() < 0)
+		{
 			setActive(false);
+			getLevel().getUIInterface().startAnimation(new BigDamage());
+		}
 	}
 }
