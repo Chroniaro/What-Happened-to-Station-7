@@ -16,8 +16,10 @@ public class SoundStuff {
 	
 	Clip audioClip;
 	Clip aC;
+	Clip aCe;
 	AudioInputStream audioStream;
 	AudioInputStream aS;
+	AudioInputStream aSe;
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		File audioFile = new File("na_sweden.wav");
 	    audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -29,6 +31,11 @@ public class SoundStuff {
 		AudioFormat f = audioStream.getFormat();
 		DataLine.Info i = new DataLine.Info(Clip.class, f);
 		aC = (Clip) AudioSystem.getLine(i);
+		File aFe = new File("David_Bowie_-_Starman_1_.wav");
+	    aSe = AudioSystem.getAudioInputStream(aFe);
+		AudioFormat fe = audioStream.getFormat();
+		DataLine.Info ie = new DataLine.Info(Clip.class, fe);
+		aCe = (Clip) AudioSystem.getLine(ie);
 	}
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -71,5 +78,13 @@ public class SoundStuff {
 	public void dbc() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		aC.close();
 		aS.close();
+	}
+	public void end() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		try {
+			aCe.open(aSe);
+			aCe.start();
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
 	}
 }

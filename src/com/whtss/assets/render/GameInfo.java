@@ -6,6 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -48,7 +52,12 @@ public class GameInfo extends JComponent
 					@Override public void mouseClicked(MouseEvent e) 
 					{
 						if(getNextTurnButton().contains(e.getPoint()))
-							game.endPlayerTurn();
+							try {
+								game.endPlayerTurn();
+							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 					}
 					
 					@Override public void mousePressed(MouseEvent e) {}

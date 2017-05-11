@@ -1,15 +1,20 @@
 package com.whtss.assets;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
-import com.whtss.assets.core.Entity;
-import com.whtss.assets.core.Level;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.GameRenderer.UIInterface;
+import com.whtss.assets.core.*;
+import com.whtss.assets.core.SoundStuff;
 
 public class Game
 {
+	
 	private Level currentLevel;
 	private boolean playersTurn = true;
 	int floor = 1;
@@ -50,7 +55,7 @@ public class Game
 		floor++;
 	}
 	
-	public void endPlayerTurn()
+	public void endPlayerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		playersTurn = false;
 		getCurrentLevel().nextTurn("Enemy");
@@ -58,11 +63,15 @@ public class Game
 		endEnemyTurn();
 	}
 	
-	public void endEnemyTurn()
-	{
+	public void endEnemyTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
+	{ 
+		SoundStuff cam = new SoundStuff();
 		playersTurn = true;
 		getCurrentLevel().nextTurn("Player");
 		uiinterface.refresh();
+		if(GameGo() == false){
+			cam.swnat();
+		}
 	}
 	
 	public void processAction(HexPoint select, HexPoint mouse, KeyEvent key)
