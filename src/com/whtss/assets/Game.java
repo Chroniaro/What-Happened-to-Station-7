@@ -1,7 +1,10 @@
 package com.whtss.assets;
 
 import java.awt.event.KeyEvent;
+
+import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
+import com.whtss.assets.entities.Player;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.GameRenderer.UIInterface;
 
@@ -11,6 +14,7 @@ public class Game
 	private boolean playersTurn = true;
 	int floor = 1;
 	private UIInterface uiinterface;
+	private boolean Game = true;
 	
 	public void init(UIInterface UIInterface)
 	{
@@ -21,6 +25,19 @@ public class Game
 	public Level getCurrentLevel()
 	{
 		return currentLevel;
+	}
+	public boolean GameGo()
+	{
+		int x = 0;
+		for(Entity e : getCurrentLevel().getEntities()){
+			if(e instanceof Player){
+				x++;
+			}
+		}
+		if(x == 0){
+		Game = false;	
+		}
+		return Game;
 	}
 	
 	public int getfloor()

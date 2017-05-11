@@ -45,10 +45,11 @@ public class SimpleEnemy extends Entity implements Damageable {
 	public void goveryclose() {
 		Entity bestest = null;
 		int min = 11111111;
+		HexPoint current = getLocation();
 		for (Entity e : getLevel().getEntities()) {
 			e.getLocation();
 
-			if (min > getLocation().dist(e.getLocation()) && getLocation() != e.getLocation() && e.isActive() == true)
+			if (min > getLocation().dist(e.getLocation()) && e.isActive() == true && e instanceof Player)
 				bestest = e;
 		}
 		int a = 0;
@@ -110,6 +111,12 @@ public class SimpleEnemy extends Entity implements Damageable {
 		// System.out.print("," + b);
 		// System.out.print("," + y);
 		// System.out.println(" ");
+		if (getLocation() == current){
+			int eu = rand.nextInt(4) -2;
+			int euu = rand.nextInt(4) -2;
+			int euuu = rand.nextInt(4) -2;
+			move(eu, euu, euuu);
+		}
 	}
 
 	public int gethealth() {
