@@ -22,6 +22,8 @@ public class SimpleEnemy extends Entity implements Damageable {
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void Turn() {
 
+		if(!isActive())
+			return;
 		// System.out.println("Turn");
 
 		// takeDamage(10);
@@ -33,8 +35,8 @@ public class SimpleEnemy extends Entity implements Damageable {
 					if (getLocation().dist(e.getLocation()) < 6 && e.isActive() == true) {
 						if (e instanceof Player) {
 							best = (Player) e;
-							best.takeDamage(7);
-							System.out.println(best + " " + getLocation().dist(best.getLocation()));
+							best.takeDamage(2);
+//							System.out.println(best + " " + getLocation().dist(best.getLocation()));
 						}
 					}
 			}
@@ -47,7 +49,7 @@ public class SimpleEnemy extends Entity implements Damageable {
 		int min = 11111111;
 		HexPoint current = getLocation();
 		for (Entity e : getLevel().getEntities()) {
-			e.getLocation();
+//			e.getLocation();
 
 			if (min > getLocation().dist(e.getLocation()) && e.isActive() == true && e instanceof Player)
 				bestest = e;
