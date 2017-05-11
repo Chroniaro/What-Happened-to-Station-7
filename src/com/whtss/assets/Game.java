@@ -2,24 +2,18 @@ package com.whtss.assets;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import com.whtss.assets.entities.Player;
+import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.GameRenderer.UIInterface;
-import com.whtss.assets.core.*;
-import com.whtss.assets.core.SoundStuff;
 
 public class Game
 {
 	
 	private Level currentLevel;
 	private boolean playersTurn = true;
-	int floor = 1;
 	private UIInterface uiinterface;
-	private boolean Game = true;
 	
 	public void init(UIInterface UIInterface)
 	{
@@ -31,29 +25,19 @@ public class Game
 	{
 		return currentLevel;
 	}
-	public boolean GameGo()
-	{
-		int x = 0;
-		for(Entity e : getCurrentLevel().getEntities()){
-			if(e instanceof Player && e.isActive()){
-				x++;
-			}
-		}
-		if(x == 0){
-		Game = false;	
-		}
-		return Game;
-	}
-	
-	public int getfloor()
-	{
-		return floor;
-	}
-	
-	public void nextfloor()
-	{
-		floor++;
-	}
+//	public boolean GameGo()
+//	{
+//		int x = 0;
+//		for(Entity e : getCurrentLevel().getEntities()){
+//			if(e instanceof Player && e.isActive()){
+//				x++;
+//			}
+//		}
+//		if(x == 0){
+//		Game = false;	
+//		}
+//		return Game;
+//	}
 	
 	public void endPlayerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
@@ -65,14 +49,14 @@ public class Game
 	
 	public void endEnemyTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{ 
-		SoundStuff cam = new SoundStuff();
+//		SoundStuff cam = new SoundStuff();
 		playersTurn = true;
 		getCurrentLevel().nextTurn("Player");
 		uiinterface.refresh();
-		if(GameGo() == false){
-			cam.dbc();
-			cam.swnat();
-		}
+//		if(GameGo() == false){
+//			cam.dbc();
+//			cam.swnat();
+//		}
 	}
 	
 	public void processAction(HexPoint select, HexPoint mouse, KeyEvent key)

@@ -1,6 +1,7 @@
 package com.whtss.assets.render;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -40,7 +41,9 @@ public class GameInfo extends JComponent
 		g.setColor(Color.GREEN);
 		g.fill(getNextTurnButton());
 		
-		
+		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
+		g.setColor(Color.white);
+		g.drawString("Level " + game.getCurrentLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
 		
 	}
 	
@@ -55,7 +58,6 @@ public class GameInfo extends JComponent
 							try {
 								game.endPlayerTurn();
 							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 					}

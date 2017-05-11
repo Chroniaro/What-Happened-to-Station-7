@@ -11,7 +11,7 @@ import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 7;
+	final int speed = 70000;
 	int move = 0;
 	int health = 100;
 
@@ -40,6 +40,7 @@ public class Player extends Entity implements Damageable
 		{
 			setActive(false);
 			getLevel().getUIInterface().selectTile(null);
+			getLevel().addPersistantPlayer(this);
 		}
 		else if (dist + move <= speed)
 		{
@@ -137,6 +138,7 @@ public class Player extends Entity implements Damageable
 		{
 			setActive(false);
 			getLevel().getUIInterface().startAnimation(new BigDamage());
+			getLevel().deadPlayer();
 		}
 	}
 }

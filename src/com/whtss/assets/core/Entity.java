@@ -83,7 +83,7 @@ public abstract class Entity implements LightSource
 		return location;
 	}
 
-	private void setLocation(HexPoint location)
+	void setLocation(HexPoint location)
 	{
 		this.location = location;
 	}

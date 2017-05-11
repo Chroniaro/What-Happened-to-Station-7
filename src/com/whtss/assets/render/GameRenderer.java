@@ -129,9 +129,9 @@ public class GameRenderer extends JComponent
 		Graphics2D g = (Graphics2D) _g;
 
 		final int s = cellSize();
-
-		TStack tstack = new TStack(g);
+		
 		Level lvl = game.getCurrentLevel();
+		TStack tstack = new TStack(g);
 		HexRect viewRect = lvl.getCells();
 
 		g.setColor(Color.black);
@@ -188,14 +188,16 @@ public class GameRenderer extends JComponent
 			activeAnimation.drawUnderEntities(g, s);
 
 		tstack.revert();
-
+		
 		for (Entity e : lvl.getEntities())
 		{
+//			if(e == null)
+//				continue;
 			if (!e.isActive())
 				continue;
 			if (e.getClass().equals(Player.class))
 			{
-				int y = ((Player) e).gethealth();
+				int y = Math.min(((Player) e).gethealth(), 100);
 				Color myNewP = new Color(255 - y, y / 2, 100 + y);
 				g.setColor(myNewP);
 				g.fill(e.getLocation().getBorder(s));
