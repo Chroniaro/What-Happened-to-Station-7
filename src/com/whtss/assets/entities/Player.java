@@ -11,7 +11,7 @@ import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 500;
+	final int speed = 5;
 	int move = 0;
 	int health = 100;
 
@@ -72,8 +72,8 @@ public class Player extends Entity implements Damageable
 			return;
 		
 		final int d = getLocation().dist(target.getLocation());
-//		if(d > 4)
-//			return;
+		if(d > 4)
+			return;
 		move += 2;
 		((Damageable)target).takeDamage(10 * (5 - d));
 		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Sequential(
