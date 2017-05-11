@@ -5,7 +5,6 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
-import com.whtss.assets.render.Animation;
 import com.whtss.assets.render.animations.Laser;
 
 public class SimpleEnemy extends Entity implements Damageable {
