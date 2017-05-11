@@ -11,7 +11,7 @@ import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 5;
+	final int speed = 7;
 	int move = 0;
 	int health = 100;
 
@@ -51,7 +51,7 @@ public class Player extends Entity implements Damageable
 
 			if(move >= speed)
 				getLevel().getUIInterface().selectTile(null);
-		}
+		} 
 		else
 			getLevel().getUIInterface().selectTile(null);
 	}
@@ -131,7 +131,7 @@ public class Player extends Entity implements Damageable
 	@Override
 	public void takeDamage(int amount)
 	{
-		System.out.println(getHealth());
+//		System.out.println(getHealth());
 		health -= amount;
 		if(getHealth() < 0)
 		{

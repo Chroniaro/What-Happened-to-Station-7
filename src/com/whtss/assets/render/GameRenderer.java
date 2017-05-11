@@ -141,17 +141,17 @@ public class GameRenderer extends JComponent
 
 		final boolean mouseIn = mouseIn();
 
-		//Dev info
-		if (mouseIn)
-			g.setColor(Color.WHITE);
-		else
-			g.setColor(Color.RED);
-		g.drawString(String.valueOf(mouse), 0, getHeight());
-		if (mouse != null)
-		{
-			g.drawString(mouse.abCoords(), 0, getHeight() - 20);
-			g.drawString("(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
-		}
+//		//Dev info
+//		if (mouseIn)
+//			g.setColor(Color.WHITE);
+//		else
+//			g.setColor(Color.RED);
+//		g.drawString(String.valueOf(mouse), 0, getHeight());
+//		if (mouse != null)
+//		{
+//			g.drawString(mouse.abCoords(), 0, getHeight() - 20);
+//			g.drawString("(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
+//		}
 
 		g.translate(getWidth() / 2, getHeight() / 2);
 
