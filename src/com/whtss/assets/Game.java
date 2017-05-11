@@ -35,7 +35,7 @@ public class Game
 	{
 		int x = 0;
 		for(Entity e : getCurrentLevel().getEntities()){
-			if(e instanceof Player){
+			if(e instanceof Player && e.isActive()){
 				x++;
 			}
 		}
@@ -70,6 +70,7 @@ public class Game
 		getCurrentLevel().nextTurn("Player");
 		uiinterface.refresh();
 		if(GameGo() == false){
+			cam.dbc();
 			cam.swnat();
 		}
 	}
