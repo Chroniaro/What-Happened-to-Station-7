@@ -5,9 +5,12 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.Animation;
+import com.whtss.assets.render.animations.Laser;
 
 public class SimpleEnemy extends Entity implements Damageable {
 	Random rand = new Random();
+	
 	int speed = 5;
 	int move = 0;
 	// hi
@@ -20,7 +23,7 @@ public class SimpleEnemy extends Entity implements Damageable {
 
 	// @Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
-	public void Turn() {
+	public void Turn() throws InterruptedException {
 
 		if(!isActive())
 			return;
@@ -35,6 +38,7 @@ public class SimpleEnemy extends Entity implements Damageable {
 					if (getLocation().dist(e.getLocation()) < 6 && e.isActive() == true) {
 						if (e instanceof Player) {
 							best = (Player) e;
+							new Laser(best.getLocation(),getLocation());
 							best.takeDamage(2);
 //							System.out.println(best + " " + getLocation().dist(best.getLocation()));
 						}
