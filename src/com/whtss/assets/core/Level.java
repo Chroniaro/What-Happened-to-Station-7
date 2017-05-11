@@ -215,7 +215,7 @@ public class Level
 	}
 
 	//This bit will have to be way more complicated once we have a randomized room layout
-	private void populateLevel(HexPoint[] rooms)
+	private void populateLevel(HexPoint[] rooms, Player... players)
 	{
 		final int[] leftRooms = {0, 1};
 		final int[] centerRooms = {2, 3, 4};
