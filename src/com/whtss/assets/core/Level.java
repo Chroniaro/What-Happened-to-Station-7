@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+
+import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
@@ -221,7 +223,7 @@ public class Level
 		final int[] centerRooms = {2, 3, 4};
 		final int[] rightRooms = {5, 6};
 		
-		int startRoom, endRoom, enemyRoom;
+		int startRoom, endRoom, enemyRoom, Healroom;
 		
 		if(rand.nextBoolean())
 		{
@@ -235,7 +237,7 @@ public class Level
 		}
 		
 		enemyRoom = centerRooms[rand.nextInt(centerRooms.length)];
-		
+		Healroom = centerRooms[rand.nextInt(centerRooms.length)];
 		getEntities().add(new Player(rooms[startRoom], this));
 		getEntities().add(new Player(rooms[startRoom].mABY(1, 0, 0), this));
 		getEntities().add(new Player(rooms[startRoom].mABY(0, -1, 0), this));
@@ -243,6 +245,7 @@ public class Level
 		
 		getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
 		
+		getEntities().add(new HealBox(rooms[Healroom].mABY(0, 0, 2), this));
 		this.end = rooms[endRoom];
 	}
 	
