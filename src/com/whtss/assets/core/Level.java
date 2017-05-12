@@ -10,11 +10,13 @@ import java.util.ListIterator;
 import java.util.Random;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import com.whtss.assets.Station7;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
+import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.GameRenderer.UIInterface;
 import com.whtss.assets.util.RigidList;
 
@@ -312,8 +314,9 @@ public class Level
 				SoundStuff cam;
 				try
 				{
-					cam = new SoundStuff();
+					cam = Station7.soundStuff;
 					cam.dbc();
+					cam = Station7.soundStuff = new SoundStuff();
 					cam.swnat();
 				}
 				catch (UnsupportedAudioFileException | IOException | LineUnavailableException e)

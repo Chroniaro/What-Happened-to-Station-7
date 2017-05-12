@@ -11,19 +11,19 @@ import com.whtss.assets.render.GameRenderer.UIInterface;
 public class Game
 {
 	
-	private Level currentLevel;
+	private Level lvl;
 	private boolean playersTurn = true;
 	private UIInterface uiinterface;
 	
 	public void init(UIInterface UIInterface)
 	{
 		uiinterface = UIInterface;
-		currentLevel = new Level(UIInterface);
+		lvl = new Level(UIInterface);
 	}
 	
 	public Level getCurrentLevel()
 	{
-		return currentLevel;
+		return lvl;
 	}
 //	public boolean GameGo()
 //	{
@@ -43,7 +43,7 @@ public class Game
 	{
 		playersTurn = false;
 		getCurrentLevel().nextTurn("Enemy");
-		uiinterface.refresh();;
+		uiinterface.refresh();
 		endEnemyTurn();
 	}
 	

@@ -1,4 +1,4 @@
-package com.whtss.assets.core;
+package com.whtss.assets.render;
 
 import java.io.File;
 import java.io.IOException;
