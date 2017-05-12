@@ -6,6 +6,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.GameInfo;
+import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.GameRenderer.UIInterface;
 
 public class Game
@@ -15,56 +17,38 @@ public class Game
 	private boolean playersTurn = true;
 	private UIInterface uiinterface;
 	
-	public void init(UIInterface UIInterface)
+	public void init(GameRenderer.UIInterface gameInterface, GameInfo.UIInterface infoInterface)
 	{
-		uiinterface = UIInterface;
-		lvl = new Level(UIInterface);
+		uiinterface = gameInterface;
+		lvl = new Level(gameInterface, infoInterface);
 	}
 	
-	public Level getCurrentLevel()
+	public Level getLevel()
 	{
 		return lvl;
 	}
-//	public boolean GameGo()
-//	{
-//		int x = 0;
-//		for(Entity e : getCurrentLevel().getEntities()){
-//			if(e instanceof Player && e.isActive()){
-//				x++;
-//			}
-//		}
-//		if(x == 0){
-//		Game = false;	
-//		}
-//		return Game;
-//	}
-	
+
 	public void endPlayerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		playersTurn = false;
-		getCurrentLevel().nextTurn("Enemy");
+		getLevel().nextTurn("Enemy");
 		uiinterface.refresh();
 		endEnemyTurn();
 	}
 	
 	public void endEnemyTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{ 
-//		SoundStuff cam = new SoundStuff();
 		playersTurn = true;
-		getCurrentLevel().nextTurn("Player");
+		getLevel().nextTurn("Player");
 		uiinterface.refresh();
-//		if(GameGo() == false){
-//			cam.dbc();
-//			cam.swnat();
-//		}
 	}
 	
 	public void processAction(HexPoint select, HexPoint mouse, KeyEvent key)
 	{
-		switch(key.getKeyCode())
+		switch(key.getKeyCode()) //Lets game have buttons to pause and stuff that don't get passed down to the entities
 		{
 			default:
-				getCurrentLevel().processInput(select, mouse, key, isPlayersTurn() ? "Player" : "Enemy");
+				getLevel().processInput(select, mouse, key, isPlayersTurn() ? "Player" : "Enemy");
 		}
 	}
 	

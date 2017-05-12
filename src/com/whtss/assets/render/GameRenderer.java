@@ -130,7 +130,7 @@ public class GameRenderer extends JComponent
 
 		final int s = cellSize();
 		
-		Level lvl = game.getCurrentLevel();
+		Level lvl = game.getLevel();
 		TStack tstack = new TStack(g);
 		HexRect viewRect = lvl.getCells();
 
@@ -163,7 +163,7 @@ public class GameRenderer extends JComponent
 			tstack.push();
 
 			int d;
-			if (game.getCurrentLevel().getFloorTile(iterator.x(), iterator.y()) % 2 != 0)
+			if (game.getLevel().getFloorTile(iterator.x(), iterator.y()) % 2 != 0)
 				g.setColor(Color.GRAY);
 			else if (mouseIn && (d = hex.dist(mouse)) < 25)
 			{
@@ -256,7 +256,7 @@ public class GameRenderer extends JComponent
 
 	private boolean mouseIn()
 	{
-		return game.getCurrentLevel().getCells().contains(mouse);
+		return game.getLevel().getCells().contains(mouse);
 	}
 
 	public void playAnimation(Animation a)

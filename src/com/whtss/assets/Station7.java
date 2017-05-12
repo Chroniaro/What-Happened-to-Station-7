@@ -15,19 +15,6 @@ import com.whtss.assets.render.SoundStuff;
 public class Station7
 {
 	public static SoundStuff soundStuff;
-	static
-	{
-		SoundStuff cam;
-		try
-		{
-			cam = new SoundStuff();
-		}
-		catch(UnsupportedAudioFileException | IOException | LineUnavailableException e)
-		{
-			cam = null;
-		}
-		soundStuff = cam;
-	}
 	
 	public static void main(String... args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{	
@@ -50,6 +37,14 @@ public class Station7
 		opening_text.setVisible(true);
 		opening_text.setAlwaysOnTop(true);
 		
+		try
+		{
+			soundStuff = new SoundStuff();
+		}
+		catch(UnsupportedAudioFileException | IOException | LineUnavailableException e)
+		{
+			soundStuff = null;
+		}
 		soundStuff.dbol();
 		
 		Game game = new Game();
@@ -73,18 +68,8 @@ public class Station7
 		layoutInfo.gridy = 1;
 		window.add(info, layoutInfo);
 		
-		game.init(render.new UIInterface());
+		game.init(render.new UIInterface(), info.new UIInterface());
 		
 		window.setVisible(true);
-		
-//		long t = System.currentTimeMillis();
-//		
-//		while(true)
-//		{
-//			long s = System.currentTimeMillis();
-//			game.update(s - t);
-//			t = s;
-//			render.repaint();
-//		}
 	}
 }

@@ -16,8 +16,10 @@ import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
-import com.whtss.assets.render.SoundStuff;
+import com.whtss.assets.render.GameInfo;
+import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.GameRenderer.UIInterface;
+import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.util.RigidList;
 
 public class Level
@@ -34,14 +36,16 @@ public class Level
 	private final HexRect bounds;
 	private HexPoint end;
 	private UIInterface uiinterface;
+	private GameInfo.UIInterface infoInterface;
 	private final int[][] playerStartOffsets = new int[][] { { 0, 0, 0 }, { 1, 0, 0 }, { 0, -1, 0 }, { 0, 0, 2 }, { 0, 0, -2 }, { 0, 1, 0 }, { -1, 0, 0 } };
 	private List<Player> persistant;
 	private int activePlayerCount;
 	private int floor = 1;
 
-	public Level(UIInterface UIInterface)
+	public Level(GameRenderer.UIInterface UIInterface, GameInfo.UIInterface infoInterface)
 	{
 		uiinterface = UIInterface;
+		this.infoInterface = infoInterface;
 
 		floorLayer = new int[width][height];
 		objectLayer = new LevelObject[width][height];
@@ -54,7 +58,7 @@ public class Level
 		entities = new ArrayList<>();
 		HexPoint[] rooms = generate();
 		populateLevel(rooms, new Player(null, this), new Player(null, this), new Player(null, this), new Player(null, this));
-		}
+	}
 
 	public HexPoint[] generate()
 	{
@@ -252,7 +256,7 @@ public class Level
 		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
 		{
 			Entity ep = players[i];
-			if(ep == null)
+			if (ep == null)
 				System.out.println("Null player");
 			ep.setLocation(rooms[startRoom].mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
 			ep.setActive(true);
@@ -329,7 +333,8 @@ public class Level
 				HexPoint[] rooms = generate();
 				populateLevel(rooms, persistant.toArray(new Player[persistant.size()]));
 				persistant.clear();
-				floor ++;
+				floor++;
+				infoInterface.refresh();
 			}
 		}
 	}
@@ -368,7 +373,7 @@ public class Level
 	{
 		return entities;
 	}
-	
+
 	public int getLevelNumber()
 	{
 		return floor;
