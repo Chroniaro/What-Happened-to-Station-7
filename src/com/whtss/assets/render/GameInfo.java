@@ -15,7 +15,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import com.whtss.assets.Game;
-import com.whtss.assets.entities.SimpleEnemy;
 
 public class GameInfo extends JComponent
 {

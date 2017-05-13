@@ -20,6 +20,7 @@ public class Player extends Entity implements Damageable
 	final int speed = 70000;
 	int move = 0;
 	int health = 100;
+	
 
 	public Player(HexPoint location, Level level)
 	{

@@ -53,7 +53,7 @@ public class SoundStuff {
 		Laser = AudioSystem.getAudioInputStream(StarTreker);
 		AudioFormat bones = Paser.getFormat();
 		DataLine.Info worf = new DataLine.Info(Clip.class, bones);
-		Lazer = (Clip) AudioSystem.getLine(spock);
+		Lazer = (Clip) AudioSystem.getLine(worf);
 	}
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {

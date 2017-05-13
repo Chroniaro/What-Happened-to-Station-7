@@ -1,17 +1,11 @@
 package com.whtss.assets.entities;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Random;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
-import com.whtss.assets.render.SoundStuff;
-import com.whtss.assets.render.animations.Laser;
 
 public class Flame_thrower extends Entity implements Damageable {
 	Random rand = new Random();
@@ -21,6 +15,7 @@ public class Flame_thrower extends Entity implements Damageable {
 	// hi
 	int health = 100;
 	int playersleft = 0;
+	public List<HexPoint> flametilesprime;
 
 	public void enmove() {
 		move(0, 2, 2);
@@ -28,7 +23,7 @@ public class Flame_thrower extends Entity implements Damageable {
 
 	// @Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
-	public void Turn() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+	public void Turn() {
 
 		if (!isActive())
 			return;
@@ -117,9 +112,8 @@ public class Flame_thrower extends Entity implements Damageable {
 		super(location, level);
 	}
 
-	public void flame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		SoundStuff cam = new SoundStuff();
-		cam.flame();
+	public void flame() {
+		boolean ittt = false;
 		if(temp == true){
 		for (int ii = 0; ii <= 5; ii++) {
 			Player best = null;
@@ -127,16 +121,15 @@ public class Flame_thrower extends Entity implements Damageable {
 				if (getLocation().dist(e.getLocation()) < 6 && e.isActive() == true) {
 					if (e instanceof Player) {
 						best = (Player) e;
-						new Laser(best.getLocation(), getLocation());
-						best.takeDamage(2);
+						flametilesprime.add(best.getLocation());
+						ittt = true;
 					}
 				}
 		    }
 		}
-		else{
+		if(ittt==false){
 			
 			
-		
 		}
 		
 	}
