@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import com.whtss.assets.Game;
+import com.whtss.assets.entities.SimpleEnemy;
 
 public class GameInfo extends JComponent
 {
@@ -42,7 +43,9 @@ public class GameInfo extends JComponent
 		g.fill(getNextTurnButton());
 		
 		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
-		g.setColor(Color.white);
+		int zz=game.getLevel().getLevelNumber();
+		Color myNewBlue = new Color(255-(zz*8), 255, 255-(zz*8));
+		g.setColor(myNewBlue);
 		g.drawString("Floor: " + game.getLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
 		
 	}
