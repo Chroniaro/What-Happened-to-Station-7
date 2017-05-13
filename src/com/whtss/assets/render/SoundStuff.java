@@ -17,25 +17,35 @@ public class SoundStuff {
 	Clip audioClip;
 	Clip aC;
 	Clip aCe;
+	Clip Phazer;
 	AudioInputStream audioStream;
 	AudioInputStream aS;
 	AudioInputStream aSe;
+	AudioInputStream Paser;
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		File audioFile = new File("na_sweden.wav");
 	    audioStream = AudioSystem.getAudioInputStream(audioFile);
 		AudioFormat format = audioStream.getFormat();
 		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		audioClip = (Clip) AudioSystem.getLine(info);
+		
 		File aF = new File("David_Bowie_-_Starman_1_.wav");
 	    aS = AudioSystem.getAudioInputStream(aF);
-		AudioFormat f = audioStream.getFormat();
+		AudioFormat f = aS.getFormat();
 		DataLine.Info i = new DataLine.Info(Clip.class, f);
 		aC = (Clip) AudioSystem.getLine(i);
+		
 		File aFe = new File("David_Bowie_-_Starman_1_.wav");
 	    aSe = AudioSystem.getAudioInputStream(aFe);
-		AudioFormat fe = audioStream.getFormat();
+		AudioFormat fe = aSe.getFormat();
 		DataLine.Info ie = new DataLine.Info(Clip.class, fe);
 		aCe = (Clip) AudioSystem.getLine(ie);
+		
+		File StarTrek = new File("David_Bowie_-_Starman_1_.wav");
+		Paser = AudioSystem.getAudioInputStream(StarTrek);
+		AudioFormat kirk = Paser.getFormat();
+		DataLine.Info spock = new DataLine.Info(Clip.class, kirk);
+		Phazer = (Clip) AudioSystem.getLine(spock);
 	}
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -48,6 +58,15 @@ public class SoundStuff {
 			System.out.println(murle);
 		}
 	}
+	public void Phazing() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		try {
+			Phazer.open(Paser);
+			Phazer.start();
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
+	}
+
 
 	public void stnaw() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		audioClip.close();

@@ -9,11 +9,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import com.whtss.assets.core.Level;
+
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.SoundStuff;
-
+import com.whtss.assets.render.*;
 public class Station7
 {
 	public static SoundStuff soundStuff;
@@ -52,7 +52,7 @@ public class Station7
 		o_t.setAlwaysOnTop(false);
 		
 	
-		
+		SoundStuff soundStuff = new SoundStuff();
 		try
 		{
 			soundStuff = new SoundStuff();
