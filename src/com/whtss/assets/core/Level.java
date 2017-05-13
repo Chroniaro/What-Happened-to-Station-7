@@ -38,7 +38,7 @@ public class Level
 	private UIInterface uiinterface;
 	private GameInfo.UIInterface infoInterface;
 	private final int[][] playerStartOffsets = new int[][] { { 0, 0, 0 }, { 1, 0, 0 }, { 0, -1, 0 }, { 0, 0, 2 }, { 0, 0, -2 }, { 0, 1, 0 }, { -1, 0, 0 } };
-	public List<Player> persistant;
+	private List<Player> persistant;
 	private int activePlayerCount;
 	private int floor = 1;
 
