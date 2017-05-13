@@ -188,6 +188,11 @@ public class GameRenderer extends JComponent
 			activeAnimation.drawUnderEntities(g, s);
 
 		tstack.revert();
+		for (HexPoint yyz: Game.flametiles){
+			
+		g.setColor(Color.ORANGE);
+		g.fill(yyz.getBorder(s));
+		}
 		
 		for (Entity e : lvl.getEntities())
 		{
