@@ -41,7 +41,7 @@ public class SoundStuff {
 		DataLine.Info ie = new DataLine.Info(Clip.class, fe);
 		aCe = (Clip) AudioSystem.getLine(ie);
 		
-		File StarTrek = new File("David_Bowie_-_Starman_1_.wav");
+		File StarTrek = new File("Laz.wav");
 		Paser = AudioSystem.getAudioInputStream(StarTrek);
 		AudioFormat kirk = Paser.getFormat();
 		DataLine.Info spock = new DataLine.Info(Clip.class, kirk);
