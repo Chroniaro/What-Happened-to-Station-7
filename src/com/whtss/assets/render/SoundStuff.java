@@ -58,8 +58,6 @@ public class SoundStuff {
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		try {
-			aC.close();
-			aS.close();
 			audioClip.open(audioStream);
 			audioClip.start();
 		} catch (MalformedURLException murle) {

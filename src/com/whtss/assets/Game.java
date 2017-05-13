@@ -2,18 +2,13 @@ package com.whtss.assets;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.List;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
-import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.GameRenderer.UIInterface;
 
 public class Game

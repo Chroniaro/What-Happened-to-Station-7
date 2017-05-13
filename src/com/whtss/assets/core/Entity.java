@@ -12,8 +12,7 @@ import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import com.whtss.assets.Game;
+ 
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
 
@@ -116,7 +115,7 @@ public abstract class Entity implements LightSource
 		
 		flametiles.add(tile);
 	}
-	public List getflametile()
+	public List<HexPoint> getflametile()
 	{
 		
 		return flametiles;
