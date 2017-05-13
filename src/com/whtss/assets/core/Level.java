@@ -38,7 +38,7 @@ public class Level
 	private UIInterface uiinterface;
 	private GameInfo.UIInterface infoInterface;
 	private final int[][] playerStartOffsets = new int[][] { { 0, 0, 0 }, { 1, 0, 0 }, { 0, -1, 0 }, { 0, 0, 2 }, { 0, 0, -2 }, { 0, 1, 0 }, { -1, 0, 0 } };
-	private List<Player> persistant;
+	public List<Player> persistant;
 	private int activePlayerCount;
 	private int floor = 1;
 
@@ -314,6 +314,7 @@ public class Level
 				//They lost
 
 				System.out.println("U suk.");
+				System.out.println("You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. .");
 
 				SoundStuff cam;
 				try
