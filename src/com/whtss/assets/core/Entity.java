@@ -3,19 +3,27 @@ package com.whtss.assets.core;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
+import java.util.List;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.whtss.assets.Game;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.SoundStuff;
 
 public abstract class Entity implements LightSource
 {
 	private HexPoint location;
 	private boolean active = true;
 	private final Level lvl;
+	public  List<HexPoint> flametiles;
+	private  HexPoint locatione;
 	
 	public Entity(HexPoint location, Level level)
 	{
@@ -99,6 +107,31 @@ public abstract class Entity implements LightSource
 				if(e.isActive() && e.location.equals(newLocation))
 					return false;
 			setLocation(newLocation);
+			return true;
+		}
+		return false;
+	}
+	public void addflametile(HexPoint tile)
+	{
+		
+		flametiles.add(tile);
+	}
+	public boolean flameer(int da, int db, int dhy) throws UnsupportedAudioFileException, IOException, LineUnavailableException
+	{
+		// one means theire is a thing there
+		// two means that is no one there 
+		// zero means that their is a wall there
+		
+		HexPoint newLocation = locatione.mABY(da, db, 2 * dhy);
+		flametiles.add(newLocation);
+		SoundStuff cam = new SoundStuff();
+		cam.flame();
+		if(lvl.getCells().contains(newLocation) && lvl.getFloorTile(newLocation) % 2 == 0)
+		{
+			for(Entity e : lvl.getEntities())
+				if(e.isActive() && e.getLocation().equals(newLocation))
+					
+					return true;
 			return true;
 		}
 		return false;

@@ -12,6 +12,7 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.SoundStuff;
 
 public class Flame_thrower extends Entity implements Damageable {
 	Random rand = new Random();
@@ -127,14 +128,21 @@ public class Flame_thrower extends Entity implements Damageable {
 				if (getLocation().dist(e.getLocation()) < 6 && e.isActive() == true) {
 					if (e instanceof Player) {
 						best = (Player) e;
-						Game.addflametile(best.getLocation());
+						addflametile(best.getLocation());
 						ittt = true;
+						SoundStuff cam = new SoundStuff();
+						cam.flame();
 					}
 				}
-		    }
+		    } 
 		}
 		if(ittt==false){
-			
+			int eu = rand.nextInt(4) -2;
+			int euu = rand.nextInt(4) -2;
+			int euuu = rand.nextInt(4) -2;
+			flameer(eu, euu, euuu);
+			SoundStuff cam = new SoundStuff();
+			cam.flame();
 			
 		}
 		
