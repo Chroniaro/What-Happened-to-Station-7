@@ -1,9 +1,15 @@
 package com.whtss.assets.entities;
 
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.animations.BigDamage;
 import com.whtss.assets.render.animations.CompoundAnimation;
 import com.whtss.assets.render.animations.Laser;
@@ -58,8 +64,10 @@ public class Player extends Entity implements Damageable
 	}
 
 	@UIEventHandle(value = "Key_P", turn = "Player")
-	public void attack(Entity target)
+	public void attack(Entity target) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{	
+		SoundStuff cam = new SoundStuff();
+		cam.Phazing();
 		if(move + 2 > speed)
 		{
 			getLevel().getUIInterface().selectTile(null);

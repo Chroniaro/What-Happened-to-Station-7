@@ -18,10 +18,12 @@ public class SoundStuff {
 	Clip aC;
 	Clip aCe;
 	Clip Phazer;
+	Clip Lazer;
 	AudioInputStream audioStream;
 	AudioInputStream aS;
 	AudioInputStream aSe;
 	AudioInputStream Paser;
+	AudioInputStream Laser;
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		File audioFile = new File("na_sweden.wav");
 	    audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -41,11 +43,17 @@ public class SoundStuff {
 		DataLine.Info ie = new DataLine.Info(Clip.class, fe);
 		aCe = (Clip) AudioSystem.getLine(ie);
 		
-		File StarTrek = new File("Laz.wav");
+		File StarTrek = new File("Paz.wav");
 		Paser = AudioSystem.getAudioInputStream(StarTrek);
 		AudioFormat kirk = Paser.getFormat();
 		DataLine.Info spock = new DataLine.Info(Clip.class, kirk);
 		Phazer = (Clip) AudioSystem.getLine(spock);
+		
+		File StarTreker = new File("Laz.wav");
+		Laser = AudioSystem.getAudioInputStream(StarTreker);
+		AudioFormat bones = Paser.getFormat();
+		DataLine.Info worf = new DataLine.Info(Clip.class, bones);
+		Lazer = (Clip) AudioSystem.getLine(spock);
 	}
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
