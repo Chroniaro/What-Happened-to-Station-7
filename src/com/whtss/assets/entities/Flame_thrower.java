@@ -1,7 +1,13 @@
 package com.whtss.assets.entities;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.whtss.assets.Game;
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
@@ -23,7 +29,7 @@ public class Flame_thrower extends Entity implements Damageable {
 
 	// @Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
-	public void Turn() {
+	public void Turn() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
 		if (!isActive())
 			return;
@@ -112,7 +118,7 @@ public class Flame_thrower extends Entity implements Damageable {
 		super(location, level);
 	}
 
-	public void flame() {
+	public void flame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		boolean ittt = false;
 		if(temp == true){
 		for (int ii = 0; ii <= 5; ii++) {
@@ -121,7 +127,7 @@ public class Flame_thrower extends Entity implements Damageable {
 				if (getLocation().dist(e.getLocation()) < 6 && e.isActive() == true) {
 					if (e instanceof Player) {
 						best = (Player) e;
-						flametilesprime.add(best.getLocation());
+						Game.addflametile(best.getLocation());
 						ittt = true;
 					}
 				}

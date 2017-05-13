@@ -7,6 +7,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
+
+import com.whtss.assets.Game;
 import com.whtss.assets.hex.HexPoint;
 
 public abstract class Entity implements LightSource
@@ -101,6 +103,7 @@ public abstract class Entity implements LightSource
 		}
 		return false;
 	}
+	
 	
 	protected Level getLevel()
 	{
