@@ -40,7 +40,7 @@ public class Station7
 		opening_text.setAlwaysOnTop(true);
 		
 		JFrame o_t = new JFrame();
-		o_t.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		o_t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		o_t.setTitle("You Have Fell to the Swedes");
 		JTextArea text = new JTextArea("You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. ");
 		text.setLineWrap(true);
