@@ -125,37 +125,49 @@ public class Player extends Entity implements Damageable
 	@UIEventHandle(value = "Key_U", turn = "Player")
 	public void walkNAf(int modifiers, HexPoint target)
 	{
-		walk(-5, 0, 0);
+		for(int f=0;f<=5;f++){
+		walk(-1, 0, 0);
+		}
 	}
 
 	@UIEventHandle(value = "Key_I", turn = "Player")
 	public void walkPYf(int modifiers, HexPoint target)
-	{
-		walk(0, 0, 5);
+	{ 
+		for(int f=0;f<=5;f++){
+		walk(0, 0, 1);
+		}
 	}
 
 	@UIEventHandle(value = "Key_O", turn = "Player")
 	public void walkPBf(int modifiers, HexPoint target)
 	{
-		walk(0, 5, 0);
+		for(int f=0;f<=5;f++){
+		walk(0, 1, 0);
+		}
 	}
 
 	@UIEventHandle(value = "Key_J", turn = "Player")
 	public void walkNBf(int modifiers, HexPoint target)
 	{
-		walk(0, -5, 0);
+		for(int f=0;f<=5;f++){
+		walk(0, -1, 0);
+		}
 	}
 
 	@UIEventHandle(value = "Key_K", turn = "Player")
 	public void walkNYf(int modifiers, HexPoint target)
 	{
-		walk(0, 0, -5);
+		for(int f=0;f<=5;f++){
+		walk(0, 0, -1);
+		}
 	}
 
 	@UIEventHandle(value = "Key_L", turn="Player")
 	public void walkPAf(int modifiers, HexPoint target)
 	{
-		walk(5, 0, 0);
+		for(int f=0;f<=5;f++){
+		walk(1, 0, 0);
+	}
 	}
 
 	@Override
