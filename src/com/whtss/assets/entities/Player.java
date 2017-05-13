@@ -42,10 +42,12 @@ public class Player extends Entity implements Damageable
 
 	public void walk(int da, int db, int dhy)
 	{
+//		if(flametiles.size()>1){
 //		for(HexPoint e: flametiles){
 //		if (getLocation().mABY(da, db, 2 * dhy).equals(e))
 //		{
 //			takeDamage(10);
+//		}
 //		}
 //		}
 		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);
