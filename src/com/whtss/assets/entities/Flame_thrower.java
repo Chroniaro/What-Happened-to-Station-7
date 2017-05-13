@@ -1,15 +1,21 @@
 package com.whtss.assets.entities;
 
+import java.io.IOException;
 import java.util.Random;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.animations.Laser;
 
 public class Flame_thrower extends Entity implements Damageable {
 	Random rand = new Random();
-	
+    boolean temp = true;
 	int speed = 5;
 	int move = 0;
 	// hi
@@ -22,16 +28,16 @@ public class Flame_thrower extends Entity implements Damageable {
 
 	// @Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
-	public void Turn() throws InterruptedException {
+	public void Turn() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-		if(!isActive())
+		if (!isActive())
 			return;
 		// System.out.println("Turn");
 
 		// takeDamage(10);
 		for (int i = 0; i <= 10; i++) {
 			goveryclose();
-		    flame();
+			flame();
 
 		}
 	}
@@ -41,7 +47,7 @@ public class Flame_thrower extends Entity implements Damageable {
 		int min = 11111111;
 		HexPoint current = getLocation();
 		for (Entity e : getLevel().getEntities()) {
-//			e.getLocation();
+			// e.getLocation();
 
 			if (min > getLocation().dist(e.getLocation()) && e.isActive() == true && e instanceof Player)
 				bestest = e;
@@ -90,10 +96,10 @@ public class Flame_thrower extends Entity implements Damageable {
 		}
 
 		move(u, uu, uuu);
-		if (getLocation() == current){
-			int eu = rand.nextInt(4) -2;
-			int euu = rand.nextInt(4) -2;
-			int euuu = rand.nextInt(4) -2;
+		if (getLocation() == current) {
+			int eu = rand.nextInt(4) - 2;
+			int euu = rand.nextInt(4) - 2;
+			int euuu = rand.nextInt(4) - 2;
 			move(eu, euu, euuu);
 		}
 	}
@@ -110,18 +116,29 @@ public class Flame_thrower extends Entity implements Damageable {
 	public Flame_thrower(HexPoint location, Level level) {
 		super(location, level);
 	}
-	public void flame(){
+
+	public void flame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		SoundStuff cam = new SoundStuff();
+		cam.flame();
+		if(temp == true){
 		for (int ii = 0; ii <= 5; ii++) {
 			Player best = null;
 			for (Entity e : getLevel().getEntities())
 				if (getLocation().dist(e.getLocation()) < 6 && e.isActive() == true) {
 					if (e instanceof Player) {
 						best = (Player) e;
-						new Laser(best.getLocation(),getLocation());
+						new Laser(best.getLocation(), getLocation());
 						best.takeDamage(2);
 					}
 				}
+		    }
 		}
+		else{
+			
+			
+		
+		}
+		
 	}
 
 	public void noone() {

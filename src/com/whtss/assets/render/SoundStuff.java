@@ -16,12 +16,12 @@ public class SoundStuff {
 	
 	Clip audioClip;
 	Clip aC;
-	Clip aCe;
+	Clip insane;
 	Clip Phazer;
 	Clip Lazer;
 	AudioInputStream audioStream;
 	AudioInputStream aS;
-	AudioInputStream aSe;
+	AudioInputStream flames;
 	AudioInputStream Paser;
 	AudioInputStream Laser;
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -37,11 +37,11 @@ public class SoundStuff {
 		DataLine.Info i = new DataLine.Info(Clip.class, f);
 		aC = (Clip) AudioSystem.getLine(i);
 		
-		File aFe = new File("David_Bowie_-_Starman_1_.wav");
-	    aSe = AudioSystem.getAudioInputStream(aFe);
-		AudioFormat fe = aSe.getFormat();
-		DataLine.Info ie = new DataLine.Info(Clip.class, fe);
-		aCe = (Clip) AudioSystem.getLine(ie);
+		File burn = new File("burnest.wav");
+	    flames = AudioSystem.getAudioInputStream(burn);
+		AudioFormat pyro = flames.getFormat();
+		DataLine.Info mental = new DataLine.Info(Clip.class, pyro);
+		insane = (Clip) AudioSystem.getLine(mental);
 		
 		File StarTrek = new File("Paz.wav");
 		Paser = AudioSystem.getAudioInputStream(StarTrek);
@@ -106,10 +106,10 @@ public class SoundStuff {
 		aC.close();
 		aS.close();
 	}
-	public void end() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+	public void flame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		try {
-			aCe.open(aSe);
-			aCe.start();
+			insane.open(flames);
+			insane.start();
 		} catch (MalformedURLException murle) {
 			System.out.println(murle);
 		}
