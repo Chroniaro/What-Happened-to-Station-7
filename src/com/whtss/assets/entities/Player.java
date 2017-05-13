@@ -175,6 +175,11 @@ public class Player extends Entity implements Damageable
 	{
 		return health;
 	}
+	
+	public int getMP()
+	{
+		return speed;
+	}
 
 	@Override
 	public void takeDamage(int amount)
