@@ -116,6 +116,11 @@ public abstract class Entity implements LightSource
 		
 		flametiles.add(tile);
 	}
+	public List getflametile()
+	{
+		
+		return flametiles;
+	}
 	public boolean flameer(int da, int db, int dhy) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		// one means theire is a thing there

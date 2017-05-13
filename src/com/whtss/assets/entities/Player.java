@@ -17,7 +17,7 @@ import com.whtss.assets.render.animations.TileDamage;
 
 public class Player extends Entity implements Damageable
 {
-	final int speed = 70000;
+	final int speed = 7;
 	int move = 0;
 	int health = 100;
 	
@@ -42,6 +42,12 @@ public class Player extends Entity implements Damageable
 
 	public void walk(int da, int db, int dhy)
 	{
+		for(HexPoint e: flametiles){
+		if (getLocation().mABY(da, db, 2 * dhy).equals(e))
+		{
+			takeDamage(10);
+		}
+		}
 		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);
 		if (getLocation().mABY(da, db, 2 * dhy).equals(getLevel().getEnd()))
 		{

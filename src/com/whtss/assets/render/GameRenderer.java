@@ -30,6 +30,7 @@ public class GameRenderer extends JComponent
 	private Game game;
 	private HexPoint mouse, select = null;
 	private Animation activeAnimation = null;
+	
 
 	public GameRenderer(Game game)
 	{
@@ -188,11 +189,11 @@ public class GameRenderer extends JComponent
 			activeAnimation.drawUnderEntities(g, s);
 
 		tstack.revert();
-		for (HexPoint yyz: Game.flametiles){
-			
-		g.setColor(Color.ORANGE);
-		g.fill(yyz.getBorder(s));
-		}
+//		for (HexPoint yyz: Entity.getflametiles()){
+//			
+//		g.setColor(Color.ORANGE);
+//		g.fill(yyz.getBorder(s));
+//		}
 		
 		for (Entity e : lvl.getEntities())
 		{
