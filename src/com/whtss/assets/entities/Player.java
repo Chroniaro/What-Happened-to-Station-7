@@ -64,36 +64,36 @@ public class Player extends Entity implements Damageable {
 			getLevel().getUIInterface().selectTile(null);
 	}
 
-//	@UIEventHandle(value = "Key_P", turn = "Player")
-//	public void attack(Entity target) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-//		SoundStuff cam = new SoundStuff();
-//		cam.Phazing();
-//		if (move + 2 > speed) {
-//			getLevel().getUIInterface().selectTile(null);
-//			return;
-//		}
-//		if (target == null) {
-//			return;
-//		}
-//		if (!(target instanceof Damageable)) {
-//			return;
-//		}
-//		if (!target.isActive()) {
-//			return;
-//		}
-//		final int d = getLocation().dist(target.getLocation());
-//		if (d > 4){
-//			return;
-//	    	move += 2;
-//		}
-//		((Damageable) target).takeDamage(10 * (5 - d));
-//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Sequential(
-//				new Laser(getLocation(), target.getLocation()), new TileDamage(target.getLocation())));
-//		if (move >= speed)
-//			getLevel().getUIInterface().selectTile(null);
-//		else
-//			getLevel().getUIInterface().selectTile(getLocation());
-//	}
+	@UIEventHandle(value = "Key_P", turn = "Player")
+	public void attack(Entity target) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		SoundStuff cam = new SoundStuff();
+		cam.Phazing();
+		if (move + 2 > speed) {
+			getLevel().getUIInterface().selectTile(null);
+			return;
+		}
+		if (target == null) {
+			return;
+		}
+		if (!(target instanceof Damageable)) {
+			return;
+		}
+		if (!target.isActive()) {
+			return;
+		}
+		final int d = getLocation().dist(target.getLocation());
+		if (d > 4){
+			return;
+		}
+	    move += 2;
+		
+		((Damageable) target).takeDamage(10 * (5 - d));
+		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Sequential(new Laser(getLocation(), target.getLocation()), new TileDamage(target.getLocation())));
+		if (move >= speed)
+			getLevel().getUIInterface().selectTile(null);
+     		else
+			getLevel().getUIInterface().selectTile(getLocation());
+	}
 
 	
 	
