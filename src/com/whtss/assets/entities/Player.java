@@ -56,6 +56,21 @@ public class Player extends Entity implements Damageable
 		else
 			getLevel().getUIInterface().selectTile(null);
 	}
+	
+	@UIEventHandle(value = "Key_Y", turn = "Player")
+	public void kill()
+	{
+		setActive(false);
+		getLevel().deadPlayer();
+	}
+	
+	@UIEventHandle(value = "Key_U", turn = "Player")
+	public void complete()
+	{
+		setActive(false);
+		getLevel().addPersistantPlayer(this);
+		getLevel().getUIInterface().selectTile(getLocation());
+	}
 
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)

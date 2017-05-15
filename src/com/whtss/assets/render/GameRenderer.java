@@ -131,6 +131,8 @@ public class GameRenderer extends JComponent
 		final int s = cellSize();
 		
 		Level lvl = game.getLevel();
+		if(lvl == null)
+			return;
 		TStack tstack = new TStack(g);
 		HexRect viewRect = lvl.getCells();
 
@@ -141,17 +143,19 @@ public class GameRenderer extends JComponent
 
 		final boolean mouseIn = mouseIn();
 
-//		//Dev info
-//		if (mouseIn)
-//			g.setColor(Color.WHITE);
-//		else
-//			g.setColor(Color.RED);
-//		g.drawString(String.valueOf(mouse), 0, getHeight());
-//		if (mouse != null)
-//		{
-//			g.drawString(mouse.abCoords(), 0, getHeight() - 20);
-//			g.drawString("(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
-//		}
+		//Dev info
+		if (mouseIn)
+			g.setColor(Color.WHITE);
+		else
+			g.setColor(Color.RED);
+		g.drawString(String.valueOf(mouse), 0, getHeight());
+		if (mouse != null)
+		{
+			g.drawString(mouse.abCoords(), 0, getHeight() - 20);
+			g.drawString("(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
+			if(mouseIn)
+				g.drawString("Room " + lvl.getRoom(mouse), 0, getHeight() - 60);
+		}
 
 		g.translate(getWidth() / 2, getHeight() / 2);
 
@@ -165,21 +169,27 @@ public class GameRenderer extends JComponent
 			int d;
 			if (game.getLevel().getFloorTile(iterator.x(), iterator.y()) % 2 != 0)
 				g.setColor(Color.GRAY);
-			else if (mouseIn && (d = hex.dist(mouse)) < 25)
-			{
-				d *= d;
-				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
-			}
+//			else if (mouseIn && (d = hex.dist(mouse)) < 25)
+//			{
+//				d *= d;
+//				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
+//			}
 			else
-				g.setColor(Color.white);
+			{
+				final Color[] colors = {Color.LIGHT_GRAY, Color.WHITE, Color.red, Color.GREEN, Color.BLUE, Color.orange, Color.pink, Color.CYAN, Color.MAGENTA};
+				g.setColor(colors[lvl.getRoom(hex) + 2]);
+			}
 
 			g.fill(hex.getBorder(s));
 
 			tstack.pop();
 		}
 
+		if(lvl.getEnd() != null)
+		{
 		g.setColor(Color.CYAN);
 		g.fill(lvl.getEnd().getBorder(s));
+		}
 
 		tstack.revert();
 		tstack.push();

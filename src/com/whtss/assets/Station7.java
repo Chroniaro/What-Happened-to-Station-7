@@ -68,8 +68,8 @@ public class Station7
 		layoutInfo.gridy = 1;
 		window.add(info, layoutInfo);
 		
-		game.init(render.new UIInterface(), info.new UIInterface());
-		
 		window.setVisible(true);
+		
+		game.init(render.new UIInterface(), info.new UIInterface());
 	}
 }

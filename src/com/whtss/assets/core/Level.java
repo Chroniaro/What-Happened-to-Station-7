@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -58,6 +59,8 @@ public class Level
 		int dh = 1 - height;
 		bounds = HexPoint.rect(HexPoint.origin.mXY(dw, dh + (dh + dw) % 2), width, height);
 		entities = new ArrayList<>();
+		
+		generate();
 	}
 
 	private HexPoint[] generate(Player... players)
@@ -101,6 +104,7 @@ public class Level
 		
 		roomTiles = roomIds;
 		
+		//Sets up initial rooms
 		RigidList<Set<HexPoint>> borders = new RigidList<>(centers.length);
 		for (int room = 0; room < centers.length; room++)
 		{
@@ -181,12 +185,39 @@ public class Level
 			border.remove(borderCell);
 		}
 
+		List<HexPoint> walls = new LinkedList<>();
 		//Make Station 7 great again by building the wall (around the rooms)
 		for(int x = 0; x < roomIds.length; x++)
 			for(int y = 0; y < roomIds[x].length; y++)
-				if(roomIds[x][y] == -2)
-					floorLayer[x][y] = 1;
+				if(roomIds[x][y] < 0)
+					walls.add(r.fromArrayCoords(x, y));
 
+		int[][] wallConnections = new int[walls.size()][6];
+		for (int i = 0; i < walls.size(); i++)
+		{
+			HexPoint p = walls.get(i);
+			int px = r.X(p), py = r.Y(p);
+			floorLayer[px][py] = 1;
+
+			int nearRooms = 6;
+			HexPoint[] adjacentCells = p.adjacentCells();
+			for (int j = 0; j < adjacentCells.length; j++)
+			{
+				HexPoint adj = adjacentCells[j];
+				if(r.contains(adj))
+				{
+					wallConnections[i][j] = roomIds[r.X(adj)][r.Y(adj)];
+					for(int n = 0; n < j; n++)
+						if(wallConnections[i][n] == wallConnections[i][j])
+							nearRooms --;
+				}
+				else
+					nearRooms = 0;
+			}
+			if(nearRooms > 2)
+				floorLayer[px][py] = 0;
+		}
+		
 //		//Mr Gorbachev, tear down those walls!
 //		for (int i = 0; i < centers.length; i++)
 //		{

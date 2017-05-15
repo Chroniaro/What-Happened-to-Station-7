@@ -43,6 +43,7 @@ public class GameInfo extends JComponent
 		
 		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
 		g.setColor(Color.white);
+		if(game.getLevel() != null)
 		g.drawString("Level " + game.getLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
 		
 	}
