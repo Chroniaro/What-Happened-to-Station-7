@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Level;
+
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
@@ -16,6 +17,7 @@ public class Game
 	private Level lvl;
 	private boolean playersTurn = true;
 	private UIInterface uiinterface;
+
 	
 	public void init(GameRenderer.UIInterface gameInterface, GameInfo.UIInterface infoInterface)
 	{
@@ -28,14 +30,15 @@ public class Game
 		return lvl;
 	}
 
+
+	
 	public void endPlayerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		playersTurn = false;
 		getLevel().nextTurn("Enemy");
 		uiinterface.refresh();
 		endEnemyTurn();
-	}
-	
+}
 	public void endEnemyTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{ 
 		playersTurn = true;

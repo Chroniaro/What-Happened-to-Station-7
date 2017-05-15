@@ -16,38 +16,71 @@ public class SoundStuff {
 	
 	Clip audioClip;
 	Clip aC;
-	Clip aCe;
+	Clip insane;
+	Clip Phazer;
+	Clip Lazer;
+	Clip Lenin;
 	AudioInputStream audioStream;
 	AudioInputStream aS;
-	AudioInputStream aSe;
+	AudioInputStream flames;
+	AudioInputStream Paser;
+	AudioInputStream Laser;
+	AudioInputStream Marx;
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		File audioFile = new File("na_sweden.wav");
 	    audioStream = AudioSystem.getAudioInputStream(audioFile);
 		AudioFormat format = audioStream.getFormat();
 		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		audioClip = (Clip) AudioSystem.getLine(info);
+		
 		File aF = new File("David_Bowie_-_Starman_1_.wav");
 	    aS = AudioSystem.getAudioInputStream(aF);
-		AudioFormat f = audioStream.getFormat();
+		AudioFormat f = aS.getFormat();
 		DataLine.Info i = new DataLine.Info(Clip.class, f);
 		aC = (Clip) AudioSystem.getLine(i);
-		File aFe = new File("David_Bowie_-_Starman_1_.wav");
-	    aSe = AudioSystem.getAudioInputStream(aFe);
-		AudioFormat fe = audioStream.getFormat();
-		DataLine.Info ie = new DataLine.Info(Clip.class, fe);
-		aCe = (Clip) AudioSystem.getLine(ie);
+		
+		File burn = new File("burnest.wav");
+	    flames = AudioSystem.getAudioInputStream(burn);
+		AudioFormat pyro = flames.getFormat();
+		DataLine.Info mental = new DataLine.Info(Clip.class, pyro);
+		insane = (Clip) AudioSystem.getLine(mental);
+		
+		File StarTrek = new File("Paz.wav");
+		Paser = AudioSystem.getAudioInputStream(StarTrek);
+		AudioFormat kirk = Paser.getFormat();
+		DataLine.Info spock = new DataLine.Info(Clip.class, kirk);
+		Phazer = (Clip) AudioSystem.getLine(spock);
+		
+		File StarTreker = new File("Laz.wav");
+		Laser = AudioSystem.getAudioInputStream(StarTreker);
+		AudioFormat bones = Paser.getFormat();
+		DataLine.Info worf = new DataLine.Info(Clip.class, bones);
+		Lazer = (Clip) AudioSystem.getLine(worf);
+		
+		File Putin = new File("CCCP.wav");
+		Marx = AudioSystem.getAudioInputStream(Putin);
+		AudioFormat Communism = Paser.getFormat();
+		DataLine.Info Comrade = new DataLine.Info(Clip.class, Communism);
+		Lenin = (Clip) AudioSystem.getLine(Comrade);
 	}
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		try {
-			aC.close();
-			aS.close();
 			audioClip.open(audioStream);
 			audioClip.start();
 		} catch (MalformedURLException murle) {
 			System.out.println(murle);
 		}
 	}
+	public void Phazing() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		try {
+			Phazer.open(Paser);
+			Phazer.start();
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
+	}
+
 
 	public void stnaw() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		audioClip.close();
@@ -79,10 +112,18 @@ public class SoundStuff {
 		aC.close();
 		aS.close();
 	}
-	public void end() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+	public void flame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		try {
-			aCe.open(aSe);
-			aCe.start();
+			insane.open(flames);
+			insane.start();
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
+	}
+	public void CCCP() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		try {
+			Lenin.open(Marx);
+			Lenin.start();
 		} catch (MalformedURLException murle) {
 			System.out.println(murle);
 		}

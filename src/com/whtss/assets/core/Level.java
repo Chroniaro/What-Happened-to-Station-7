@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.Set;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import com.whtss.assets.Station7;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
@@ -346,12 +345,28 @@ public class Level
 		{
 			if (persistant.isEmpty())
 			{
-				SoundStuff cam;
+				//They lost
+
+				System.out.println("U suk.");
+				System.out.println("You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. .");
+
+				SoundStuff cam = null;
+				try {
+					cam = new SoundStuff();
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					cam.swnat();
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				try
 				{
-					cam = Station7.soundStuff;
-					cam.dbc();
-					cam = Station7.soundStuff = new SoundStuff();
+					cam.dbc();		
 					cam.swnat();
 				}
 				catch (UnsupportedAudioFileException | IOException | LineUnavailableException e)

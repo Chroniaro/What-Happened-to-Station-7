@@ -11,7 +11,6 @@ import javax.swing.JTextArea;
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.SoundStuff;
-
 public class Station7
 {
 	public static SoundStuff soundStuff;
@@ -19,7 +18,7 @@ public class Station7
 	public static void main(String... args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{	
 		JFrame window = new JFrame();
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		window.setTitle("What Happened to Station 7");
 		window.setMinimumSize(new Dimension(400, 225));
 		window.setLayout(new GridBagLayout());
@@ -37,6 +36,20 @@ public class Station7
 		opening_text.setVisible(true);
 		opening_text.setAlwaysOnTop(true);
 		
+		JFrame o_t = new JFrame();
+		o_t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		o_t.setTitle("You Have Fell to the Swedes");
+		JTextArea text = new JTextArea("You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. ");
+		text.setLineWrap(true);
+		text.setWrapStyleWord(true);
+		o_t.setMinimumSize(new Dimension(400, 225));
+		o_t.add(text, BorderLayout.PAGE_START);
+		o_t.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		o_t.setVisible(true);
+		o_t.setAlwaysOnTop(false);
+		
+	
+		SoundStuff soundStuff = new SoundStuff();
 		try
 		{
 			soundStuff = new SoundStuff();
@@ -68,8 +81,8 @@ public class Station7
 		layoutInfo.gridy = 1;
 		window.add(info, layoutInfo);
 		
-		window.setVisible(true);
-		
 		game.init(render.new UIInterface(), info.new UIInterface());
+		
+		window.setVisible(true);
 	}
 }

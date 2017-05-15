@@ -22,6 +22,9 @@ import com.whtss.assets.hex.HexRect;
 
 public class GameRenderer extends JComponent
 {
+	
+	public static final boolean dev = false;
+	
 	/**
 	 * 
 	 */
@@ -30,6 +33,7 @@ public class GameRenderer extends JComponent
 	private Game game;
 	private HexPoint mouse, select = null;
 	private Animation activeAnimation = null;
+	
 
 	public GameRenderer(Game game)
 	{
@@ -169,15 +173,19 @@ public class GameRenderer extends JComponent
 			int d;
 			if (game.getLevel().getFloorTile(iterator.x(), iterator.y()) % 2 != 0)
 				g.setColor(Color.GRAY);
-//			else if (mouseIn && (d = hex.dist(mouse)) < 25)
-//			{
-//				d *= d;
-//				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
-//			}
-			else
+			else if(dev)
 			{
 				final Color[] colors = {Color.LIGHT_GRAY, Color.WHITE, Color.red, Color.GREEN, Color.BLUE, Color.orange, Color.pink, Color.CYAN, Color.MAGENTA};
 				g.setColor(colors[lvl.getRoom(hex) + 2]);
+			}
+			else if (mouseIn && (d = hex.dist(mouse)) < 25)
+			{
+				d *= d;
+				g.setColor(new Color(1f - 3f / (12 + d), 1f - 3f / (12 + d * d), 1f - 1f / (4 + d)));
+			}
+			else
+			{
+				g.setColor(Color.WHITE);
 			}
 
 			g.fill(hex.getBorder(s));
@@ -198,6 +206,11 @@ public class GameRenderer extends JComponent
 			activeAnimation.drawUnderEntities(g, s);
 
 		tstack.revert();
+//		for (HexPoint yyz: Entity.getflametiles()){
+//			
+//		g.setColor(Color.ORANGE);
+//		g.fill(yyz.getBorder(s));
+//		}
 		
 		for (Entity e : lvl.getEntities())
 		{

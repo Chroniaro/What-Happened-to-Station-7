@@ -42,9 +42,10 @@ public class GameInfo extends JComponent
 		g.fill(getNextTurnButton());
 		
 		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
-		g.setColor(Color.white);
-		if(game.getLevel() != null)
-		g.drawString("Level " + game.getLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
+		int zz=game.getLevel().getLevelNumber();
+		Color myNewGreen = new Color(255-(zz*8), 255, 255-(zz*8));
+		g.setColor(myNewGreen);
+		g.drawString("Floor: " + game.getLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
 		
 	}
 	

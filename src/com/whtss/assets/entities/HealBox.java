@@ -43,11 +43,15 @@ public class HealBox extends Entity implements Damageable
 				{
 					if (3 > getLocation().dist(e.getLocation()) && getLocation() != e.getLocation())
 						best = (Player) e;
-					best.takeDamage(-37);
+					   if(getHealth()>0){
+						best.takeDamage(-20);
+						}
 					takeDamage(40);
 				}
 			}
+			if(getHealth()>0){
 			best.takeDamage(-37);
+			}
 			takeDamage(40);
 		}
 	}
