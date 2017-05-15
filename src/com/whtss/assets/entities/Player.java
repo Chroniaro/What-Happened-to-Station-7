@@ -25,12 +25,12 @@ public class Player extends Entity implements Damageable {
 	}
 
 	@UIEventHandle(value = "Next Turn", turn = "Player")
-	public void resetMoves() // throws UnsupportedAudioFileException,
-								// IOException, LineUnavailableException,
-								// InterruptedException
+	public void resetMoves()
 	{
-		// SoundStuff cam = new SoundStuff();
-		// cam.swnat();
+		if(is_on_fire(getLocation())){
+			takeDamage(10);
+		}
+		
 		move = 0;
 	}
 
@@ -39,14 +39,7 @@ public class Player extends Entity implements Damageable {
 	}
 
 	public void walk(int da, int db, int dhy) {
-		// if(flametiles.size()>1){
-		// for(HexPoint e: flametiles){
-		// if (getLocation().mABY(da, db, 2 * dhy).equals(e))
-		// {
-		// takeDamage(10);
-		// }
-		// }
-		// }
+       
 		int dist = Math.abs(da) + Math.abs(db) + Math.abs(dhy);
 		if (getLocation().mABY(da, db, 2 * dhy).equals(getLevel().getEnd())) {
 			setActive(false);
