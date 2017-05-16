@@ -14,6 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
+import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 import com.whtss.assets.render.GameInfo;
@@ -291,7 +292,8 @@ public class Level
 //		activePlayerCount = players.length;
 		activePlayerCount = 1;
 
-		getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
+		//getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
+		getEntities().add(new Sniper(rooms[enemyRoom].mABY(0, 0, 1), this));
 
 		getEntities().add(new HealBox(rooms[Healroom].mABY(0, 0, 2), this));
 		this.end = rooms[endRoom];
