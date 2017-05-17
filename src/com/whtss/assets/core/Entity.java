@@ -64,7 +64,7 @@ public abstract class Entity implements LightSource {
 
 	private <T> T methodsWithUIHandle(String handle, String turn, MethodRunnable<T> r) {
 		T l = null;
-		for (Method m : getClass().getDeclaredMethods())
+		for (Method m : getClass().getMethods())
 			try {
 				UIEventHandle eHandle = m.getAnnotation(UIEventHandle.class);
 				if (eHandle.value().equals(handle) && eHandle.turn().matches(turn)) {
