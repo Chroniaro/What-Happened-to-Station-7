@@ -43,7 +43,7 @@ public class GameInfo extends JComponent
 		
 		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
 		int zz=game.getLevel().getLevelNumber();
-		Color myNewGreen = new Color(255-(zz*8), 255, 255-(zz*8));
+		Color myNewGreen = new Color(Math.max(255-(zz*8), 0), 255, Math.max(255-(zz*8), 0));
 		g.setColor(myNewGreen);
 		g.drawString("Floor: " + game.getLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
 		
