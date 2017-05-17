@@ -239,7 +239,7 @@ public class GameRenderer extends JComponent
 			}
 			else if (e.getClass().equals(Sniper.class))
 			{
-				g.setColor(Color.GRAY);
+				g.setColor(Color.GREEN);
 				g.fill(e.getLocation().getBorder(s));
 			}
 			else if (e.getClass().equals(HealBox.class))

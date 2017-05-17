@@ -13,7 +13,7 @@ public class Sniper extends Entity implements Damageable {
 	int speed = 5;
 	int move = 0;
 	// hi
-	int health = 100;
+	int health = 75;
 	int playersleft = 0;
 
 	public void enmove() {
@@ -23,7 +23,8 @@ public class Sniper extends Entity implements Damageable {
 	// @Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void Turn()  {
-
+		if(!isActive())
+			return;
 	
 		// System.out.println("Turn");
 		Attack();
@@ -47,7 +48,7 @@ public class Sniper extends Entity implements Damageable {
 				
 			}
 		}
-		besterest.takeDamage(25);
+		besterest.takeDamage(50);
 		
 	}
 
