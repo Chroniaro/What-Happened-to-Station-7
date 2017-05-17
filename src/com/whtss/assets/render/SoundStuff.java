@@ -20,12 +20,14 @@ public class SoundStuff {
 	Clip Phazer;
 	Clip Lazer;
 	Clip Lenin;
+	Clip snope;
 	AudioInputStream audioStream;
 	AudioInputStream aS;
 	AudioInputStream flames;
 	AudioInputStream Paser;
 	AudioInputStream Laser;
 	AudioInputStream Marx;
+	AudioInputStream csgo;
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		File audioFile = new File("na_sweden.wav");
 	    audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -62,6 +64,12 @@ public class SoundStuff {
 		AudioFormat Communism = Paser.getFormat();
 		DataLine.Info Comrade = new DataLine.Info(Clip.class, Communism);
 		Lenin = (Clip) AudioSystem.getLine(Comrade);
+		
+		File ct = new File("CCCP.wav");
+		csgo = AudioSystem.getAudioInputStream(ct);
+		AudioFormat ttp = csgo.getFormat();
+		DataLine.Info ptp = new DataLine.Info(Clip.class, ttp);
+		snope = (Clip) AudioSystem.getLine(ptp);
 	}
 
 	public void swnat() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -124,6 +132,14 @@ public class SoundStuff {
 		try {
 			Lenin.open(Marx);
 			Lenin.start();
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
+	}
+	public void AWP() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		try {
+			snope.open(csgo);
+			snope.start();
 		} catch (MalformedURLException murle) {
 			System.out.println(murle);
 		}

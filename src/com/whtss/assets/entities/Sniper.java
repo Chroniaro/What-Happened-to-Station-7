@@ -1,11 +1,16 @@
 package com.whtss.assets.entities;
 
+import java.io.IOException;
 import java.util.Random;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
-import com.whtss.assets.render.animations.Laser;
+import com.whtss.assets.render.SoundStuff;
 
 public class Sniper extends Entity implements Damageable {
 	Random rand = new Random();
@@ -36,7 +41,7 @@ public class Sniper extends Entity implements Damageable {
 	public void Attack() {
 		Player besterest = null;
 		Player tempp = null;
-		int shodan = 11111;
+		//int shodan = 11111;
 		int temp = 0;
 		for (Entity e : getLevel().getEntities()) {
 			if(e.isActive() == true && e instanceof Player){
@@ -49,7 +54,19 @@ public class Sniper extends Entity implements Damageable {
 			}
 		}
 		besterest.takeDamage(50);
-		
+		SoundStuff cam = null;
+		try {
+			cam = new SoundStuff();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			cam.AWP();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public void goveryclose() {
