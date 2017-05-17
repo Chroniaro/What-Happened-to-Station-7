@@ -219,7 +219,7 @@ public class GameRenderer extends JComponent
 //				continue;
 			if (!e.isActive())
 				continue;
-			if (e.getClass().equals(Player.class))
+			if (e instanceof Player)
 			{
 				int y = Math.min(((Player) e).gethealth(), 100);
 				Color myNewP = new Color(255 - y, y / 2, 100 + y);
