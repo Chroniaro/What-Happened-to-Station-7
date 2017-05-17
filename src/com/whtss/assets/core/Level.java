@@ -292,7 +292,7 @@ public class Level
 		//		activePlayerCount = players.length;
 		activePlayerCount = 1;
 
-		//getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
+		getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
 		getEntities().add(new Sniper(rooms[enemyRoom].mABY(0, 0, 1), this));
 
 		getEntities().add(new HealBox(rooms[Healroom].mABY(0, 0, 2), this));

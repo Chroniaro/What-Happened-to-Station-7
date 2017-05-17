@@ -27,10 +27,6 @@ public class Player extends Entity implements Damageable {
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
 	{
-		if(is_on_fire(getLocation())){
-			takeDamage(10);
-		}
-		
 		move = 0;
 	}
 
