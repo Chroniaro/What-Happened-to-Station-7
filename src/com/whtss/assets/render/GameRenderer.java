@@ -330,5 +330,10 @@ public class GameRenderer extends JComponent
 		{
 			playAnimation(a);
 		}
+		
+		public boolean isInAnimation()
+		{
+			return activeAnimation != null;
+		}
 	}
 }
