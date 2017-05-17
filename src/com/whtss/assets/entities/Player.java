@@ -67,23 +67,13 @@ public class Player extends Entity implements Damageable {
 		getLevel().addPersistantPlayer(this);
 		getLevel().getUIInterface().selectTile(getLocation());
 	}
-	@UIEventHandle(value = "Key_Enter", turn = "Player")
-	public void sovietunion()
+	@UIEventHandle(value = "Key_F", turn = "Player")
+	public void sovietunion() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		System.out.print("adadfafd");
 		SoundStuff cam = null;
-		try {
 			cam = new SoundStuff();
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			cam.CCCP();
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@UIEventHandle(value = "Key_P", turn = "Player")

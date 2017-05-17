@@ -53,7 +53,7 @@ public class Sniper extends Entity implements Damageable {
 				
 			}
 		}
-		besterest.takeDamage(50);
+		besterest.takeDamage(45);
 		SoundStuff cam = null;
 		try {
 			cam = new SoundStuff();
