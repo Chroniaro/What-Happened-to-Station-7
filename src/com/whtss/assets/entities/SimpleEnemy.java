@@ -29,7 +29,7 @@ public class SimpleEnemy extends Entity implements Damageable {
 		// System.out.println("Turn");
 
 		// takeDamage(10);
-		for (int i = 0; i <= 7; i++) {
+		for (int i = 0; i <= 4; i++) {
 			goveryclose();
 			for (int ii = 0; ii <= 5; ii++) {
 				Player best = null;
@@ -38,7 +38,7 @@ public class SimpleEnemy extends Entity implements Damageable {
 						if (e instanceof Player) {
 							best = (Player) e;
 							new Laser(best.getLocation(),getLocation());
-							best.takeDamage(2);
+							best.takeDamage(1);
 //							System.out.println(best + " " + getLocation().dist(best.getLocation()));
 						}
 					}
