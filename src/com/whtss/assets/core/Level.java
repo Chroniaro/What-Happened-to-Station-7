@@ -15,6 +15,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
+import com.whtss.assets.entities.Player_sniper;
 import com.whtss.assets.entities.SimpleEnemy;
 import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
@@ -334,14 +335,18 @@ public class Level
 
 		enemyRoom = centerRooms[rand.nextInt(centerRooms.length)];
 		Healroom = centerRooms[rand.nextInt(centerRooms.length)];
-
-		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
-		{
-			Entity ep = players[i];
-			ep.setLocation(startRoom.mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
-			ep.setActive(true);
-			getEntities().add(players[i]);
-		}
+//
+//		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
+//		{
+//			Entity ep = players[i];
+//			ep.setLocation(startRoom.mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
+//			ep.setActive(true);
+//			getEntities().add(players[i]);
+//		}
+		
+		Entity ep = new Player_sniper(startRoom, this);
+		ep.setActive(true);
+		getEntities().add(ep);
 
 		activePlayerCount = players.length;
 
