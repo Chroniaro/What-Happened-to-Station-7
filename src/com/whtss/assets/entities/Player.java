@@ -67,9 +67,10 @@ public class Player extends Entity implements Damageable {
 		getLevel().addPersistantPlayer(this);
 		getLevel().getUIInterface().selectTile(getLocation());
 	}
-	@UIEventHandle(value = "Key_+", turn = "Player")
+	@UIEventHandle(value = "Key_Enter", turn = "Player")
 	public void sovietunion()
 	{
+		System.out.print("adadfafd");
 		SoundStuff cam = null;
 		try {
 			cam = new SoundStuff();

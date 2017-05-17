@@ -65,7 +65,7 @@ public class SoundStuff {
 		DataLine.Info Comrade = new DataLine.Info(Clip.class, Communism);
 		Lenin = (Clip) AudioSystem.getLine(Comrade);
 		
-		File ct = new File("CCCP.wav");
+		File ct = new File("awp.wav");
 		csgo = AudioSystem.getAudioInputStream(ct);
 		AudioFormat ttp = csgo.getFormat();
 		DataLine.Info ptp = new DataLine.Info(Clip.class, ttp);
