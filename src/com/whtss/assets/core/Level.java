@@ -2,11 +2,15 @@ package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import javax.sound.sampled.LineUnavailableException;
@@ -21,6 +25,7 @@ import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.GameRenderer.UIInterface;
 import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.util.RandomIterator;
+import com.whtss.assets.util.RigidCollection;
 import com.whtss.assets.util.RigidList;
 
 public class Level
@@ -90,11 +95,36 @@ public class Level
 
 	private HexPoint[] buildFloorPlan()
 	{
+		/*********************
+		 * Set everything up *
+		 *********************/
+
 		//Hard coded basic room layout, TODO: Make this bit randomized
+		int numOfRooms;
+		do
+		{
+			numOfRooms = (int) Math.round(rand.nextGaussian() * 2 + 7);
+		} while (numOfRooms < 3 || numOfRooms > 12);
 
-		HexPoint[] centers = { HexPoint.XY(-16, 10), HexPoint.XY(-16, -10), HexPoint.XY(-2, -8), HexPoint.XY(0, 0), HexPoint.XY(3, 9), HexPoint.XY(16, 12), HexPoint.XY(15, -9) };
+		HexPoint[] centers = new HexPoint[numOfRooms];
 
-		HexRect r = getCells();
+		for (int c = 0; c < numOfRooms; c++)
+		{
+			final int x = width / 2 - 2 - rand.nextInt(width - 4);
+			int y = height / 2 - 2 - rand.nextInt(height - 4);
+			y += (x + y) % 2;
+			centers[c] = HexPoint.XY(x, y);
+			for (int i = 0; i < c; i++)
+				if (centers[i].dist(centers[c]) < 4)
+				{
+					c--;
+					break;
+				}
+		}
+
+		//		HexPoint[] centers = { HexPoint.XY(-16, 10), HexPoint.XY(-16, -10), HexPoint.XY(-2, -8), HexPoint.XY(0, 0), HexPoint.XY(3, 9), HexPoint.XY(16, 12), HexPoint.XY(15, -9) };
+
+		final HexRect r = getCells();
 
 		int[][] roomIds = new int[width][height];
 		for (int x = 0; x < roomIds.length; x++)
@@ -103,154 +133,145 @@ public class Level
 
 		roomTiles = roomIds;
 
-		//Sets up initial rooms
-		RigidList<Set<HexPoint>> borders = new RigidList<>(centers.length);
-		for (int room = 0; room < centers.length; room++)
+		/*****************************
+		 * Let rooms claim territory *
+		 *****************************/
 		{
-			borders.set(room, new HashSet<>());
-
-			for (HexPoint tile : HexPoint.circ(centers[room], 2))
+			//Sets up initial rooms
+			RigidList<Set<HexPoint>> borders = new RigidList<>(numOfRooms);
+			for (int room = 0; room < numOfRooms; room++)
 			{
-				if (centers[room].dist(tile) == 2)
-					borders.get(room).add(tile);
-				else
-					roomIds[r.X(tile)][r.Y(tile)] = room;
+				borders.set(room, new HashSet<>());
+
+				for (HexPoint tile : HexPoint.circ(centers[room], 2))
+				{
+					if (centers[room].dist(tile) == 2)
+						borders.get(room).add(tile);
+					else
+						roomIds[r.X(tile)][r.Y(tile)] = room;
+				}
 			}
-		}
 
-		//rooms expand their borders
-
-		List<Integer> rooms = new ArrayList<>();
-		for (int i = 0; i < centers.length; i++)
-			rooms.add(i);
-		while (!rooms.isEmpty())
-		{
-			//			try
-			//			{
-			//				Thread.sleep(100);
-			//			}
-			//			catch (InterruptedException e)
-			//			{
-			//				e.printStackTrace();
-			//			}
-
-			int roomIndex = rand.nextInt(rooms.size());
-			int room = rooms.get(roomIndex);
-			Set<HexPoint> border = borders.get(room);
-
-			HashSet<HexPoint> unclaimedTerritory = null;
-			HexPoint borderCell = null;
-
-			for (RandomIterator<HexPoint> ri = new RandomIterator<>(border); ri.hasNext();)
+			//Expands them
+			List<Integer> rooms = new ArrayList<>();
+			for (int i = 0; i < numOfRooms; i++)
+				rooms.add(i);
+			while (!rooms.isEmpty())
 			{
-				borderCell = ri.next();
+				int roomIndex = rand.nextInt(rooms.size());
+				int room = rooms.get(roomIndex);
+				Set<HexPoint> border = borders.get(room);
 
-				int friendly = 0;
-				int wall = 0;
-				unclaimedTerritory = new HashSet<HexPoint>();
-				boolean valid = true;
-				for (HexPoint adjCell : borderCell.adjacentCells())
-					if (r.contains(adjCell))
-						if (border.contains(adjCell) && wall < 2)
-							wall++;
-						else
-						{
-							int crid = roomIds[r.X(adjCell)][r.Y(adjCell)];
+				HashSet<HexPoint> unclaimedTerritory = null;
+				HexPoint borderCell = null;
 
-							if (crid < 0)
-								unclaimedTerritory.add(adjCell);
-							else if (crid == room)
-								friendly++;
+				for (RandomIterator<HexPoint> ri = new RandomIterator<>(border); ri.hasNext();)
+				{
+					borderCell = ri.next();
+
+					int friendly = 0;
+					int wall = 0;
+					unclaimedTerritory = new HashSet<HexPoint>();
+					boolean valid = true;
+					for (HexPoint adjCell : borderCell.adjacentCells())
+						if (r.contains(adjCell))
+							if (border.contains(adjCell) && wall < 2)
+								wall++;
 							else
-								valid = false;
-						}
+							{
+								int crid = roomIds[r.X(adjCell)][r.Y(adjCell)];
 
-				if (valid && friendly > 1)
-					break;
-				else
-					unclaimedTerritory = null;
+								if (crid < 0)
+									unclaimedTerritory.add(adjCell);
+								else if (crid == room)
+									friendly++;
+								else
+									valid = false;
+							}
+
+					if (valid && friendly > 1)
+						break;
+					else
+						unclaimedTerritory = null;
+				}
+
+				if (unclaimedTerritory == null)
+				{
+					rooms.remove(roomIndex);
+					continue;
+				}
+
+				for (HexPoint cell : unclaimedTerritory)
+					border.add(cell);
+
+				roomIds[r.X(borderCell)][r.Y(borderCell)] = room;
+				border.remove(borderCell);
 			}
-
-			if (unclaimedTerritory == null)
-			{
-				rooms.remove(roomIndex);
-				continue;
-			}
-
-			for (HexPoint cell : unclaimedTerritory)
-				border.add(cell);
-
-			roomIds[r.X(borderCell)][r.Y(borderCell)] = room;
-			border.remove(borderCell);
 		}
 
+		/**********************************************************************
+		 * Make Station 7 great again by building the wall (around the rooms) *
+		 **********************************************************************/
+
+		//Keep track of walls
 		List<HexPoint> walls = new LinkedList<>();
-		//Make Station 7 great again by building the wall (around the rooms)
 		for (int x = 0; x < roomIds.length; x++)
 			for (int y = 0; y < roomIds[x].length; y++)
 				if (roomIds[x][y] < 0)
-					walls.add(r.fromArrayCoords(x, y));
-
-		int[][] wallConnections = new int[walls.size()][6];
-		for (int i = 0; i < walls.size(); i++)
-		{
-			HexPoint p = walls.get(i);
-			int px = r.X(p), py = r.Y(p);
-			floorLayer[px][py] = 1;
-
-			int nearRooms = 6;
-			HexPoint[] adjacentCells = p.adjacentCells();
-			for (int j = 0; j < adjacentCells.length; j++)
-			{
-				HexPoint adj = adjacentCells[j];
-				if (r.contains(adj))
 				{
-					wallConnections[i][j] = roomIds[r.X(adj)][r.Y(adj)];
-					for (int n = 0; n < j; n++)
-						if (wallConnections[i][n] == wallConnections[i][j])
-							nearRooms--;
+					walls.add(r.fromArrayCoords(x, y));
+					floorLayer[x][y] = 1;
 				}
-				else
-					nearRooms = 0;
+
+		//Figure out which rooms are adjacent to which
+		Map<RigidCollection<Integer>, Set<HexPoint>> roomLayout = new HashMap<>();
+		for (int room1 = 0; room1 < numOfRooms; room1++)
+			for (int room2 = room1 + 1; room2 < numOfRooms; room2++)
+				roomLayout.put(new RigidCollection<Integer>(room1, room2), new HashSet<>());
+
+		for (HexPoint wall : walls)
+		{
+			Set<Integer> nearbyRooms = new HashSet<>();
+
+			for (HexPoint adjCell : wall.adjacentCells())
+			{
+				if (!r.contains(adjCell))
+				{
+					nearbyRooms = null;
+					break;
+				}
+
+				final int adjCellX = r.X(adjCell), adjCellY = r.Y(adjCell), adjCellId = roomIds[adjCellX][adjCellY];
+				nearbyRooms.add(adjCellId);
 			}
-			if (nearRooms > 2)
-				floorLayer[px][py] = 0;
+
+			if (nearbyRooms == null || nearbyRooms.size() != 3)
+				continue;
+
+			int[] adjRooms = new int[2];
+			int i = 0;
+			for (Integer nbr : nearbyRooms)
+				if (nbr > 0)
+					adjRooms[i++] = nbr;
+
+			roomLayout.get(new RigidCollection<>(adjRooms[0], adjRooms[1])).add(wall);
 		}
 
-		//		//Mr Gorbachev, tear down those walls!
-		//		for (int i = 0; i < centers.length; i++)
-		//		{
-		//			int next = (i + 1) % centers.length, prev = (i + centers.length - 1) % centers.length;
-		//			int nd = 0, pd = 0;
-		//			List<HexPoint> border = borders.get(i);
-		//			for (HexPoint c : border)
-		//				for (HexPoint a : c.adjacentCells())
-		//				{
-		//					if (!r.contains(a))
-		//						continue;
-		//					int owner = roomIds[r.X(a)][r.Y(a)];
-		//					if (owner == next || owner == prev)
-		//					{
-		//						if (owner == next)
-		//							if (Math.random() < nd / 3.0)
-		//								continue;
-		//							else
-		//								nd++;
-		//						else if (Math.random() < pd / 3.0)
-		//							continue;
-		//						else
-		//							pd++;
-		//
-		//						floorLayer[r.X(c)][r.Y(c)] = 0;
-		//						floorLayer[r.X(a)][r.Y(c)] = 0;
-		//					}
-		//				}
-		//		}
-		//
-		//		for (int x = 0; x < width; x++)
-		//			floorLayer[x][height - 1] = floorLayer[x][0] = 1;
-		//		for (int y = 0; y < height; y++)
-		//			floorLayer[width - 1][y] = floorLayer[0][y] = 1;
+		for (int room1 = 0; room1 < numOfRooms; room1++)
+			for (int room2 = room1 + 1; room2 < numOfRooms; room2++)
+			{
+				Set<HexPoint> wall = roomLayout.get(new RigidCollection<>(room1, room2));
+				if (wall.size() <= 1)
+					continue;
+
+				int nonHoles = 0;
+
+				for (HexPoint tile : wall)
+					if (rand.nextDouble() < (1 + nonHoles) / (wall.size() - 1))
+						floorLayer[r.X(tile)][r.Y(tile)] = 0;
+					else
+						nonHoles++;
+			}
 
 		return centers;
 	}
@@ -258,11 +279,48 @@ public class Level
 	//This bit will have to be way more complicated once we have a randomized room layout
 	private void populateLevel(HexPoint[] rooms, Player... players)
 	{
-		final int[] leftRooms = { 0, 1 };
-		final int[] centerRooms = { 2, 3, 4 };
-		final int[] rightRooms = { 5, 6 };
+		HexPoint[] leftRooms = new HexPoint[rooms.length / 3];
+		HexPoint[] rightRooms = new HexPoint[rooms.length / 3];
+		HexPoint[] centerRooms = new HexPoint[rooms.length - leftRooms.length - rightRooms.length];
 
-		int startRoom, endRoom, enemyRoom, Healroom;
+		for (int room = 0; room < rooms.length; room++)
+		{
+			HexPoint r = rooms[room];
+
+			for (int i = 0; i < leftRooms.length; i++)
+			{
+				if(r == null)
+					break;
+				if (leftRooms[i] == null || r.getX() < leftRooms[i].getX())
+				{
+					HexPoint lr = leftRooms[i];
+					leftRooms[i] = r;
+					r = lr;
+				}
+			}
+			
+			for (int i = 0; i < rightRooms.length; i++)
+			{
+				if(r == null)
+					break;
+				if (rightRooms[i] == null || r.getX() > rightRooms[i].getX())
+				{
+					HexPoint rr = rightRooms[i];
+					rightRooms[i] = r;
+					r = rr;
+				}
+			}
+
+			if (r != null)
+				for (int i = 0; i < centerRooms.length; i++)
+					if (centerRooms[i] == null)
+					{
+						centerRooms[i] = r;
+						break;
+					}
+		}
+
+		HexPoint startRoom, endRoom, enemyRoom, Healroom;
 
 		if (rand.nextBoolean())
 		{
@@ -281,20 +339,17 @@ public class Level
 		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
 		{
 			Entity ep = players[i];
-			if (ep == null)
-				System.out.println("Null player");
-			ep.setLocation(rooms[startRoom].mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
+			ep.setLocation(startRoom.mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
 			ep.setActive(true);
 			getEntities().add(players[i]);
 		}
 
-		//		activePlayerCount = players.length;
-		activePlayerCount = 1;
+		activePlayerCount = players.length;
 
-		getEntities().add(new SimpleEnemy(rooms[enemyRoom], this));
+		getEntities().add(new SimpleEnemy(enemyRoom, this));
 
-		getEntities().add(new HealBox(rooms[Healroom].mABY(0, 0, 2), this));
-		this.end = rooms[endRoom];
+		getEntities().add(new HealBox(Healroom.mABY(0, 0, 2), this));
+		this.end = endRoom;
 	}
 
 	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)

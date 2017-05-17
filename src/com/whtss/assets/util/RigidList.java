@@ -52,7 +52,7 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public Object[] toArray()
 	{
-		return toArray(new Object[list.length]);
+		return toArray(new Object[size()]);
 	}
 
 	
@@ -60,7 +60,7 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public <Q> Q[] toArray(Q[] a)
 	{
-		Q[] _return = a.length >= list.length ? a : (Q[]) Array.newInstance(a.getClass(), list.length);
+		Q[] _return = a.length >= size() ? a : (Q[]) Array.newInstance(a.getClass(), size());
 		for(int i = 0; i < size(); i++)
 			_return[i] = (Q) get(i);
 		return _return;
@@ -203,10 +203,10 @@ public class RigidList<T extends Object> implements List<T>
 	public String toString()
 	{
 		String s = "[";
-		if(list.length > 0)
-			s += list[0];
-		for(int i = 1; i < list.length; i++)
-			s += ", " + list[i];
+		if(size() > 0)
+			s += get(0);
+		for(int i = 1; i < size(); i++)
+			s += ", " + get(i);
 		s += "]";
 		
 		return s;
@@ -303,5 +303,31 @@ public class RigidList<T extends Object> implements List<T>
 		{
 			return to - from;
 		}
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof List<?>))
+			return false;
+		else
+		{
+			int i = 0;
+			for(Object n : (Iterable<?>)obj)
+				if(i > 0)
+					return false;
+				else if(n == null ? get(i++) != null : !get(i++).equals(n))
+					return false;
+			return i == size();
+		}
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int hashcode = 1;
+		for(T e : this)
+			hashcode = 31 * hashcode + (e == null ? 0 : e.hashCode());
+		return hashcode;
 	}
 }

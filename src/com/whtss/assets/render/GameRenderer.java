@@ -176,7 +176,7 @@ public class GameRenderer extends JComponent
 			else if(dev)
 			{
 				final Color[] colors = {Color.LIGHT_GRAY, Color.WHITE, Color.red, Color.GREEN, Color.BLUE, Color.orange, Color.pink, Color.CYAN, Color.MAGENTA};
-				g.setColor(colors[lvl.getRoom(hex) + 2]);
+				g.setColor(colors[(lvl.getRoom(hex) % (colors.length - 2)) + 2]);
 			}
 			else if (mouseIn && (d = hex.dist(mouse)) < 25)
 			{
