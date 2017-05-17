@@ -2,9 +2,7 @@ package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +16,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
+import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 import com.whtss.assets.render.GameInfo;
@@ -347,6 +346,7 @@ public class Level
 		activePlayerCount = players.length;
 
 		getEntities().add(new SimpleEnemy(enemyRoom, this));
+		getEntities().add(new Sniper(enemyRoom.mABY(0, 0, 1), this));
 
 		getEntities().add(new HealBox(Healroom.mABY(0, 0, 2), this));
 		this.end = endRoom;

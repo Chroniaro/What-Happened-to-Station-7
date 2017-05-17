@@ -17,6 +17,7 @@ import com.whtss.assets.core.Level;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.SimpleEnemy;
+import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 
@@ -234,6 +235,11 @@ public class GameRenderer extends JComponent
 				int z = Math.abs(k);
 				Color myNewBlue = new Color(t, t, z);
 				g.setColor(myNewBlue);
+				g.fill(e.getLocation().getBorder(s));
+			}
+			else if (e.getClass().equals(Sniper.class))
+			{
+				g.setColor(Color.GREEN);
 				g.fill(e.getLocation().getBorder(s));
 			}
 			else if (e.getClass().equals(HealBox.class))
