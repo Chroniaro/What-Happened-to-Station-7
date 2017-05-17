@@ -154,7 +154,7 @@ public abstract class Entity implements LightSource {
 	@Documented
 	@Retention(RUNTIME)
 	@Target(METHOD)
-	protected @interface UIEventHandle {
+	public @interface UIEventHandle {
 		String value();
 
 		String turn() default "";
