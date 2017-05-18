@@ -15,24 +15,24 @@ public class TStack
 {
 	private Stack<gInfo> tStack;
 	private Graphics2D g;
-	
+
 	public TStack(Graphics2D g)
 	{
 		this.g = g;
 		tStack = new Stack<>();
 		push();
 	}
-	
+
 	public void push()
 	{
 		tStack.push(new gInfo(g));
 	}
-	
+
 	public void revert()
 	{
 		tStack.peek().apply(g);
 	}
-	
+
 	public void pop()
 	{
 		tStack.pop().apply(g);
@@ -49,7 +49,7 @@ class gInfo
 	final private Composite composite;
 	final private Shape shape;
 	final private RenderingHints hints;
-	
+
 	public gInfo(Graphics2D g)
 	{
 		transform = g.getTransform();
@@ -61,7 +61,7 @@ class gInfo
 		shape = g.getClip();
 		hints = g.getRenderingHints();
 	}
-	
+
 	public void apply(Graphics2D g)
 	{
 		g.setTransform(transform);

@@ -3,17 +3,16 @@ package com.whtss.assets.entities;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
+import com.whtss.assets.render.UIEventHandle;
 
-public class Flame_thrower extends Entity implements Damageable {
+public class Flame_Thrower extends Entity implements Damageable {
 	Random rand = new Random();
     boolean temp = true;
 	int speed = 5;
@@ -114,7 +113,7 @@ public class Flame_thrower extends Entity implements Damageable {
 		return dist;
 	}
 
-	public Flame_thrower(HexPoint location, Level level) {
+	public Flame_Thrower(HexPoint location, Level level) {
 		super(location, level);
 	}
 

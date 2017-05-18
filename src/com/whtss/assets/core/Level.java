@@ -3,9 +3,11 @@ package com.whtss.assets.core;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +17,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
-import com.whtss.assets.entities.Player_sniper;
-import com.whtss.assets.entities.SimpleEnemy;
+import com.whtss.assets.entities.Player_Sniper;
+import com.whtss.assets.entities.Enemy;
 import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
@@ -30,22 +32,22 @@ import com.whtss.assets.util.RigidList;
 
 public class Level
 {
-	static final Random rand = new Random();
+	private static final Random RNG = new Random();
 
 	private final static int width = 41, height = 19;
 
 	//Layers
-	int[][] floorLayer;
-	LevelObject[][] objectLayer;
-	private List<Entity> entities;
+	private int[][] floorLayer;
+	private LevelObject[][] objectLayer;
+	private Collection<Entity> entities;
 	private int[][] roomTiles = null;
 
-	private final HexRect bounds;
-	private HexPoint end;
+	private final HexRect cellsRect;
+	private HexPoint endPoint;
 	private UIInterface uiinterface;
 	private GameInfo.UIInterface infoInterface;
-	private final int[][] playerStartOffsets = new int[][] { { 0, 0, 0 }, { 1, 0, 0 }, { 0, -1, 0 }, { 0, 0, 2 }, { 0, 0, -2 }, { 0, 1, 0 }, { -1, 0, 0 } };
-	private List<Player> persistant;
+	private final int[][] playerStartOffsets = new int[][] { { 0, 0 }, { 1, 0 }, { 0, -1 }, { -1, 1 }, { 1, -1 }, { 0, 1 }, { -1, 0 } };
+	private Collection<Player> persistant;
 	private int activePlayerCount;
 	private int floor = 1;
 
@@ -57,14 +59,19 @@ public class Level
 		floorLayer = new int[width][height];
 		objectLayer = new LevelObject[width][height];
 
-		persistant = new ArrayList<Player>();
+		persistant = new LinkedList<Player>();
 
 		int dw = -width / 2;
 		int dh = 1 - height;
-		bounds = HexPoint.rect(HexPoint.origin.mXY(dw, dh + (dh + dw) % 2), width, height);
-		entities = new ArrayList<>();
+		cellsRect = HexPoint.rect(HexPoint.origin.mXY(dw, dh + (dh + dw) % 2), width, height);
+		entities = new HashSet<>();
 
 		generate();
+	}
+
+	public void generate()
+	{
+		generate(new Player_Sniper(null, this), new Player(null, this), new Player(null, this), new Player(null, this));
 	}
 
 	private HexPoint[] generate(Player... players)
@@ -83,21 +90,10 @@ public class Level
 		for (int y = 0; y < height; y++)
 			floorLayer[0][y] = floorLayer[width - 1][y] = 1;
 
-		HexPoint[] rooms = buildRooms();
-		populateLevel(rooms, players);
-		return rooms;
-	}
-
-	public void generate()
-	{
-		generate(new Player(null, this), new Player(null, this), new Player(null, this), new Player(null, this));
-	}
-
-	private HexPoint[] buildRooms()
-	{
 		HexPoint[] centers = chooseRoomCenters();
 		roomTiles = divideTerritory(centers);
 		buildWalls(centers.length, roomTiles);
+		populateLevel(centers, players);
 		return centers;
 	}
 
@@ -106,15 +102,15 @@ public class Level
 		int numOfRooms;
 		do
 		{
-			numOfRooms = (int) Math.round(rand.nextGaussian() * 2 + 7);
+			numOfRooms = (int) Math.round(RNG.nextGaussian() * 2 + 7);
 		} while (numOfRooms < 3 || numOfRooms > 12);
 
 		HexPoint[] centers = new HexPoint[numOfRooms];
 
 		for (int c = 0; c < numOfRooms; c++)
 		{
-			final int x = width / 2 - 2 - rand.nextInt(width - 4);
-			int y = height / 2 - 2 - rand.nextInt(height - 4);
+			final int x = width / 2 - 2 - RNG.nextInt(width - 4);
+			int y = height / 2 - 2 - RNG.nextInt(height - 4);
 			y += (x + y) % 2;
 			centers[c] = HexPoint.XY(x, y);
 			for (int i = 0; i < c; i++)
@@ -159,7 +155,7 @@ public class Level
 			rooms.add(i);
 		while (!rooms.isEmpty())
 		{
-			int roomIndex = rand.nextInt(rooms.size());
+			int roomIndex = RNG.nextInt(rooms.size());
 			int room = rooms.get(roomIndex);
 			Set<HexPoint> border = borders.get(room);
 
@@ -215,7 +211,7 @@ public class Level
 	public void buildWalls(int numOfRooms, int[][] roomIds)
 	{
 		final HexRect lvlCells = getCells();
-		
+
 		//Keep track of walls
 		List<HexPoint> walls = new LinkedList<>();
 		for (int x = 0; x < roomIds.length; x++)
@@ -227,14 +223,14 @@ public class Level
 				}
 
 		//Figure out which rooms are adjacent to which
-		Map<RigidCollection<Integer>, Set<HexPoint>> roomLayout = new HashMap<>();
+		Map<RigidCollection<Integer>, Collection<HexPoint>> roomLayout = new HashMap<>();
 		for (int room1 = 0; room1 < numOfRooms; room1++)
 			for (int room2 = room1 + 1; room2 < numOfRooms; room2++)
 				roomLayout.put(new RigidCollection<Integer>(room1, room2), new HashSet<>());
 
 		for (HexPoint wall : walls)
 		{
-			Set<Integer> nearbyRooms = new HashSet<>();
+			Collection<Integer> nearbyRooms = new HashSet<>();
 
 			for (HexPoint adjCell : wall.adjacentCells())
 			{
@@ -263,14 +259,14 @@ public class Level
 		for (int room1 = 0; room1 < numOfRooms; room1++)
 			for (int room2 = room1 + 1; room2 < numOfRooms; room2++)
 			{
-				Set<HexPoint> wall = roomLayout.get(new RigidCollection<>(room1, room2));
+				Collection<HexPoint> wall = roomLayout.get(new RigidCollection<>(room1, room2));
 				if (wall.size() <= 1)
 					continue;
 
 				int nonHoles = 0;
 
 				for (HexPoint tile : wall)
-					if (rand.nextDouble() < (1 + nonHoles) / (wall.size() - 1))
+					if (RNG.nextDouble() < (1 + nonHoles) / (wall.size() - 1))
 						floorLayer[lvlCells.X(tile)][lvlCells.Y(tile)] = 0;
 					else
 						nonHoles++;
@@ -281,80 +277,65 @@ public class Level
 	{
 		HexPoint[] leftRooms = new HexPoint[rooms.length / 3];
 		HexPoint[] rightRooms = new HexPoint[rooms.length / 3];
-		HexPoint[] centerRooms = new HexPoint[rooms.length - leftRooms.length - rightRooms.length];
+		HexPoint[] centerRooms = new HexPoint[rooms.length / 3 + rooms.length % 3];
 
-		for (int room = 0; room < rooms.length; room++)
+		for (int r = 0; r < rooms.length; r++)
 		{
-			HexPoint r = rooms[room];
+			HexPoint room = rooms[r];
 
 			for (int i = 0; i < leftRooms.length; i++)
-			{
-				if (r == null)
-					break;
-				if (leftRooms[i] == null || r.getX() < leftRooms[i].getX())
+				if (leftRooms[i] == null || room.getX() < leftRooms[i].getX())
 				{
-					HexPoint lr = leftRooms[i];
-					leftRooms[i] = r;
-					r = lr;
+					HexPoint tmp = leftRooms[i];
+					leftRooms[i] = room;
+					room = tmp;
 				}
-			}
 
-			for (int i = 0; i < rightRooms.length; i++)
+			if (room != null)
 			{
-				if (r == null)
-					break;
-				if (rightRooms[i] == null || r.getX() > rightRooms[i].getX())
-				{
-					HexPoint rr = rightRooms[i];
-					rightRooms[i] = r;
-					r = rr;
-				}
-			}
-
-			if (r != null)
-				for (int i = 0; i < centerRooms.length; i++)
-					if (centerRooms[i] == null)
+				for (int i = 0; i < rightRooms.length; i++)
+					if (rightRooms[i] == null || room.getX() > rightRooms[i].getX())
 					{
-						centerRooms[i] = r;
-						break;
+						HexPoint tmp = rightRooms[i];
+						rightRooms[i] = room;
+						room = tmp;
 					}
+
+				if (room != null)
+					centerRooms[r - rooms.length / 3 * 2] = room;
+			}
 		}
 
 		HexPoint startRoom, endRoom, enemyRoom, Healroom;
 
-		if (rand.nextBoolean())
-		{
-			startRoom = leftRooms[rand.nextInt(leftRooms.length)];
-			endRoom = rightRooms[rand.nextInt(rightRooms.length)];
-		}
-		else
-		{
-			endRoom = leftRooms[rand.nextInt(leftRooms.length)];
-			startRoom = rightRooms[rand.nextInt(rightRooms.length)];
-		}
-
-		enemyRoom = centerRooms[rand.nextInt(centerRooms.length)];
-		Healroom = centerRooms[rand.nextInt(centerRooms.length)];
-//
-//		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
-//		{
-//			Entity ep = players[i];
-//			ep.setLocation(startRoom.mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
-//			ep.setActive(true);
-//			getEntities().add(players[i]);
-//		}
+		startRoom = leftRooms[RNG.nextInt(leftRooms.length)];
+		endRoom = rightRooms[RNG.nextInt(rightRooms.length)];
 		
-		Entity ep = new Player_sniper(startRoom, this);
-		ep.setActive(true);
-		getEntities().add(ep);
+		if (RNG.nextBoolean())
+		{
+			HexPoint tmp = startRoom;
+			startRoom = endRoom;
+			endRoom = tmp;
+		}
 
-		activePlayerCount = players.length;
+		enemyRoom = centerRooms[RNG.nextInt(centerRooms.length)];
+		Healroom = centerRooms[RNG.nextInt(centerRooms.length)];
 
-		getEntities().add(new SimpleEnemy(enemyRoom, this));
-		getEntities().add(new Sniper(enemyRoom.mABY(0, 0, 1), this));
+		activePlayerCount = Math.min(players.length, playerStartOffsets.length);
+		for (int i = 0; i < activePlayerCount; i++)
+		{
+			Entity ep = players[i];
+			ep.setLocation(startRoom.mAB(playerStartOffsets[i][0], playerStartOffsets[i][1]));
+			ep.setActive(true);
+			getEntities().add(ep);
+		}
 
-		getEntities().add(new HealBox(Healroom.mABY(0, 0, 2), this));
-		this.end = endRoom;
+		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
+		getEntities().add(new Sniper(enemyRoom.mY(2), this));
+
+		getEntities().add(new HealBox(Healroom, this));
+		
+		this.endPoint = endRoom;
 	}
 
 	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)
@@ -376,6 +357,14 @@ public class Level
 	 * Not yet implemented
 	 */
 	public HexPoint[] visibleCells(HexPoint origin) //TODO: Make this work
+	{
+		throw new UnsupportedOperationException("This hasn't been implemented yet.");
+	}
+
+	/**
+	 * Not yet implemented
+	 */
+	public Path getPath(HexPoint start, HexPoint end) //TODO: Make this work
 	{
 		throw new UnsupportedOperationException("This hasn't been implemented yet.");
 	}
@@ -445,7 +434,7 @@ public class Level
 
 	public HexPoint getEnd()
 	{
-		return end;
+		return endPoint;
 	}
 
 	public int getWidth()
@@ -470,10 +459,10 @@ public class Level
 
 	public HexRect getCells()
 	{
-		return bounds;
+		return cellsRect;
 	}
 
-	public List<Entity> getEntities()
+	public Collection<Entity> getEntities()
 	{
 		return entities;
 	}
@@ -481,5 +470,45 @@ public class Level
 	public int getLevelNumber()
 	{
 		return floor;
+	}
+}
+
+//TODO: Make this work
+@SuppressWarnings("unused")
+class Path implements Iterable<HexPoint>
+{
+	private final int dist;
+	private final byte dir;
+
+	public Path(int x1, int y1, int x2, int y2)
+	{
+		dist = 0;
+		dir = 0;
+	}
+
+	public int getDist()
+	{
+		return dist;
+	}
+
+	@Override
+	public Iterator<HexPoint> iterator()
+	{
+		return null;
+	}
+
+	class PathIterator implements Iterator<HexPoint>
+	{
+		@Override
+		public boolean hasNext()
+		{
+			return false;
+		}
+
+		@Override
+		public HexPoint next()
+		{
+			return null;
+		}
 	}
 }

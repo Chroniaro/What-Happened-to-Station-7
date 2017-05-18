@@ -9,17 +9,17 @@ import java.util.ListIterator;
 public class RigidList<T extends Object> implements List<T>
 {
 	private Object[] list;
-	
+
 	private RigidList(Object[] list)
 	{
 		this.list = list;
 	}
-	
+
 	public RigidList(int size)
 	{
 		list = new Object[size];
 	}
-	
+
 	@Override
 	public int size()
 	{
@@ -35,10 +35,10 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public boolean contains(Object o)
 	{
-		for(Object n : this)
-			if(n == null && o == null)
+		for (Object n : this)
+			if (n == null && o == null)
 				return true;
-			else if(n.equals(o))
+			else if (n.equals(o))
 				return true;
 		return false;
 	}
@@ -55,13 +55,12 @@ public class RigidList<T extends Object> implements List<T>
 		return toArray(new Object[size()]);
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <Q> Q[] toArray(Q[] a)
 	{
 		Q[] _return = a.length >= size() ? a : (Q[]) Array.newInstance(a.getClass(), size());
-		for(int i = 0; i < size(); i++)
+		for (int i = 0; i < size(); i++)
 			_return[i] = (Q) get(i);
 		return _return;
 	}
@@ -75,13 +74,13 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public boolean remove(Object o)
 	{
-		if(o == null)
+		if (o == null)
 			return false;
-		
+
 		int n = indexOf(o);
-		if(n < 0)
+		if (n < 0)
 			return false;
-		
+
 		set(indexOf(o), null);
 		return true;
 	}
@@ -89,8 +88,8 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public boolean containsAll(Collection<?> c)
 	{
-		for(Object o : c)
-			if(!contains(o))
+		for (Object o : c)
+			if (!contains(o))
 				return false;
 		return true;
 	}
@@ -111,7 +110,7 @@ public class RigidList<T extends Object> implements List<T>
 	public boolean removeAll(Collection<?> c)
 	{
 		boolean changed = false;
-		for(Object o : this)
+		for (Object o : this)
 			changed |= remove(o);
 		return changed;
 	}
@@ -120,8 +119,8 @@ public class RigidList<T extends Object> implements List<T>
 	public boolean retainAll(Collection<?> c)
 	{
 		boolean changed = false;
-		for(Object o : this)
-			if(!c.contains(o))
+		for (Object o : this)
+			if (!c.contains(o))
 				changed |= remove(o);
 		return changed;
 	}
@@ -129,7 +128,7 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public void clear()
 	{
-		for(int i = 0; i < size(); i++)
+		for (int i = 0; i < size(); i++)
 			remove(i);
 	}
 
@@ -166,8 +165,8 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public int indexOf(Object o)
 	{
-		for(int i = 0; i < size(); i++)
-			if(get(i).equals(o))
+		for (int i = 0; i < size(); i++)
+			if (get(i).equals(o))
 				return i;
 		return -1;
 	}
@@ -175,8 +174,8 @@ public class RigidList<T extends Object> implements List<T>
 	@Override
 	public int lastIndexOf(Object o)
 	{
-		for(int i = size() - 1; i >= 0; i--)
-			if(get(i).equals(o))
+		for (int i = size() - 1; i >= 0; i--)
+			if (get(i).equals(o))
 				return i;
 		return -1;
 	}
@@ -198,28 +197,35 @@ public class RigidList<T extends Object> implements List<T>
 	{
 		return new SubList(fromIndex, toIndex);
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		String s = "[";
-		if(size() > 0)
+		if (size() > 0)
 			s += get(0);
-		for(int i = 1; i < size(); i++)
+		for (int i = 1; i < size(); i++)
 			s += ", " + get(i);
 		s += "]";
-		
+
 		return s;
 	}
-	
+
 	class RigidListIterator implements ListIterator<T>
 	{
 		private int x = 0;
 		private int lastRet = 0;
-		
-		public RigidListIterator(int startingIndex) { x = startingIndex; }
-		public RigidListIterator() { this(0); }
-		
+
+		public RigidListIterator(int startingIndex)
+		{
+			x = startingIndex;
+		}
+
+		public RigidListIterator()
+		{
+			this(0);
+		}
+
 		@Override
 		public boolean hasNext()
 		{
@@ -261,7 +267,7 @@ public class RigidList<T extends Object> implements List<T>
 		{
 			RigidList.this.remove(previousIndex());
 		}
-		
+
 		@Override
 		public void set(T e)
 		{
@@ -274,59 +280,59 @@ public class RigidList<T extends Object> implements List<T>
 			RigidList.this.add(e);
 		}
 	}
-	
+
 	class SubList extends RigidList<T>
 	{
 		private final int from, to;
-		
+
 		public SubList(int from, int to)
 		{
 			super(list);
 			this.from = from;
 			this.to = to;
 		}
-		
+
 		@Override
 		public T set(int index, T element)
 		{
 			return super.set(index + from, element);
 		}
-		
+
 		@Override
 		public T get(int index)
 		{
 			return super.get(index + from);
 		}
-		
+
 		@Override
 		public int size()
 		{
 			return to - from;
 		}
 	}
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(!(obj instanceof List<?>))
+		if (!(obj instanceof List<?>))
 			return false;
 		else
 		{
 			int i = 0;
-			for(Object n : (Iterable<?>)obj)
-				if(i > 0)
+			for (Object n : (Iterable<?>) obj)
+				if (i > 0)
 					return false;
-				else if(n == null ? get(i++) != null : !get(i++).equals(n))
+				else if (n == null ? get(i++) != null : !get(i++).equals(n))
 					return false;
 			return i == size();
 		}
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
 		int hashcode = 1;
-		for(T e : this)
+		for (T e : this)
 			hashcode = 31 * hashcode + (e == null ? 0 : e.hashCode());
 		return hashcode;
 	}

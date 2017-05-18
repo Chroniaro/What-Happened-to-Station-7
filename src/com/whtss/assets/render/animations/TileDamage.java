@@ -23,13 +23,14 @@ public class TileDamage extends Animation
 	@Override
 	public void drawOverEntities(Graphics2D g, int s)
 	{
+		float time = Math.max(T(), getLength());
 		Shape bound = pos.getBorder(s);
 		Rectangle border = bound.getBounds();
 		Point2D.Double f = new Point2D.Double(border.getCenterX(), border.getCenterY());
 		Paint grad = new RadialGradientPaint(f, s / 3, new float[] {0, .7f, 1}, new Color[]{
 				new Color(1, 0, 0, 0), 
-				new Color(1, 0, 0, .2f * (getLength() - T()) / getLength()), 
-				new Color(1, 0, 0, Math.min(1, .8f * (getLength() - T()) / getLength()))});
+				new Color(1, 0, 0, .2f * (1 - time / getLength())), 
+				new Color(1, 0, 0, .8f * (1 - time / getLength()))});
 		g.setPaint(grad);
 		g.fill(bound);
 	}

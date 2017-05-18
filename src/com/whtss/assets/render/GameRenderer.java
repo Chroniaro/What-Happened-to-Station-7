@@ -16,7 +16,7 @@ import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
-import com.whtss.assets.entities.SimpleEnemy;
+import com.whtss.assets.entities.Enemy;
 import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
@@ -35,11 +35,9 @@ public class GameRenderer extends JComponent
 	private HexPoint mouse, select = null;
 	private Animation activeAnimation = null;
 	
-
 	public GameRenderer(Game game)
 	{
 		this.game = game;
-		requestFocusInWindow();
 	}
 
 	public void addListeners(JFrame container)
@@ -226,9 +224,9 @@ public class GameRenderer extends JComponent
 				g.setColor(myNewP);
 				g.fill(e.getLocation().getBorder(s));
 			}
-			else if (e.getClass().equals(SimpleEnemy.class))
+			else if (e.getClass().equals(Enemy.class))
 			{
-				int y = Math.min(100, ((SimpleEnemy) e).gethealth());
+				int y = Math.min(100, ((Enemy) e).getHealth());
 				int k = (int) (250 - ((Math.pow((100 - y) / 2, 2)) / 10));
 				int u = (int) ((Math.pow((int) (100 - y) / 2, 2)) / 10);
 				int t = Math.abs(u);
@@ -244,7 +242,7 @@ public class GameRenderer extends JComponent
 			}
 			else if (e.getClass().equals(HealBox.class))
 			{
-				int y = ((HealBox) e).gethealth();
+				int y = ((HealBox) e).getHealth();
 				Color myNewBlue = new Color(255 - (y / 2), 0, 255 - (y / 2));
 				g.setColor(myNewBlue);
 				g.fill(e.getLocation().getBorder(s));
