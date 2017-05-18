@@ -8,7 +8,6 @@ import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.UIEventHandle;
-import com.whtss.assets.render.animations.Laser;
 
 public class Sniper extends Enemy
 {
@@ -52,7 +51,7 @@ public class Sniper extends Enemy
 			e1.printStackTrace();
 		}
 		
-		getLevel().getUIInterface().startAnimation(new Laser(getLocation(), weakest.getLocation()));
+//		getLevel().getUIInterface().startAnimation(new Laser(getLocation(), weakest.getLocation()));
 	}
 
 	public void goModeretlyFar()

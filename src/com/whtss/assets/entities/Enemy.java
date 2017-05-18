@@ -9,7 +9,6 @@ import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.Animation;
 import com.whtss.assets.render.UIEventHandle;
-import com.whtss.assets.render.animations.CompoundAnimation;
 import com.whtss.assets.render.animations.Laser;
 
 public class Enemy extends Entity implements Damageable
@@ -54,7 +53,7 @@ public class Enemy extends Entity implements Damageable
 			int db = (int) Math.signum(nearest.getLocation().getB() - getLocation().getB());
 			int dy = (int) Math.signum(nearest.getLocation().getY() - getLocation().getY());
 
-			if (move(da, db, 0))
+			if (move(da, db, dy))
 				return;
 		}
 
