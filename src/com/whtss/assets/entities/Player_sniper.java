@@ -8,7 +8,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
-import com.whtss.assets.core.Entity.UIEventHandle;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.animations.CompoundAnimation;
