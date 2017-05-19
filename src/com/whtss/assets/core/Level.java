@@ -335,14 +335,14 @@ public class Level
 
 		enemyRoom = centerRooms[rand.nextInt(centerRooms.length)];
 		Healroom = centerRooms[rand.nextInt(centerRooms.length)];
-//
-//		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
-//		{
-//			Entity ep = players[i];
-//			ep.setLocation(startRoom.mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
-//			ep.setActive(true);
-//			getEntities().add(players[i]);
-//		}
+
+		for (int i = 0; i < players.length && i < playerStartOffsets.length; i++)
+		{
+			Entity ep = players[i];
+			ep.setLocation(startRoom.mABY(playerStartOffsets[i][0], playerStartOffsets[i][1], playerStartOffsets[i][2]));
+			ep.setActive(true);
+			getEntities().add(players[i]);
+		}
 		
 		Entity ep = new Player_sniper(startRoom, this);
 		ep.setActive(true);
