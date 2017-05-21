@@ -4,38 +4,18 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.TexturePaint;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import com.whtss.assets.Game;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
-import com.whtss.assets.entities.HealBox;
-import com.whtss.assets.entities.Player;
-import com.whtss.assets.entities.Player_sniper;
-import com.whtss.assets.entities.SimpleEnemy;
-import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
-
-import javafx.scene.image.Image;
 
 public class GameRenderer extends JComponent
 {
@@ -235,55 +215,62 @@ public class GameRenderer extends JComponent
 //				continue;
 			if (!e.isActive())
 				continue;
-			if (e.getClass().equals(Player.class))
-			{
-				int y = Math.min(((Player) e).gethealth(), 100);
-				Color myNewP = new Color(255 - y, y / 2, 100 + y);
-				g.setColor(myNewP);
-				g.fill(e.getLocation().getBorder(s));
-			}
-			if (e.getClass().equals(Player_sniper.class))
-			{
 			
-		            java.awt.Image in = Toolkit.getDefaultToolkit().createImage("Pattern14.jpg");
-
-		          BufferedImage out = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB); 
-				TexturePaint tp = new TexturePaint(out, new Rectangle(0, 0, 16, 16));
-				 Graphics2D g2d = out.createGraphics();
-		            g2d.drawImage(in, 0, 0, null);
-		            g2d.dispose();
-		            try {
-						ImageIO.write(out, "jpg", new File("Pattern14.jpg"));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				g.setPaint(tp);
-				g.fill(e.getLocation().getBorder(s));
-			}
-			else if (e.getClass().equals(SimpleEnemy.class))
+			if(e instanceof Renderable)
 			{
-				int y = Math.min(100, ((SimpleEnemy) e).gethealth());
-				int k = (int) (250 - ((Math.pow((100 - y) / 2, 2)) / 10));
-				int u = (int) ((Math.pow((int) (100 - y) / 2, 2)) / 10);
-				int t = Math.abs(u);
-				int z = Math.abs(k);
-				Color myNewBlue = new Color(t, t, z);
-				g.setColor(myNewBlue);
-				g.fill(e.getLocation().getBorder(s));
+				Sprite sprite = ((Renderable)e).getSprite();
+				sprite.draw(g, s);
+				tstack.revert();
 			}
-			else if (e.getClass().equals(Sniper.class))
-			{
-				g.setColor(Color.GREEN);
-				g.fill(e.getLocation().getBorder(s));
-			}
-			else if (e.getClass().equals(HealBox.class))
-			{
-				int y = ((HealBox) e).gethealth();
-				Color myNewBlue = new Color(255 - (y / 2), 0, 255 - (y / 2));
-				g.setColor(myNewBlue);
-				g.fill(e.getLocation().getBorder(s));
-			}
+//			if (e.getClass().equals(Player.class))
+//			{
+//				int y = Math.min(((Player) e).gethealth(), 100);
+//				Color myNewP = new Color(255 - y, y / 2, 100 + y);
+//				g.setColor(myNewP);
+//				g.fill(e.getLocation().getBorder(s));
+//			}
+//			if (e.getClass().equals(Player_sniper.class))
+//			{
+//			
+//		            java.awt.Image in = Toolkit.getDefaultToolkit().createImage("Pattern14.jpg");
+//
+//		          BufferedImage out = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB); 
+//				TexturePaint tp = new TexturePaint(out, new Rectangle(0, 0, 16, 16));
+//				 Graphics2D g2d = out.createGraphics();
+//		            g2d.drawImage(in, 0, 0, null);
+//		            g2d.dispose();
+//		            try {
+//						ImageIO.write(out, "jpg", new File("Pattern14.jpg"));
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//				g.setPaint(tp);
+//				g.fill(e.getLocation().getBorder(s));
+//			}
+//			else if (e.getClass().equals(SimpleEnemy.class))
+//			{
+//				int y = Math.min(100, ((SimpleEnemy) e).gethealth());
+//				int k = (int) (250 - ((Math.pow((100 - y) / 2, 2)) / 10));
+//				int u = (int) ((Math.pow((int) (100 - y) / 2, 2)) / 10);
+//				int t = Math.abs(u);
+//				int z = Math.abs(k);
+//				Color myNewBlue = new Color(t, t, z);
+//				g.setColor(myNewBlue);
+//				g.fill(e.getLocation().getBorder(s));
+//			}
+//			else if (e.getClass().equals(Sniper.class))
+//			{
+//				g.setColor(Color.GREEN);
+//				g.fill(e.getLocation().getBorder(s));
+//			}
+//			else if (e.getClass().equals(HealBox.class))
+//			{
+//				int y = ((HealBox) e).gethealth();
+//				Color myNewBlue = new Color(255 - (y / 2), 0, 255 - (y / 2));
+//				g.setColor(myNewBlue);
+//				g.fill(e.getLocation().getBorder(s));
+//			}
 		}
 
 		//		tstack.pop();

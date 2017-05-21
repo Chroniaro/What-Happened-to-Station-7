@@ -46,9 +46,4 @@ public abstract class Animation
 	public void drawUnderEntities(Graphics2D g, int s) {}
 	public void drawOverEntities(Graphics2D g, int s) {}
 	public void drawOverGUI(Graphics2D g, int s) {}
-	
-	public int getLayer()
-	{
-		return 0;
-	}
 }
