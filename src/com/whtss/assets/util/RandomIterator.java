@@ -10,7 +10,7 @@ public class RandomIterator<T> implements Iterator<T>
 {
 	final private List<T> array;
 	private int index = 0;
-	
+
 	public RandomIterator(Collection<T> c)
 	{
 		array = new ArrayList<T>(c.size());

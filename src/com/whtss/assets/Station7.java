@@ -3,9 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import com.whtss.assets.render.GameInfo;
@@ -13,9 +10,7 @@ import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.SoundStuff;
 public class Station7
 {
-	public static SoundStuff soundStuff;
-	
-	public static void main(String... args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
+	public static void main(String... args) throws Throwable
 	{	
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -33,31 +28,19 @@ public class Station7
 		opening_text.setMinimumSize(new Dimension(400, 225));
 		opening_text.add(textField, BorderLayout.PAGE_START);
 		opening_text.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		opening_text.setVisible(true);
 		opening_text.setAlwaysOnTop(true);
 		
-		JFrame o_t = new JFrame();
-		o_t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		o_t.setTitle("You Have Fell to the Swedes");
+		JFrame closing_text = new JFrame();
+		closing_text.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		closing_text.setTitle("You Have Fell to the Swedes");
 		JTextArea text = new JTextArea("You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. ");
 		text.setLineWrap(true);
 		text.setWrapStyleWord(true);
-		o_t.setMinimumSize(new Dimension(400, 225));
-		o_t.add(text, BorderLayout.PAGE_START);
-		o_t.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		o_t.setVisible(true);
-		o_t.setAlwaysOnTop(false);
+		closing_text.setMinimumSize(new Dimension(400, 225));
+		closing_text.add(text, BorderLayout.PAGE_START);
+		closing_text.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
-	
 		SoundStuff soundStuff = new SoundStuff();
-		try
-		{
-			soundStuff = new SoundStuff();
-		}
-		catch(UnsupportedAudioFileException | IOException | LineUnavailableException e)
-		{
-			soundStuff = null;
-		}
 		soundStuff.dbol();
 		
 		Game game = new Game();
@@ -72,7 +55,7 @@ public class Station7
 		window.add(render, layoutGame);
 		
 		GameInfo info = new GameInfo(game);
-		info.addListeners(window);
+		info.addListeners();
 		GridBagConstraints layoutInfo = new GridBagConstraints();
 		layoutInfo.weightx = .1;
 		layoutInfo.weighty = .1;
@@ -83,6 +66,8 @@ public class Station7
 		
 		game.init(render.new UIInterface(), info.new UIInterface());
 		
+		closing_text.setVisible(true);
 		window.setVisible(true);
+		opening_text.setVisible(true);
 	}
 }

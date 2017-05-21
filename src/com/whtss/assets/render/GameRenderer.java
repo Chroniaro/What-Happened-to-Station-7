@@ -14,14 +14,19 @@ import javax.swing.JFrame;
 import com.whtss.assets.Game;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
+import com.whtss.assets.entities.Enemy;
+import com.whtss.assets.entities.HealBox;
+import com.whtss.assets.entities.Player;
+import com.whtss.assets.entities.PlayerSniper;
+import com.whtss.assets.entities.Sniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 
 public class GameRenderer extends JComponent
 {
-	
+
 	public static final boolean dev = false;
-	
+
 	/**
 	 * 
 	 */
@@ -30,12 +35,10 @@ public class GameRenderer extends JComponent
 	private Game game;
 	private HexPoint mouse, select = null;
 	private Animation activeAnimation = null;
-	
 
 	public GameRenderer(Game game)
 	{
 		this.game = game;
-		requestFocusInWindow();
 	}
 
 	public void addListeners(JFrame container)
@@ -130,9 +133,9 @@ public class GameRenderer extends JComponent
 		Graphics2D g = (Graphics2D) _g;
 
 		final int s = cellSize();
-		
+
 		Level lvl = game.getLevel();
-		if(lvl == null)
+		if (lvl == null)
 			return;
 		TStack tstack = new TStack(g);
 		HexRect viewRect = lvl.getCells();
@@ -154,7 +157,7 @@ public class GameRenderer extends JComponent
 		{
 			g.drawString(mouse.abCoords(), 0, getHeight() - 20);
 			g.drawString("(" + viewRect.X(mouse) + ", " + viewRect.Y(mouse) + ")", 0, getHeight() - 40);
-			if(mouseIn)
+			if (mouseIn)
 				g.drawString("Room " + lvl.getRoom(mouse), 0, getHeight() - 60);
 		}
 
@@ -170,9 +173,9 @@ public class GameRenderer extends JComponent
 			int d;
 			if (game.getLevel().getFloorTile(iterator.x(), iterator.y()) % 2 != 0)
 				g.setColor(Color.GRAY);
-			else if(dev)
+			else if (dev)
 			{
-				final Color[] colors = {Color.LIGHT_GRAY, Color.WHITE, Color.red, Color.GREEN, Color.BLUE, Color.orange, Color.pink, Color.CYAN, Color.MAGENTA};
+				final Color[] colors = { Color.LIGHT_GRAY, Color.WHITE, Color.red, Color.GREEN, Color.BLUE, Color.orange, Color.pink, Color.CYAN, Color.MAGENTA };
 				g.setColor(colors[(lvl.getRoom(hex) % (colors.length - 2)) + 2]);
 			}
 			else if (mouseIn && (d = hex.dist(mouse)) < 25)
@@ -190,10 +193,10 @@ public class GameRenderer extends JComponent
 			tstack.pop();
 		}
 
-		if(lvl.getEnd() != null)
+		if (lvl.getEnd() != null)
 		{
-		g.setColor(Color.CYAN);
-		g.fill(lvl.getEnd().getBorder(s));
+			g.setColor(Color.CYAN);
+			g.fill(lvl.getEnd().getBorder(s));
 		}
 
 		tstack.revert();
@@ -203,74 +206,57 @@ public class GameRenderer extends JComponent
 			activeAnimation.drawUnderEntities(g, s);
 
 		tstack.revert();
-//		for (HexPoint yyz: Entity.getflametiles()){
-//			
-//		g.setColor(Color.ORANGE);
-//		g.fill(yyz.getBorder(s));
-//		}
-		
+		//		for (HexPoint yyz: Entity.getflametiles()){
+		//			
+		//		g.setColor(Color.ORANGE);
+		//		g.fill(yyz.getBorder(s));
+		//		}
+
 		for (Entity e : lvl.getEntities())
 		{
-//			if(e == null)
-//				continue;
+			//			if(e == null)
+			//				continue;
 			if (!e.isActive())
 				continue;
 			
-			if(e instanceof Renderable)
+			if(e instanceof PlayerSniper)
 			{
-				Sprite sprite = ((Renderable)e).getSprite();
-				sprite.draw(g, s);
-				tstack.revert();
+				g.setColor(new Color(125, 25, 150));
+				g.fill(e.getLocation().getBorder(s));
 			}
-//			if (e.getClass().equals(Player.class))
-//			{
+			else if (e instanceof Player)
+			{
 //				int y = Math.min(((Player) e).gethealth(), 100);
 //				Color myNewP = new Color(255 - y, y / 2, 100 + y);
 //				g.setColor(myNewP);
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			if (e.getClass().equals(Player_sniper.class))
-//			{
-//			
-//		            java.awt.Image in = Toolkit.getDefaultToolkit().createImage("Pattern14.jpg");
-//
-//		          BufferedImage out = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB); 
-//				TexturePaint tp = new TexturePaint(out, new Rectangle(0, 0, 16, 16));
-//				 Graphics2D g2d = out.createGraphics();
-//		            g2d.drawImage(in, 0, 0, null);
-//		            g2d.dispose();
-//		            try {
-//						ImageIO.write(out, "jpg", new File("Pattern14.jpg"));
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//				g.setPaint(tp);
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e.getClass().equals(SimpleEnemy.class))
-//			{
-//				int y = Math.min(100, ((SimpleEnemy) e).gethealth());
+				g.setColor(new Color(155, 50, 200));
+				g.fill(e.getLocation().getBorder(s));
+			}
+			else if (e instanceof Sniper)
+			{
+				g.setColor(Color.GREEN);
+				g.fill(e.getLocation().getBorder(s));
+			}
+			else if (e instanceof Enemy)
+			{
+//				int y = Math.min(100, ((Enemy) e).getHealth());
 //				int k = (int) (250 - ((Math.pow((100 - y) / 2, 2)) / 10));
 //				int u = (int) ((Math.pow((int) (100 - y) / 2, 2)) / 10);
 //				int t = Math.abs(u);
 //				int z = Math.abs(k);
 //				Color myNewBlue = new Color(t, t, z);
 //				g.setColor(myNewBlue);
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e.getClass().equals(Sniper.class))
-//			{
-//				g.setColor(Color.GREEN);
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e.getClass().equals(HealBox.class))
-//			{
-//				int y = ((HealBox) e).gethealth();
+				g.setColor(new Color(0, 0, 250));
+				g.fill(e.getLocation().getBorder(s));
+			}
+			else if (e instanceof HealBox)
+			{
+//				int y = ((HealBox) e).getHealth();
 //				Color myNewBlue = new Color(255 - (y / 2), 0, 255 - (y / 2));
 //				g.setColor(myNewBlue);
-//				g.fill(e.getLocation().getBorder(s));
-//			}
+				g.setColor(new Color(155, 0, 155));
+				g.fill(e.getLocation().getBorder(s));
+			}
 		}
 
 		//		tstack.pop();
@@ -337,22 +323,22 @@ public class GameRenderer extends JComponent
 	}
 
 	public class UIInterface
-	{	
+	{
 		public void refresh()
 		{
 			repaint();
 		}
-		
+
 		public void selectTile(HexPoint sel)
 		{
 			select = sel;
 		}
-		
+
 		public void startAnimation(Animation a)
 		{
 			playAnimation(a);
 		}
-		
+
 		public boolean isInAnimation()
 		{
 			return activeAnimation != null;

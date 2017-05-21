@@ -119,43 +119,43 @@ public class RigidCollection<E> implements Collection<E>
 	{
 		throw new UnsupportedOperationException("This collection is immutable.");
 	}
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(!(obj instanceof Collection<?>))
+		if (!(obj instanceof Collection<?>))
 			return false;
-		
+
 		Collection<?> c = (Collection<?>) obj;
-		for(Object o : c)
-			if(!contains(o))
+		for (Object o : c)
+			if (!contains(o))
 				return false;
-		for(Object o : this)
-			if(!c.contains(o))
+		for (Object o : this)
+			if (!c.contains(o))
 				return false;
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
 		int hashcode = 1;
-		for(E e : this)
+		for (E e : this)
 			hashcode ^= e.hashCode();
 		return hashcode;
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		String s = "[";
-		if(size() > 0)
+		if (size() > 0)
 			s += array[0];
-		for(int i = 1; i < size(); i++)
+		for (int i = 1; i < size(); i++)
 			s += ", " + array[i];
 		s += "]";
-		
+
 		return s;
 	}
 }

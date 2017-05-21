@@ -17,16 +17,16 @@ public class Laser extends Animation
 		this.start = start;
 		this.end = end;
 	}
-	
+
 	@Override
 	public void drawOverGUI(Graphics2D g, int s)
 	{
 		g.setColor(new Color(1, 0, 0, .7f));
 		g.setStroke(new BasicStroke(10f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND));
-		
+
 		double progress = 2 * (double) T() / getLength();
 		Point st, en;
-		if(progress < 1)
+		if (progress < 1)
 		{
 			st = new Point(start.getVisualX(s), start.getVisualY(s));
 			en = new Point();
@@ -42,5 +42,17 @@ public class Laser extends Animation
 			st.y = (int) (progress * en.y + (1 - progress) * start.getVisualY(s));
 		}
 		g.drawLine(st.x, st.y, en.x, en.y);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return start.hashCode() ^ ~end.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		return obj instanceof Laser && ((Laser) obj).start.equals(start) && ((Laser) obj).end.equals(end);
 	}
 }

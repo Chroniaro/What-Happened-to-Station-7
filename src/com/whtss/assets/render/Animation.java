@@ -23,7 +23,7 @@ public abstract class Animation
 		startTime += offset;
 	}
 	
-	public final int getLength()
+	public int getLength()
 	{
 		return length;
 	}
