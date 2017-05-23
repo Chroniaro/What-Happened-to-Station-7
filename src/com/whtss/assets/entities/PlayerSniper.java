@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.awt.Color;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -12,6 +13,7 @@ import com.whtss.assets.render.UIEventHandle;
 import com.whtss.assets.render.animations.CompoundAnimation;
 import com.whtss.assets.render.animations.Laser;
 import com.whtss.assets.render.animations.TileDamage;
+import com.whtss.assets.render.sprites.ColorGradientSprite;
 
 public class PlayerSniper extends Player
 {
@@ -21,6 +23,7 @@ public class PlayerSniper extends Player
 	public PlayerSniper(HexPoint location, Level level)
 	{
 		super(location, level);
+		spr = new ColorGradientSprite(this, new Color(120, 0, 200), Color.PINK);
 		speed = 5;
 	}
 

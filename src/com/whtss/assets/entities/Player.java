@@ -20,11 +20,7 @@ import com.whtss.assets.render.sprites.ColorGradientSprite;
 
 public class Player extends Entity implements Damageable, Renderable
 {
-	Sprite spr = new ColorGradientSprite(this, /*() ->
-	{
-		int health = Math.min(gethealth(), 100);
-		return new Color(255 - health, health / 2, 100 + health);
-	}*/ new Color(155, 50, 200), new Color(255, 0, 100));
+	Sprite spr = new ColorGradientSprite(this, new Color(155, 50, 200), new Color(255, 0, 100));
 	int speed = 7;
 	int move = 0;
 	int health = getMaxHealth();

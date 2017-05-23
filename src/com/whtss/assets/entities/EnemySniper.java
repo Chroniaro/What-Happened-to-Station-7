@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.awt.Color;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -8,12 +9,14 @@ import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.UIEventHandle;
+import com.whtss.assets.render.sprites.ColorGradientSprite;
 
 public class EnemySniper extends Enemy
 {
 	public EnemySniper(HexPoint location, Level level)
 	{
 		super(location, level);
+		spr = new ColorGradientSprite(this, Color.GREEN, Color.YELLOW);
 	}
 
 	@Override
