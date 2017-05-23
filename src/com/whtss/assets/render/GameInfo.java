@@ -8,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import com.whtss.assets.Game;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.entities.Player;
@@ -53,13 +52,12 @@ public class GameInfo extends JComponent
 		//if(grui.getSelectedTile() != null)
 		for (Entity e : game.getLevel().getEntities()){
 			if (e.isActive() && e instanceof Player && grui.getSelectedTile() != null)
-			{
-				if(e instanceof Player){
-				if(grui.getSelectedTile().equals(e.getLocation()) && grui.getSelectedTile() != null){
+			{		
+				if(grui.getSelectedTile().equals(e.getLocation())){
 					erer = (Player) e;
 					entity_health = erer.getHealth();
 					potato = String.valueOf(entity_health);
-				}
+					g.drawString("Health>>> "+ potato, getWidth() /2 - 150, getHeight() - 40);
 				}
 			}
 		}
