@@ -50,12 +50,12 @@ public class GameInfo extends JComponent
 		int entity_health= 0;
 		Player erer = new Player(null, null);
 		String potato = "not a player";
-		if(grui.getSelectedTile() != null)
+		//if(grui.getSelectedTile() != null)
 		for (Entity e : game.getLevel().getEntities()){
-			if (e.isActive() && e instanceof Player)
+			if (e.isActive() && e instanceof Player && grui.getSelectedTile() != null)
 			{
 				if(e instanceof Player){
-				if(grui.getSelectedTile().equals(e.getLocation())){
+				if(grui.getSelectedTile().equals(e.getLocation()) && grui.getSelectedTile() != null){
 					erer = (Player) e;
 					entity_health = erer.getHealth();
 					potato = String.valueOf(entity_health);
