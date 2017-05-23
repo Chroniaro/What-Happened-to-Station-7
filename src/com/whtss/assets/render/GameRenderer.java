@@ -283,6 +283,11 @@ public class GameRenderer extends JComponent
 		{
 			select = sel;
 		}
+		
+		public HexPoint getSelectedTile()
+		{
+			return select;
+		}
 
 		public void startAnimation(Animation a)
 		{

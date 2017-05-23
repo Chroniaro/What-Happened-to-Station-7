@@ -11,7 +11,7 @@ public class Game
 {
 	private Level lvl;
 	private boolean playersTurn = true;
-	private UIInterface uiinterface;
+	public UIInterface uiinterface;
 
 	public void init(GameRenderer.UIInterface gameInterface, GameInfo.UIInterface infoInterface)
 	{
