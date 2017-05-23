@@ -20,7 +20,8 @@ public class PlayerSniper extends Player
 
 	public PlayerSniper(HexPoint location, Level level)
 	{
-		super(location, level, 5);
+		super(location, level);
+		speed = 5;
 	}
 
 	@Override

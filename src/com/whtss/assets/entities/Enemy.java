@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -8,14 +9,18 @@ import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.Animation;
+import com.whtss.assets.render.Renderable;
+import com.whtss.assets.render.Sprite;
 import com.whtss.assets.render.UIEventHandle;
 import com.whtss.assets.render.animations.Laser;
+import com.whtss.assets.render.sprites.ColorGradientSprite;
 
-public class Enemy extends Entity implements Damageable
+public class Enemy extends Entity implements Damageable, Renderable
 {
 	final static Random RNG = new Random();
 
-	int health = 100;
+	Sprite spr = new ColorGradientSprite(this, new Color(0, 0, 250), new Color(250, 250, 125));
+	int health = getMaxHealth();
 
 	public Enemy(HexPoint location, Level level)
 	{
@@ -40,7 +45,13 @@ public class Enemy extends Entity implements Damageable
 				animations.add(new Laser(getLocation(), e.getLocation()));
 			}
 
-//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Concurrent(animations));
+		//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Concurrent(animations));
+	}
+	
+	@UIEventHandle(value = "Key_B", turn = "Player")
+	public void takeDamage()
+	{
+		takeDamage(10);
 	}
 
 	private void goveryclose()
@@ -83,6 +94,12 @@ public class Enemy extends Entity implements Damageable
 	{
 		return health;
 	}
+	
+	@Override
+	public int getMaxHealth()
+	{
+		return 100;
+	}
 
 	@Override
 	public void takeDamage(int amount)
@@ -90,5 +107,11 @@ public class Enemy extends Entity implements Damageable
 		health -= amount;
 		if (health < 0)
 			setActive(false);
+	}
+	
+	@Override
+	public Sprite getSprite()
+	{
+		return spr;
 	}
 }

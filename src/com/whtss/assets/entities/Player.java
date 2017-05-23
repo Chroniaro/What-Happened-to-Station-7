@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.awt.Color;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -7,28 +8,30 @@ import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
+import com.whtss.assets.render.Renderable;
 import com.whtss.assets.render.SoundStuff;
+import com.whtss.assets.render.Sprite;
 import com.whtss.assets.render.UIEventHandle;
 import com.whtss.assets.render.animations.BigDamage;
 import com.whtss.assets.render.animations.CompoundAnimation;
 import com.whtss.assets.render.animations.Laser;
 import com.whtss.assets.render.animations.TileDamage;
+import com.whtss.assets.render.sprites.ColorGradientSprite;
 
-public class Player extends Entity implements Damageable
+public class Player extends Entity implements Damageable, Renderable
 {
-	final int speed;
-	int move = 0;
-	int health = 100;
-
-	Player(HexPoint location, Level level, int speed)
+	Sprite spr = new ColorGradientSprite(this, /*() ->
 	{
-		super(location, level);
-		this.speed = speed;
-	}
+		int health = Math.min(gethealth(), 100);
+		return new Color(255 - health, health / 2, 100 + health);
+	}*/ new Color(155, 50, 200), new Color(255, 0, 100));
+	int speed = 7;
+	int move = 0;
+	int health = getMaxHealth();
 	
 	public Player(HexPoint location, Level level)
 	{
-		this(location, level, 7);
+		super(location, level);
 	}
 
 	@UIEventHandle(value = "Next Turn", turn = "Player")
@@ -80,6 +83,12 @@ public class Player extends Entity implements Damageable
 		setActive(false);
 		getLevel().addPersistantPlayer(this);
 		getLevel().getUIInterface().selectTile(getLocation());
+	}
+	
+	@UIEventHandle(value = "Key_B", turn = "Player")
+	public void takeDamage()
+	{
+		takeDamage(10);
 	}
 
 	@UIEventHandle(value = "Key_F", turn = "Player")
@@ -221,10 +230,11 @@ public class Player extends Entity implements Damageable
 	{
 		return health;
 	}
-
-	public int getMP()
+	
+	@Override
+	public int getMaxHealth()
 	{
-		return speed;
+		return 100;
 	}
 
 	@Override
@@ -238,5 +248,11 @@ public class Player extends Entity implements Damageable
 			getLevel().getUIInterface().startAnimation(new BigDamage());
 			getLevel().deadPlayer();
 		}
+	}
+
+	@Override
+	public Sprite getSprite()
+	{
+		return spr;
 	}
 }

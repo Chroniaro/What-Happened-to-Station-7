@@ -9,9 +9,9 @@ import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
 import com.whtss.assets.render.UIEventHandle;
 
-public class Sniper extends Enemy
+public class EnemySniper extends Enemy
 {
-	public Sniper(HexPoint location, Level level)
+	public EnemySniper(HexPoint location, Level level)
 	{
 		super(location, level);
 	}

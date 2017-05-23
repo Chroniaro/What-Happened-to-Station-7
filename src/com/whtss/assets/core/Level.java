@@ -19,7 +19,7 @@ import com.whtss.assets.entities.Enemy;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.PlayerSniper;
-import com.whtss.assets.entities.Sniper;
+import com.whtss.assets.entities.EnemySniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 import com.whtss.assets.render.GameInfo;
@@ -331,7 +331,7 @@ public class Level
 		}
 
 		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
-		getEntities().add(new Sniper(enemyRoom.mY(2), this));
+		getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
 
 		getEntities().add(new HealBox(Healroom, this));
 		
