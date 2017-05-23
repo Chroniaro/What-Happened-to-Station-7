@@ -195,17 +195,11 @@ public class GameRenderer extends JComponent
 		}
 
 		tstack.revert();
-		tstack.push();
 
 		if (activeAnimation != null)
 			activeAnimation.drawUnderEntities(g, s);
 
 		tstack.revert();
-		//		for (HexPoint yyz: Entity.getflametiles()){
-		//			
-		//		g.setColor(Color.ORANGE);
-		//		g.fill(yyz.getBorder(s));
-		//		}
 
 		for (Entity e : lvl.getEntities())
 		{
@@ -214,48 +208,9 @@ public class GameRenderer extends JComponent
 			if(e instanceof Renderable)
 				((Renderable)e).getSprite().draw(g, s);
 			
-//			if(e instanceof PlayerSniper)
-//			{
-//				g.setColor(new Color(125, 25, 150));
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e instanceof Player)
-//			{
-////				int y = Math.min(((Player) e).gethealth(), 100);
-////				Color myNewP = new Color(255 - y, y / 2, 100 + y);
-////				g.setColor(myNewP);
-//				g.setColor(new Color(155, 50, 200));
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e instanceof Sniper)
-//			{
-//				g.setColor(Color.GREEN);
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e instanceof Enemy)
-//			{
-////				int y = Math.min(100, ((Enemy) e).getHealth());
-////				int k = (int) (250 - ((Math.pow((100 - y) / 2, 2)) / 10));
-////				int u = (int) ((Math.pow((int) (100 - y) / 2, 2)) / 10);
-////				int t = Math.abs(u);
-////				int z = Math.abs(k);
-////				Color myNewBlue = new Color(t, t, z);
-////				g.setColor(myNewBlue);
-//				g.setColor(new Color(0, 0, 250));
-//				g.fill(e.getLocation().getBorder(s));
-//			}
-//			else if (e instanceof HealBox)
-//			{
-////				int y = ((HealBox) e).getHealth();
-////				Color myNewBlue = new Color(255 - (y / 2), 0, 255 - (y / 2));
-////				g.setColor(myNewBlue);
-//				g.setColor(new Color(155, 0, 155));
-//				g.fill(e.getLocation().getBorder(s));
-//			}
 		}
 
-		//		tstack.pop();
-		//		tstack.revert();
+		tstack.revert();
 
 		if (activeAnimation != null)
 			activeAnimation.drawOverEntities(g, s);

@@ -170,3 +170,53 @@
 //			setActive(false);
 //	}
 //}
+
+
+// Entities stuff
+
+//	public List<HexPoint> flametiles; //TODO: fire
+
+//	public boolean is_on_fire(HexPoint location) //TODO:fire
+//	{
+//		if (flametiles.size() > 1)
+//		{
+//			for (HexPoint e : flametiles)
+//			{
+//				if (e == location) { return true; }
+//			}
+//		}
+//		return false;
+//	}
+
+//	public void addflametile(HexPoint tile) //TODO:fire
+//	{
+//
+//		flametiles.add(tile);
+//	}
+//
+//	public List<HexPoint> getflametile()
+//	{
+//
+//		return flametiles;
+//	}
+
+//	public boolean flameer(int da, int db, int dhy) throws UnsupportedAudioFileException, IOException, LineUnavailableException //TODO:fire
+//	{
+//		// one means theire is a thing there
+//		// two means that is no one there
+//		// zero means that their is a wall there
+//
+//		HexPoint newLocation = locatione.mABY(da, db, 2 * dhy);
+//		flametiles.add(newLocation);
+//		SoundStuff cam = new SoundStuff();
+//		cam.flame();
+//		if (lvl.getCells().contains(newLocation) && lvl.getFloorTile(newLocation) % 2 == 0)
+//		{
+//			for (Entity e : lvl.getEntities())
+//				if (e.isActive() && e.getLocation().equals(newLocation))
+//
+//					return true;
+//			return true;
+//		}
+//		return false;
+//	}
