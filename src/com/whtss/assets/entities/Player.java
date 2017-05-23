@@ -85,12 +85,6 @@ public class Player extends Entity implements Damageable, Renderable
 		getLevel().getUIInterface().selectTile(getLocation());
 	}
 	
-	@UIEventHandle(value = "Key_B", turn = "Player")
-	public void takeDamage()
-	{
-		takeDamage(10);
-	}
-
 	@UIEventHandle(value = "Key_F", turn = "Player")
 	public void sovietunion() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{

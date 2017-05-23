@@ -47,12 +47,6 @@ public class Enemy extends Entity implements Damageable, Renderable
 
 		//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Concurrent(animations));
 	}
-	
-	@UIEventHandle(value = "Key_B", turn = "Player")
-	public void takeDamage()
-	{
-		takeDamage(10);
-	}
 
 	private void goveryclose()
 	{

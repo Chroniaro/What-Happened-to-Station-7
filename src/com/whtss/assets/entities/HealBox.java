@@ -41,12 +41,6 @@ public class HealBox extends Entity implements Damageable, Renderable
 			takeDamage(40);
 		}
 	}
-	
-	@UIEventHandle(value = "Key_B", turn = "Player")
-	public void takeDamage()
-	{
-		takeDamage(10);
-	}
 
 	@Override
 	public int getHealth()
