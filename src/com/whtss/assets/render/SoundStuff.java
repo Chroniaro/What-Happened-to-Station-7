@@ -31,43 +31,43 @@ public class SoundStuff
 
 	public SoundStuff() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
-		File audioFile = new File("na_sweden.wav");
+		File audioFile = new File("SoundStuff/na_sweden.wav");
 		audioStream = AudioSystem.getAudioInputStream(audioFile);
 		AudioFormat format = audioStream.getFormat();
 		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		audioClip = (Clip) AudioSystem.getLine(info);
 
-		File aF = new File("David_Bowie_-_Starman_1_.wav");
+		File aF = new File("SoundStuff/David_Bowie_-_Starman_1_.wav");
 		aS = AudioSystem.getAudioInputStream(aF);
 		AudioFormat f = aS.getFormat();
 		DataLine.Info i = new DataLine.Info(Clip.class, f);
 		aC = (Clip) AudioSystem.getLine(i);
 
-		File burn = new File("burnest.wav");
+		File burn = new File("SoundStuff/burnest.wav");
 		flames = AudioSystem.getAudioInputStream(burn);
 		AudioFormat pyro = flames.getFormat();
 		DataLine.Info mental = new DataLine.Info(Clip.class, pyro);
 		insane = (Clip) AudioSystem.getLine(mental);
 
-		File StarTrek = new File("Paz.wav");
+		File StarTrek = new File("SoundStuff/Paz.wav");
 		Paser = AudioSystem.getAudioInputStream(StarTrek);
 		AudioFormat kirk = Paser.getFormat();
 		DataLine.Info spock = new DataLine.Info(Clip.class, kirk);
 		Phazer = (Clip) AudioSystem.getLine(spock);
 
-		File StarTreker = new File("Laz.wav");
+		File StarTreker = new File("SoundStuff/Laz.wav");
 		Laser = AudioSystem.getAudioInputStream(StarTreker);
 		AudioFormat bones = Paser.getFormat();
 		DataLine.Info worf = new DataLine.Info(Clip.class, bones);
 		Lazer = (Clip) AudioSystem.getLine(worf);
 
-		File Putin = new File("CCCP.wav");
+		File Putin = new File("SoundStuff/CCCP.wav");
 		Marx = AudioSystem.getAudioInputStream(Putin);
 		AudioFormat Communism = Paser.getFormat();
 		DataLine.Info Comrade = new DataLine.Info(Clip.class, Communism);
 		Lenin = (Clip) AudioSystem.getLine(Comrade);
 
-		File ct = new File("awp.wav");
+		File ct = new File("SoundStuff/awp.wav");
 		csgo = AudioSystem.getAudioInputStream(ct);
 		AudioFormat ttp = csgo.getFormat();
 		DataLine.Info ptp = new DataLine.Info(Clip.class, ttp);
