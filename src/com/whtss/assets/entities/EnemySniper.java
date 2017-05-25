@@ -1,6 +1,5 @@
 package com.whtss.assets.entities;
 
-import java.awt.Color;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -8,9 +7,7 @@ import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
-import com.whtss.assets.render.Sprite;
 import com.whtss.assets.render.UIEventHandle;
-import com.whtss.assets.render.sprites.ColorGradientSprite;
 import com.whtss.assets.render.sprites.ImageSprite;
 
 public class EnemySniper extends Enemy

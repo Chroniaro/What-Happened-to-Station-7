@@ -18,7 +18,7 @@ public class ImageSprite extends ColorGradientSprite
 	
 	public <DamageableEntity extends Entity & Damageable> ImageSprite(DamageableEntity e, String spriteName)
 	{
-		super(e, Color.GREEN, Color.RED);
+		super(e, new Color(0, 120, 0), new Color(120, 0, 0));
 		
 		try
 		{
