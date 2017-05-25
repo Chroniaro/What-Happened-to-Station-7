@@ -34,7 +34,11 @@ public class PlayerSniper extends Player
 		super.resetMoves();
 		shots_taken = 0;
 	}
-
+	@Override
+	public int getMaxHealth()
+	{
+		return 75;
+	}
 	@Override
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)
