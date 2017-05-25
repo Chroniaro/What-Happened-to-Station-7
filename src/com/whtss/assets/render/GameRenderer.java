@@ -30,6 +30,7 @@ public class GameRenderer extends JComponent
 	private Game game;
 	private HexPoint mouse, select = null;
 	private Animation activeAnimation = null;
+	private GameInfo.UIInterface giinterface;
 
 	public GameRenderer(Game game)
 	{
@@ -62,10 +63,10 @@ public class GameRenderer extends JComponent
 				if (select == null)
 				{
 					if (mouseIn())
-						select = fromVisual(e);
+						select(fromVisual(e));
 				}
 				else
-					select = null;
+					select(null);
 
 				repaint();
 			}
@@ -114,6 +115,13 @@ public class GameRenderer extends JComponent
 				repaint();
 			}
 		});
+	}
+	
+	public void select(HexPoint p)
+	{
+		select = p;
+		if(giinterface != null)
+			giinterface.refresh();
 	}
 
 	private HexPoint fromVisual(MouseEvent e)
@@ -281,7 +289,12 @@ public class GameRenderer extends JComponent
 
 		public void selectTile(HexPoint sel)
 		{
-			select = sel;
+			select(sel);
+		}
+		
+		public HexPoint getSelectedTile()
+		{
+			return select;
 		}
 
 		public void startAnimation(Animation a)
@@ -292,6 +305,11 @@ public class GameRenderer extends JComponent
 		public boolean isInAnimation()
 		{
 			return activeAnimation != null;
+		}
+		
+		public void updateInfoInterface()
+		{
+			giinterface = game.infouiinterface;
 		}
 	}
 }

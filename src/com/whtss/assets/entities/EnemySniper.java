@@ -42,7 +42,7 @@ public class EnemySniper extends Enemy
 					weakest = p;
 			}
 		
-		weakest.takeDamage(45);
+		weakest.takeDamage(57);
 		
 		try
 		{
@@ -81,15 +81,17 @@ public class EnemySniper extends Enemy
 		move(RNG.nextInt(4) - 2, RNG.nextInt(4) - 2, RNG.nextInt(4) - 2);
 	}
 
-	public int gethealth()
-	{
-		return health;
-	}
+
 
 	@Override
 	public int getHealth()
 	{
 		return health;
+	}
+	@Override
+	public int getMaxHealth()
+	{
+		return 75;
 	}
 
 	@Override
