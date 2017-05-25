@@ -1,6 +1,5 @@
 package com.whtss.assets.entities;
 
-import java.awt.Color;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -16,11 +15,11 @@ import com.whtss.assets.render.animations.BigDamage;
 import com.whtss.assets.render.animations.CompoundAnimation;
 import com.whtss.assets.render.animations.Laser;
 import com.whtss.assets.render.animations.TileDamage;
-import com.whtss.assets.render.sprites.ColorGradientSprite;
+import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Player extends Entity implements Damageable, Renderable
 {
-	Sprite spr = new ColorGradientSprite(this, new Color(155, 50, 200), new Color(255, 0, 100));
+	Sprite spr = new ImageSprite(this, "Player");
 	int speed = 7;
 	int move = 0;
 	int health = getMaxHealth();

@@ -1,6 +1,5 @@
 package com.whtss.assets.entities;
 
-import java.awt.Color;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -13,13 +12,13 @@ import com.whtss.assets.render.Renderable;
 import com.whtss.assets.render.Sprite;
 import com.whtss.assets.render.UIEventHandle;
 import com.whtss.assets.render.animations.Laser;
-import com.whtss.assets.render.sprites.ColorGradientSprite;
+import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Enemy extends Entity implements Damageable, Renderable
 {
 	final static Random RNG = new Random();
 
-	Sprite spr = new ColorGradientSprite(this, new Color(0, 0, 250), new Color(250, 250, 125));
+	Sprite spr = new ImageSprite(this, "SwedTank");
 	int health = getMaxHealth();
 
 	public Enemy(HexPoint location, Level level)

@@ -11,7 +11,7 @@ import com.whtss.assets.render.Sprite;
 public class ColorGradientSprite implements Sprite
 {
 	private Supplier<Color> cp;
-	private Entity e;
+	Entity e;
 	
 	public ColorGradientSprite(Entity e, Supplier<Color> cp)
 	{

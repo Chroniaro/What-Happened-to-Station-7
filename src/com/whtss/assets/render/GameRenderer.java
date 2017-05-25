@@ -216,6 +216,7 @@ public class GameRenderer extends JComponent
 			if(e instanceof Renderable)
 				((Renderable)e).getSprite().draw(g, s);
 			
+			tstack.revert();
 		}
 
 		tstack.revert();

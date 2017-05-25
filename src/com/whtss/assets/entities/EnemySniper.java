@@ -8,15 +8,17 @@ import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.SoundStuff;
+import com.whtss.assets.render.Sprite;
 import com.whtss.assets.render.UIEventHandle;
 import com.whtss.assets.render.sprites.ColorGradientSprite;
+import com.whtss.assets.render.sprites.ImageSprite;
 
 public class EnemySniper extends Enemy
 {
 	public EnemySniper(HexPoint location, Level level)
 	{
 		super(location, level);
-		spr = new ColorGradientSprite(this, Color.GREEN, Color.YELLOW);
+		spr = new ImageSprite(this, "SwedSniper");
 	}
 
 	@Override
