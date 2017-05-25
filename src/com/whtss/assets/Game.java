@@ -12,10 +12,13 @@ public class Game
 	private Level lvl;
 	private boolean playersTurn = true;
 	public UIInterface uiinterface;
+	public GameInfo.UIInterface infouiinterface;
 
 	public void init(GameRenderer.UIInterface gameInterface, GameInfo.UIInterface infoInterface)
 	{
 		uiinterface = gameInterface;
+		infouiinterface = infoInterface;
+		uiinterface.updateInfoInterface();
 		lvl = new Level(gameInterface, infoInterface);
 	}
 

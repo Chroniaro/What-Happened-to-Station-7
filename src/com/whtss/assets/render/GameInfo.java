@@ -7,8 +7,11 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.JComponent;
+
 import com.whtss.assets.Game;
+import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.entities.Player;
 
@@ -47,22 +50,24 @@ public class GameInfo extends JComponent
 		g.drawString("Floor: " + game.getLevel().getLevelNumber(), getWidth() - 150, getHeight() - 40);
 		
 		int entity_health= 0;
-		Player erer = new Player(null, null);
+		Damageable erer = new Player(null, null);
 		String potato = "not a player";
 		//if(grui.getSelectedTile() != null)
+		//g.drawString("Health>>> "+ potato, getWidth() /2 - 150, getHeight() - 40);
 		for (Entity e : game.getLevel().getEntities()){
-			if (e.isActive() && e instanceof Player && grui.getSelectedTile() != null)
+			if (e.isActive() && e instanceof Damageable && grui.getSelectedTile() != null)
 			{		
 				if(grui.getSelectedTile().equals(e.getLocation())){
-					erer = (Player) e;
+					erer = (Damageable) e;
 					entity_health = erer.getHealth();
 					potato = String.valueOf(entity_health);
+		
 					g.drawString("Health>>> "+ potato, getWidth() /2 - 150, getHeight() - 40);
 				}
 			}
 		}
 		g.setFont(new Font("Sans Serif", Font.BOLD, 20));
-		g.drawString("Health>>> "+ potato, getWidth() /2 - 150, getHeight() - 40);
+
 		
 		
 		
