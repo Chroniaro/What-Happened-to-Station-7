@@ -16,10 +16,10 @@ import java.util.Set;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.entities.Enemy;
+import com.whtss.assets.entities.EnemySniper;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.PlayerSniper;
-import com.whtss.assets.entities.EnemySniper;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 import com.whtss.assets.render.GameInfo;
@@ -41,6 +41,7 @@ public class Level
 	private LevelObject[][] objectLayer;
 	private Collection<Entity> entities;
 	private int[][] roomTiles = null;
+//	TODO: private byte[][][][] pathing;
 
 	private final HexRect cellsRect;
 	private HexPoint endPoint;
@@ -336,6 +337,12 @@ public class Level
 		getEntities().add(new HealBox(Healroom, this));
 		
 		this.endPoint = endRoom;
+	}
+	
+	//TODO: add this
+	public void calcPathFinding()
+	{
+		
 	}
 
 	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)
