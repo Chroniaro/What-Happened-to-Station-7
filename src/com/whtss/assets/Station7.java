@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Scanner;
+
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import com.whtss.assets.render.GameInfo;
@@ -12,6 +14,7 @@ public class Station7
 {
 	public static void main(String... args) throws Throwable
 	{	
+	 
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		window.setTitle("What Happened to Station 7");
@@ -69,5 +72,14 @@ public class Station7
 		closing_text.setVisible(true);
 		window.setVisible(true);
 		opening_text.setVisible(true);
+		   Scanner reader = new Scanner(System.in);
+		    int n = reader.nextInt();
+			if(n==42){	
+				System.out.print("adadfafd");
+				SoundStuff cam = null;
+				cam = new SoundStuff();
+				cam.CCCP();
+				reader.close();
+			}
 	}
 }

@@ -160,6 +160,8 @@ public class SoundStuff
 	{
 		try
 		{
+			aC.stop();
+		
 			Lenin.open(Marx);
 			Lenin.start();
 		}
@@ -180,5 +182,9 @@ public class SoundStuff
 		{
 			System.out.println(murle);
 		}
+	}
+	public void swth()
+	{
+		aS=  Marx;
 	}
 }
