@@ -17,7 +17,12 @@ public class EnemySniper extends Enemy
 		super(location, level);
 		spr = new ImageSprite(this, "SwedSniper");
 	}
-
+	int r = (int) (Math.random()*4);
+    String name = new String [] {"bob","bill","doug","John"}[r];
+    public String getname(){
+		
+		return name;
+	}
 	@Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void onTurn()

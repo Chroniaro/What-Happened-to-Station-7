@@ -1,6 +1,8 @@
 package com.whtss.assets.entities;
 
 import java.io.IOException;
+import java.util.Random;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Damageable;
@@ -24,6 +26,10 @@ public class Player extends Entity implements Damageable, Renderable
 	int move = 0;
 	int health = getMaxHealth();
 	
+	int r = (int) (Math.random()*4);
+    String name = new String [] {"zorp","lister","dave","bowman"}[r];
+  
+
 	public Player(HexPoint location, Level level)
 	{
 		super(location, level);
@@ -33,7 +39,10 @@ public class Player extends Entity implements Damageable, Renderable
 		return speed;
 	}
 
-
+    public String getname(){
+		
+		return name;
+	}
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
 	{

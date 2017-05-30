@@ -10,6 +10,7 @@ public abstract class Entity implements LightSource
 	private HexPoint location;
 	private boolean active = true;
 	private final Level lvl;
+	String name;
 
 	public Entity(HexPoint location, Level level)
 	{
@@ -21,6 +22,7 @@ public abstract class Entity implements LightSource
 	{
 		return 0;
 	}
+	
 
 	public final void input(KeyEvent key, HexPoint target, String turn)
 	{

@@ -14,6 +14,7 @@ import com.whtss.assets.render.SoundStuff;
 
 public class Station7 {
 	public static void main(String... args) throws Throwable {
+		
 
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
