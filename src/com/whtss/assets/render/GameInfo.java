@@ -14,6 +14,7 @@ import com.whtss.assets.Game;
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.entities.Player;
+import com.whtss.assets.entities.PlayerSniper;
 
 public class GameInfo extends JComponent
 {
@@ -52,8 +53,6 @@ public class GameInfo extends JComponent
 		int entity_health= 0;
 		Damageable erer = new Player(null, null);
 		String potato = "not a player";
-		//if(grui.getSelectedTile() != null)
-		//g.drawString("Health>>> "+ potato, getWidth() /2 - 150, getHeight() - 40);
 		for (Entity e : game.getLevel().getEntities()){
 			if (e.isActive() && e instanceof Damageable && grui.getSelectedTile() != null)
 			{		
@@ -67,7 +66,26 @@ public class GameInfo extends JComponent
 			}
 		}
 		g.setFont(new Font("Sans Serif", Font.BOLD, 20));
-
+		
+		int mp = 0;
+		int ammo=0;
+		Player ere = new Player(null, null);
+		for (Entity e : game.getLevel().getEntities()){
+			if (e.isActive() && e instanceof Damageable && grui.getSelectedTile() != null && e instanceof Player)
+			{		
+				if(grui.getSelectedTile().equals(e.getLocation())){
+					if(e instanceof PlayerSniper){
+					ammo = ((PlayerSniper) e).getammo();
+					g.drawString("Ammo>>> "+ ammo,300, getHeight() - 40);
+					}
+					ere = (Player) e;
+					mp = ere.getspeed();
+		
+					g.drawString("AP>>> "+ mp,150, getHeight() - 40);
+				}
+			}
+		}
+		g.setFont(new Font("Sans Serif", Font.BOLD, 20));
 		
 		
 		

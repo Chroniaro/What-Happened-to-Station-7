@@ -71,9 +71,9 @@ public class Station7 {
 
 		game.init(render.new UIInterface(), info.new UIInterface());
 
-		// closing_text.setVisible(true);
+		 closing_text.setVisible(true);
 		window.setVisible(true);
-		// opening_text.setVisible(true);
+		 opening_text.setVisible(true);
 		Scanner reader = new Scanner(System.in);
 		int n = reader.nextInt();
 		if (n == 42) {

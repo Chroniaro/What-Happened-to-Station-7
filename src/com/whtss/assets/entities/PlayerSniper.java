@@ -38,6 +38,14 @@ public class PlayerSniper extends Player
 	{
 		return 75;
 	}
+	public int getspeed()
+	{
+		return speed;
+	}
+	public int getammo()
+	{
+		return total_shots;
+	}
 	@Override
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)

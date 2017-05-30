@@ -28,6 +28,11 @@ public class Player extends Entity implements Damageable, Renderable
 	{
 		super(location, level);
 	}
+	public int getspeed()
+	{
+		return speed;
+	}
+
 
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
