@@ -25,7 +25,12 @@ public class PlayerSniper extends Player
 		spr = new ImageSprite(this, "PlayerSniper");
 		speed = 5;
 	}
-
+	int r = (int) (Math.random()*5);
+    String name = new String [] {"zorp","lister","dave","bowman"}[r];
+    public String getname(){
+		
+		return name;
+	}
 	@Override
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
@@ -37,6 +42,14 @@ public class PlayerSniper extends Player
 	public int getMaxHealth()
 	{
 		return 75;
+	}
+	public int getspeed()
+	{
+		return speed;
+	}
+	public int getammo()
+	{
+		return total_shots;
 	}
 	@Override
 	@UIEventHandle(value = "Key_P", turn = "Player")
