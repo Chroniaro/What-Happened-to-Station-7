@@ -18,7 +18,7 @@ public class EnemySniper extends Enemy
 		spr = new ImageSprite(this, "SwedSniper");
 	}
 	int r = (int) (Math.random()*4);
-    String name = new String [] {"bob","bill","doug","John"}[r];
+    String name = new String [] {"yes","bill","doug","John"}[r];
     public String getname(){
 		
 		return name;

@@ -311,6 +311,8 @@ public class GameRenderer extends JComponent
 		public void updateInfoInterface()
 		{
 			giinterface = game.infouiinterface;
+			
+			
 		}
 	}
 }
