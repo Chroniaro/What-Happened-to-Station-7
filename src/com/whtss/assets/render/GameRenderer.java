@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import com.whtss.assets.Game;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
+import com.whtss.assets.entities.Enemy;
+import com.whtss.assets.entities.Player;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 
@@ -215,7 +217,10 @@ public class GameRenderer extends JComponent
 				continue;
 			if(e instanceof Renderable)
 				((Renderable)e).getSprite().draw(g, s);
-			
+			if(e instanceof Enemy)
+				((Enemy)e).setname();
+			if(e instanceof Player)
+				((Player)e).setname();
 			tstack.revert();
 		}
 

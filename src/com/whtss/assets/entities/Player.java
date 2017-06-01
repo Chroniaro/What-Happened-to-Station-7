@@ -1,7 +1,11 @@
 package com.whtss.assets.entities;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -26,8 +30,20 @@ public class Player extends Entity implements Damageable, Renderable
 	int move = 0;
 	int health = getMaxHealth();
 	
-	int r = (int) (Math.random()*4);
-    String name = new String [] {"zorp","lister","dave","bowman"}[r];
+	String name = " ";
+	File file = new File("src/com/whtss/assets/core/playernames80");
+	
+	int r = (int) (Math.random()*79);
+	public void setname(){
+	Stream<String> lines = null;
+	try {
+		lines = Files.lines(Paths.get("src/com/whtss/assets/core/playernames80"));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  name = lines.skip(r).findFirst().get();
+	}
   
 
 	public Player(HexPoint location, Level level)

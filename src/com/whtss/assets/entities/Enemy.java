@@ -1,8 +1,14 @@
 package com.whtss.assets.entities;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Stream;
+
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
@@ -25,8 +31,20 @@ public class Enemy extends Entity implements Damageable, Renderable
 	{
 		super(location, level);
 	}
-	int r = (int) (Math.random()*5);
-    String name = new String [] {"bob","bill","doug","John"}[r];
+	String name = " ";
+	File file = new File("src/com/whtss/assets/core/swednames300");
+	
+	int r = (int) (Math.random()*298);
+	public void setname(){
+	Stream<String> lines = null;
+	try {
+		lines = Files.lines(Paths.get("src/com/whtss/assets/core/swednames300"));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  name = lines.skip(r).findFirst().get();
+	}
     public String getname(){
 		
 		return name;

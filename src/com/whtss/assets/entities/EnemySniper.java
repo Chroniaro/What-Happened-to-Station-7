@@ -1,6 +1,13 @@
 package com.whtss.assets.entities;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Entity;
@@ -17,8 +24,21 @@ public class EnemySniper extends Enemy
 		super(location, level);
 		spr = new ImageSprite(this, "SwedSniper");
 	}
-	int r = (int) (Math.random()*4);
-    String name = new String [] {"yes","bill","doug","John"}[r];
+	String name = " ";
+	File file = new File("src/com/whtss/assets/core/swednames300");
+	
+	int r = (int) (Math.random()*299);
+	public void setname(){
+	Stream<String> lines = null;
+	try {
+		lines = Files.lines(Paths.get("src/com/whtss/assets/core/swednames300"));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  name = lines.skip(r).findFirst().get();
+	}
+	
     public String getname(){
 		
 		return name;
