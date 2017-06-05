@@ -1,8 +1,6 @@
 package com.whtss.assets.entities;
 
 import java.io.IOException;
-import java.util.Random;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import com.whtss.assets.core.Damageable;
@@ -21,28 +19,30 @@ import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Player extends Entity implements Damageable, Renderable
 {
+	public final static String[] potentialNames = { "Zorp", "Lister", "Dave", "Bowman" };
+
 	Sprite spr = new ImageSprite(this, "Player");
 	int speed = 7;
 	int move = 0;
 	int health = getMaxHealth();
-	
-	int r = (int) (Math.random()*4);
-    String name = new String [] {"zorp","lister","dave","bowman"}[r];
-  
+
+	String name = potentialNames[(int) (Math.random() * potentialNames.length)];
 
 	public Player(HexPoint location, Level level)
 	{
 		super(location, level);
 	}
+
 	public int getspeed()
 	{
 		return speed;
 	}
 
-    public String getname(){
-		
+	public String getname()
+	{
 		return name;
 	}
+
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
 	{
@@ -57,7 +57,7 @@ public class Player extends Entity implements Damageable, Renderable
 	public void walk(int da, int db, int dhy)
 	{
 		HexPoint target = getLocation().mABY(da, db, 2 * dhy);
-		int dist =getLocation().dist(target);
+		int dist = getLocation().dist(target);
 		if (target.equals(getLevel().getEnd()))
 		{
 			setActive(false);
@@ -93,7 +93,7 @@ public class Player extends Entity implements Damageable, Renderable
 		getLevel().addPersistantPlayer(this);
 		getLevel().getUIInterface().selectTile(getLocation());
 	}
-	
+
 	@UIEventHandle(value = "Key_F", turn = "Player")
 	public void sovietunion() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
@@ -105,22 +105,23 @@ public class Player extends Entity implements Damageable, Renderable
 
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)
-	{	
+	{
 		if (target == null) { return; }
 		if (!(target instanceof Damageable)) { return; }
 		if (!target.isActive()) { return; }
-		
+		if (getLevel().isThroughWall(getLocation(), target.getLocation())) { return; }
+
 		if (move + 2 > speed)
 		{
 			getLevel().getUIInterface().selectTile(null);
 			return;
 		}
-		
+
 		final int d = getLocation().dist(target.getLocation());
 		if (d > 4) { return; }
-		
+
 		move += 2;
-		
+
 		SoundStuff cam;
 		try
 		{
@@ -233,7 +234,7 @@ public class Player extends Entity implements Damageable, Renderable
 	{
 		return health;
 	}
-	
+
 	@Override
 	public int getMaxHealth()
 	{
@@ -244,7 +245,7 @@ public class Player extends Entity implements Damageable, Renderable
 	public void takeDamage(int amount)
 	{
 		health -= amount;
-		
+
 		if (getHealth() < 0)
 		{
 			setActive(false);

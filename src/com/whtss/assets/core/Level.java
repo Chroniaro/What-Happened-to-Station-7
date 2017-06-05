@@ -1,6 +1,8 @@
 package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +43,7 @@ public class Level
 	private LevelObject[][] objectLayer;
 	private Collection<Entity> entities;
 	private int[][] roomTiles = null;
-//	TODO: private byte[][][][] pathing;
+	//	TODO: private byte[][][][] pathing;
 
 	private final HexRect cellsRect;
 	private HexPoint endPoint;
@@ -311,7 +313,7 @@ public class Level
 
 		startRoom = leftRooms[RNG.nextInt(leftRooms.length)];
 		endRoom = rightRooms[RNG.nextInt(rightRooms.length)];
-		
+
 		if (RNG.nextBoolean())
 		{
 			HexPoint tmp = startRoom;
@@ -333,16 +335,15 @@ public class Level
 
 		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
 		getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
-
 		getEntities().add(new HealBox(Healroom, this));
-		
+
 		this.endPoint = endRoom;
 	}
-	
+
 	//TODO: add this
 	public void calcPathFinding()
 	{
-		
+
 	}
 
 	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)
@@ -427,6 +428,28 @@ public class Level
 					e.doTurn("Player");
 			}
 		}
+	}
+
+	public boolean isThroughWall(HexPoint start, HexPoint end)
+	{
+		HexRect r = getCells();
+		if (!(r.contains(start) && r.contains(end)))
+			return true;
+
+		Line2D.Double line = new Line2D.Double(start.getVisualX(10), start.getVisualY(10), end.getVisualX(10), end.getVisualY(10));
+		int tx = Math.min(start.getX(), end.getX()) - 1;
+		int ty = Math.min(start.getY(), end.getY()) - 1;
+		ty -= (ty + tx) % 2;
+		int w = Math.abs(start.getX() - end.getX()) + 3;
+		int h = Math.abs(start.getY() - end.getY()) + 3;
+		r = new HexRect(HexPoint.XY(tx, ty), w, h);
+		for (HexPoint p : r)
+			if (getCells().contains(p))
+				if (getFloorTile(p) % 2 != 0)
+					if (line.intersects(new Rectangle2D.Double(p.getVisualX(10) - 5, p.getVisualY(10) - 5, 10, 10)))
+						return true;
+
+		return false;
 	}
 
 	public int getRoom(int x, int y)

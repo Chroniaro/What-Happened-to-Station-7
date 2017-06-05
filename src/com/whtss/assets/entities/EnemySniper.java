@@ -17,12 +17,16 @@ public class EnemySniper extends Enemy
 		super(location, level);
 		spr = new ImageSprite(this, "SwedSniper");
 	}
-	int r = (int) (Math.random()*4);
-    String name = new String [] {"bob","bill","doug","John"}[r];
-    public String getname(){
-		
+
+	int r = (int) (Math.random() * 4);
+	String name = new String[] { "bob", "bill", "doug", "John" }[r];
+
+	public String getname()
+	{
+
 		return name;
 	}
+
 	@Override
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void onTurn()
@@ -37,17 +41,18 @@ public class EnemySniper extends Enemy
 	public void attack()
 	{
 		Player weakest = null;
-		
+
 		for (Entity e : getLevel().getEntities())
 			if (e.isActive() && e instanceof Player)
-			{
-				Player p = (Player) e;
-				if(weakest == null || p.getHealth() < weakest.getHealth())
-					weakest = p;
-			}
-		
+				if (!getLevel().isThroughWall(getLocation(), e.getLocation()))
+				{
+					Player p = (Player) e;
+					if (weakest == null || p.getHealth() < weakest.getHealth())
+						weakest = p;
+				}
+
 		weakest.takeDamage(57);
-		
+
 		try
 		{
 			SoundStuff cam = new SoundStuff();
@@ -57,15 +62,15 @@ public class EnemySniper extends Enemy
 		{
 			e1.printStackTrace();
 		}
-		
-//		getLevel().getUIInterface().startAnimation(new Laser(getLocation(), weakest.getLocation()));
+
+		//		getLevel().getUIInterface().startAnimation(new Laser(getLocation(), weakest.getLocation()));
 	}
 
 	public void goModeretlyFar()
 	{
 		Entity nearest = getNearestPlayer();
 
-		if(nearest != null)
+		if (nearest != null)
 		{
 			int da = (int) Math.signum(nearest.getLocation().getA() - getLocation().getA());
 			int db = (int) Math.signum(nearest.getLocation().getB() - getLocation().getB());
@@ -78,20 +83,19 @@ public class EnemySniper extends Enemy
 				dy = -dy;
 			}
 
-			if(move(da, db, dy))
+			if (move(da, db, dy))
 				return;
 		}
-		
+
 		move(RNG.nextInt(4) - 2, RNG.nextInt(4) - 2, RNG.nextInt(4) - 2);
 	}
-
-
 
 	@Override
 	public int getHealth()
 	{
 		return health;
 	}
+
 	@Override
 	public int getMaxHealth()
 	{

@@ -11,7 +11,6 @@ public class HexRect implements Iterable<HexPoint>
 		w = width;
 		h = height;
 	}
-
 	public HexPoint[][] asArray()
 	{
 		HexPoint[][] array = new HexPoint[w][h];

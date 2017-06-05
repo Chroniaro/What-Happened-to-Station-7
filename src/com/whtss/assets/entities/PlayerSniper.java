@@ -25,12 +25,12 @@ public class PlayerSniper extends Player
 		spr = new ImageSprite(this, "PlayerSniper");
 		speed = 5;
 	}
-	int r = (int) (Math.random()*5);
-    String name = new String [] {"zorp","lister","dave","bowman"}[r];
-    public String getname(){
-		
+
+	public String getname()
+	{
 		return name;
 	}
+
 	@Override
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
@@ -38,19 +38,23 @@ public class PlayerSniper extends Player
 		super.resetMoves();
 		shots_taken = 0;
 	}
+
 	@Override
 	public int getMaxHealth()
 	{
 		return 75;
 	}
+
 	public int getspeed()
 	{
 		return speed;
 	}
+
 	public int getammo()
 	{
 		return total_shots;
 	}
+
 	@Override
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)
@@ -58,6 +62,7 @@ public class PlayerSniper extends Player
 		if (target == null) { return; }
 		if (!(target instanceof Damageable)) { return; }
 		if (!target.isActive()) { return; }
+		if (getLevel().isThroughWall(getLocation(), target.getLocation())) { return; }
 
 		final int d = getLocation().dist(target.getLocation());
 		if (d > 15) { return; }

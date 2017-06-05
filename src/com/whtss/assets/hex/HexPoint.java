@@ -222,4 +222,23 @@ public class HexPoint implements Serializable, Cloneable
 			hy = 2 * (y / (int) Math.round(size * yratio * 2)) - 1;
 		return XY(hx, hy);
 	}
+	
+	public HexPoint nextPointTo(HexPoint destination)
+	{
+		int da = destination.getA() - getA();
+		int db = destination.getB() - getB();
+		
+		if(da > 0 && db > 0)
+			if(da > db)
+				db = 0;
+			else
+				da = 0;
+		else if(da < 0 && db < 0)
+			if(da < db)
+				db = 0;
+			else
+				da = 0;
+		
+		return mAB((int)Math.signum(da), (int)Math.signum(db));
+	}
 }

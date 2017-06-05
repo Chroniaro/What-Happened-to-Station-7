@@ -228,7 +228,12 @@ public class GameRenderer extends JComponent
 
 		if (mouseIn)
 		{
-			g.setColor(new Color(1f, 1f, 1f));
+			if(select == null)
+				g.setColor(new Color(1f, 1f, 1f));
+			else if(lvl.isThroughWall(select, mouse))
+				g.setColor(new Color(.7f, .2f, .2f));
+			else
+				g.setColor(new Color(.2f, .7f, .2f));
 			g.setStroke(new BasicStroke(5));
 			g.draw(mouse.getBorder(s));
 		}

@@ -16,21 +16,23 @@ import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Enemy extends Entity implements Damageable, Renderable
 {
+	public final static String[] potentialNames = { "Zorp", "Lister", "Dave", "Bowman" };
 	final static Random RNG = new Random();
 
 	Sprite spr = new ImageSprite(this, "SwedTank");
 	int health = getMaxHealth();
+	String name = potentialNames[RNG.nextInt(potentialNames.length)];
 
 	public Enemy(HexPoint location, Level level)
 	{
 		super(location, level);
 	}
-	int r = (int) (Math.random()*5);
-    String name = new String [] {"bob","bill","doug","John"}[r];
-    public String getname(){
-		
+
+	public String getname()
+	{
 		return name;
 	}
+
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void onTurn() throws InterruptedException
 	{
@@ -44,10 +46,11 @@ public class Enemy extends Entity implements Damageable, Renderable
 
 		for (Entity e : getLevel().getEntities())
 			if (e instanceof Player && getLocation().dist(e.getLocation()) < 6 && e.isActive())
-			{
-				((Player) e).takeDamage(20);
-				animations.add(new Laser(getLocation(), e.getLocation()));
-			}
+				if (!getLevel().isThroughWall(getLocation(), e.getLocation()))
+				{
+					((Player) e).takeDamage(20);
+					animations.add(new Laser(getLocation(), e.getLocation()));
+				}
 
 		//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Concurrent(animations));
 	}
@@ -92,7 +95,7 @@ public class Enemy extends Entity implements Damageable, Renderable
 	{
 		return health;
 	}
-	
+
 	@Override
 	public int getMaxHealth()
 	{
@@ -106,7 +109,7 @@ public class Enemy extends Entity implements Damageable, Renderable
 		if (health < 0)
 			setActive(false);
 	}
-	
+
 	@Override
 	public Sprite getSprite()
 	{
