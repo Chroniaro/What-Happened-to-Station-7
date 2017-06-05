@@ -215,7 +215,6 @@ public class GameRenderer extends JComponent
 				continue;
 			if(e instanceof Renderable)
 				((Renderable)e).getSprite().draw(g, s);
-			
 			tstack.revert();
 		}
 
@@ -316,6 +315,8 @@ public class GameRenderer extends JComponent
 		public void updateInfoInterface()
 		{
 			giinterface = game.infouiinterface;
+			
+			
 		}
 	}
 }

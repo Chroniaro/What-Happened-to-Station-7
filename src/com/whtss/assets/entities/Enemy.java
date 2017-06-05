@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -16,21 +17,16 @@ import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Enemy extends Entity implements Damageable, Renderable
 {
-	public final static String[] potentialNames = { "Zorp", "Lister", "Dave", "Bowman" };
+	public static File names = new File("src/com/whtss/assets/core/swednames300");
 	final static Random RNG = new Random();
 
 	Sprite spr = new ImageSprite(this, "SwedTank");
 	int health = getMaxHealth();
-	String name = potentialNames[RNG.nextInt(potentialNames.length)];
 
 	public Enemy(HexPoint location, Level level)
 	{
 		super(location, level);
-	}
-
-	public String getname()
-	{
-		return name;
+		setName(names, 300);
 	}
 
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")

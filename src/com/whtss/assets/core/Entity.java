@@ -1,7 +1,11 @@
 package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.util.stream.Stream;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.render.UIEventHandle;
 
@@ -17,13 +21,31 @@ public abstract class Entity implements LightSource
 		setLocation(location);
 		lvl = level;
 	}
+	
+	public void setName(File names, int numOfNames)
+	{
+		Stream<String> lines = null;
+		try
+		{
+			lines = Files.lines(names.toPath());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		name = lines.skip((int) (Math.random() * numOfNames)).findFirst().get();
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
 
 	public int light()
 	{
 		return 0;
 	}
 	
-
 	public final void input(KeyEvent key, HexPoint target, String turn)
 	{
 		methodsWithUIHandle("Key_" + KeyEvent.getKeyText(key.getKeyCode()), turn, (Method m) ->

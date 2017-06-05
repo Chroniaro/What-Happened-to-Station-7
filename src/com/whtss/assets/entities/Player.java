@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -19,30 +20,24 @@ import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Player extends Entity implements Damageable, Renderable
 {
-	public final static String[] potentialNames = { "Zorp", "Lister", "Dave", "Bowman" };
+	public final static File namesList = new File("src/com/whtss/assets/core/playernames80");
 
 	Sprite spr = new ImageSprite(this, "Player");
 	int speed = 7;
 	int move = 0;
 	int health = getMaxHealth();
 
-	String name = potentialNames[(int) (Math.random() * potentialNames.length)];
-
 	public Player(HexPoint location, Level level)
 	{
 		super(location, level);
+		setName(namesList, 80);
 	}
 
 	public int getspeed()
 	{
 		return speed;
 	}
-
-	public String getname()
-	{
-		return name;
-	}
-
+	
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
 	{

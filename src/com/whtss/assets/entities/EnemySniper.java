@@ -1,5 +1,6 @@
 package com.whtss.assets.entities;
 
+import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -11,20 +12,11 @@ import com.whtss.assets.render.UIEventHandle;
 import com.whtss.assets.render.sprites.ImageSprite;
 
 public class EnemySniper extends Enemy
-{
+{	
 	public EnemySniper(HexPoint location, Level level)
 	{
 		super(location, level);
 		spr = new ImageSprite(this, "SwedSniper");
-	}
-
-	int r = (int) (Math.random() * 4);
-	String name = new String[] { "bob", "bill", "doug", "John" }[r];
-
-	public String getname()
-	{
-
-		return name;
 	}
 
 	@Override

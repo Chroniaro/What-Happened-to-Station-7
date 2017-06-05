@@ -26,11 +26,6 @@ public class PlayerSniper extends Player
 		speed = 5;
 	}
 
-	public String getname()
-	{
-		return name;
-	}
-
 	@Override
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
