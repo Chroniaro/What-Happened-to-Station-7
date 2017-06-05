@@ -13,10 +13,14 @@ public class HealBox extends Entity implements Damageable, Renderable
 {
 	int health = getMaxHealth();
 	Sprite spr = new ImageSprite(this, "HealthBox");
+	boolean padd;
 	
 	public HealBox(HexPoint location, Level level)
 	{
 		super(location, level);
+	}
+	public boolean getpadd(){
+		return padd;	
 	}
 
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")

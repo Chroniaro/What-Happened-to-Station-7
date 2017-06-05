@@ -307,7 +307,7 @@ public class Level
 			}
 		}
 
-		HexPoint startRoom, endRoom, enemyRoom, Healroom;
+		HexPoint startRoom, endRoom, enemyRoom, Healroom, pbonus;
 
 		startRoom = leftRooms[RNG.nextInt(leftRooms.length)];
 		endRoom = rightRooms[RNG.nextInt(rightRooms.length)];
@@ -321,6 +321,7 @@ public class Level
 
 		enemyRoom = centerRooms[RNG.nextInt(centerRooms.length)];
 		Healroom = centerRooms[RNG.nextInt(centerRooms.length)];
+		pbonus = rooms[RNG.nextInt(rooms.length)]; 
 
 		activePlayerCount = Math.min(players.length, playerStartOffsets.length);
 		for (int i = 0; i < activePlayerCount; i++)
@@ -333,8 +334,10 @@ public class Level
 
 		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
 		getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
-
 		getEntities().add(new HealBox(Healroom, this));
+		if(Math.random()<.15){
+		getEntities().add(new Player(pbonus, this));
+		}
 		
 		this.endPoint = endRoom;
 	}
