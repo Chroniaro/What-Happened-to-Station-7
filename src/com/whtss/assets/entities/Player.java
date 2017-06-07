@@ -35,7 +35,7 @@ public class Player extends Entity implements Damageable, Renderable
 
 	public int getspeed()
 	{
-		return speed;
+		return speed-move;
 	}
 	
 	@UIEventHandle(value = "Next Turn", turn = "Player")

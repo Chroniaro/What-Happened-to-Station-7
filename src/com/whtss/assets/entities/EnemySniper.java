@@ -1,6 +1,6 @@
 package com.whtss.assets.entities;
 
-import java.io.File;
+
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -43,7 +43,7 @@ public class EnemySniper extends Enemy
 						weakest = p;
 				}
 
-		weakest.takeDamage(57);
+		weakest.takeDamage(75);
 
 		try
 		{

@@ -334,14 +334,31 @@ public class Level
 			ep.setActive(true);
 			getEntities().add(ep);
 		}
-
+		double r = Math.random();
+		double x = Math.random();
+		double z = Math.random();
+		if (x > .40){
 		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
-		getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
+		}
+		if (x < .40){
+			getEntities().add(new EnemySniper(enemyRoom.mY(-2), this));
+		}
+		if (z > .40){
+			getEntities().add(new Enemy(enemyRoom.mY(2), this));
+		}
+		if (z < .40){
+		 getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
+		}
 		getEntities().add(new HealBox(Healroom, this));
-
-		if (Math.random() < .15)
+        
+		if (Math.random() < .40){
+			if (r < .60){
 			getEntities().add(new Player(pbonus, this));
-
+			}
+			if (r > .60){
+			getEntities().add(new PlayerSniper(pbonus, this));
+			}
+		}
 		this.endPoint = endRoom;
 	}
 
