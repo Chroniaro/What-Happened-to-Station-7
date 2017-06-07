@@ -128,7 +128,7 @@ public class Player extends Entity implements Damageable, Renderable
 			e.printStackTrace();
 		}
 
-		((Damageable) target).takeDamage(10 * (5 - d));
+		((Damageable) target).takeDamage(8 * (5 - d));
 		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Sequential(new Laser(getLocation(), target.getLocation()), new TileDamage(target.getLocation())));
 		if (move >= speed)
 			getLevel().getUIInterface().selectTile(null);

@@ -81,10 +81,7 @@ public class PlayerSniper extends Player
 			e.printStackTrace();
 		}
 
-		if (d > 10)
-			((Damageable) target).takeDamage(11 * (15 - d));
-		else
-			((Damageable) target).takeDamage(50);
+			((Damageable) target).takeDamage(40);
 
 		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Sequential(new Laser(getLocation(), target.getLocation()), new TileDamage(target.getLocation())));
 		if (move >= speed && shots_taken >= total_shots)
