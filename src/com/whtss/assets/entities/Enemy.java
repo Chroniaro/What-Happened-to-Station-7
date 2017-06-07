@@ -51,7 +51,7 @@ public class Enemy extends Entity implements Damageable, Renderable
 		//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Concurrent(animations));
 	}
 
-	private void goveryclose()
+	protected void goveryclose()
 	{
 		Player nearest = getNearestPlayer();
 

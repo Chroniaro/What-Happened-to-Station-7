@@ -22,6 +22,7 @@ import com.whtss.assets.entities.EnemySniper;
 import com.whtss.assets.entities.HealBox;
 import com.whtss.assets.entities.Player;
 import com.whtss.assets.entities.PlayerSniper;
+import com.whtss.assets.entities.Shotgun_Enemy;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
 import com.whtss.assets.render.GameInfo;
@@ -337,21 +338,30 @@ public class Level
 		double r = Math.random();
 		double x = Math.random();
 		double z = Math.random();
-		if (x > .40){
+		
+		if (x > .40 && x < .80){
 		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
 		}
 		if (x < .40){
 			getEntities().add(new EnemySniper(enemyRoom.mY(-2), this));
 		}
+		if (x > .80){
+			getEntities().add(new Shotgun_Enemy(enemyRoom.mY(-2), this));
+		}
+		
+		
+		
 		if (z > .40){
 			getEntities().add(new Enemy(enemyRoom.mY(2), this));
 		}
 		if (z < .40){
 		 getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
 		}
+		
+		
 		getEntities().add(new HealBox(Healroom, this));
         
-		if (Math.random() < .40){
+		if (Math.random() < .50){
 			if (r < .60){
 			getEntities().add(new Player(pbonus, this));
 			}
