@@ -42,12 +42,12 @@ public class PlayerSniper extends Player
 
 	public int getspeed()
 	{
-		return speed;
+		return speed-move;
 	}
 
 	public int getammo()
 	{
-		return total_shots;
+		return total_shots-shots_taken;
 	}
 
 	@Override
