@@ -16,22 +16,24 @@ import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
 import com.whtss.assets.hex.HexRect;
+import com.whtss.assets.render.sprites.ImageSprite;
 
 public class GameRenderer extends JComponent
 {
 
 	public static final boolean dev = false;
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1380847482506652728L;
+	private static final ImageSprite portal = new ImageSprite(null, "Portal");
 
 	private Game game;
 	private HexPoint mouse, select = null;
 	private Animation activeAnimation = null;
 	private GameInfo.UIInterface giinterface;
-
+	
 	public GameRenderer(Game game)
 	{
 		this.game = game;
@@ -197,10 +199,7 @@ public class GameRenderer extends JComponent
 		}
 
 		if (lvl.getEnd() != null)
-		{
-			g.setColor(Color.CYAN);
-			g.fill(lvl.getEnd().getBorder(s));
-		}
+			portal.draw(g, s, lvl.getEnd());
 
 		tstack.revert();
 

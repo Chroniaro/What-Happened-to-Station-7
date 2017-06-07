@@ -2,7 +2,6 @@ package com.whtss.assets.core;
 
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -338,35 +337,40 @@ public class Level
 		double r = Math.random();
 		double x = Math.random();
 		double z = Math.random();
-		
-		if (x > .40 && x < .80){
-		getEntities().add(new Enemy(enemyRoom.mY(-2), this));
+
+		if (x > .40 && x < .80)
+		{
+			getEntities().add(new Enemy(enemyRoom.mY(-2), this));
 		}
-		if (x < .40){
+		if (x < .40)
+		{
 			getEntities().add(new EnemySniper(enemyRoom.mY(-2), this));
 		}
-		if (x > .80){
+		if (x > .80)
+		{
 			getEntities().add(new Shotgun_Enemy(enemyRoom.mY(-2), this));
 		}
-		
-		
-		
-		if (z > .40){
+
+		if (z > .40)
+		{
 			getEntities().add(new Enemy(enemyRoom.mY(2), this));
 		}
-		if (z < .40){
-		 getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
+		if (z < .40)
+		{
+			getEntities().add(new EnemySniper(enemyRoom.mY(2), this));
 		}
-		
-		
+
 		getEntities().add(new HealBox(Healroom, this));
-        
-		if (Math.random() < .50){
-			if (r < .60){
-			getEntities().add(new Player(pbonus, this));
+
+		if (Math.random() < .50)
+		{
+			if (r < .60)
+			{
+				getEntities().add(new Player(pbonus, this));
 			}
-			if (r > .60){
-			getEntities().add(new PlayerSniper(pbonus, this));
+			if (r > .60)
+			{
+				getEntities().add(new PlayerSniper(pbonus, this));
 			}
 		}
 		this.endPoint = endRoom;
@@ -476,27 +480,28 @@ public class Level
 		int h = Math.abs(start.getY() - end.getY()) + 3;
 		r = new HexRect(HexPoint.XY(tx, ty), w, h);
 		int intersections = 0;
+		
+		Set<HexPoint> checkPoints = new HashSet<HexPoint>();
+		
 		for (HexPoint p : r)
 			if (getCells().contains(p))
 				if (getFloorTile(p) % 2 != 0)
-					if (line.intersects(new Rectangle2D.Double(p.getVisualX(10) - 5, p.getVisualY(10) - 5, 10, 10)))
-						intersections ++;
-
+					checkPoints.add(p);
 		for (Entity e : getEntities())
-			if (!e.getLocation().equals(end))
-			{
-				HexPoint p = e.getLocation();
-				if (line.intersects(new Rectangle2D.Double(p.getVisualX(10) - 5, p.getVisualY(10) - 5, 10, 10)))
-					intersections ++;
-			}
+			checkPoints.add(e.getLocation());
+		
+		for (HexPoint p : checkPoints)
+			if (line.intersects(p.getBorder(10).getBounds2D()))
+				if(!(p.equals(start) || p.equals(end)))
+					intersections++;
 
 		return intersections;
 	}
-	
+
 	public boolean isThroughWall(HexPoint start, HexPoint end)
 	{
 		int t = thingsToPenetrateDeeplyAndThouroughly(start, end);
-		return (t == -1 || t > 1);
+		return (t == -1 || t > 0);
 	}
 
 	public int getRoom(int x, int y)

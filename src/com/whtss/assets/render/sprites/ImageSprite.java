@@ -37,8 +37,11 @@ public class ImageSprite extends ColorGradientSprite
 	public void draw(Graphics2D g, int s)
 	{
 		super.draw(g, s);
-		
-		HexPoint location = e.getLocation();
+		draw(g, s, e.getLocation());
+	}
+	
+	public void draw(Graphics2D g, int s, HexPoint location)
+	{
 		g.setClip(location.getBorder(s));
 		int x = location.getVisualX(s), y = location.getVisualY(s);
 		g.drawImage(sprite, x - s/2, y - s/2, s, s, null);
