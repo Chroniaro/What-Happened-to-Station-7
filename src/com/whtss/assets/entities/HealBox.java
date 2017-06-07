@@ -32,16 +32,16 @@ public class HealBox extends Entity implements Damageable, Renderable
 		for (int i = 0; i <= 5; i++)
 		{
 			for (Entity e : getLevel().getEntities())
-				if (e instanceof Player)
-					if (getLocation().dist(e.getLocation()) <= 3)
+				
+					if (getLocation().dist(e.getLocation()) <= 3 && ((Damageable) e).getHealth()< 75)
 					{
-						((Player) e).takeDamage(-20);
+						((Damageable) e).takeDamage(-20);
 						takeDamage(40);
 						if(!isActive())
 							return;
 					}
 			
-			takeDamage(40);
+		//	takeDamage(40);
 		}
 	}
 
