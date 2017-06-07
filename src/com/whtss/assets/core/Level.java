@@ -324,7 +324,7 @@ public class Level
 
 		enemyRoom = centerRooms[RNG.nextInt(centerRooms.length)];
 		Healroom = centerRooms[RNG.nextInt(centerRooms.length)];
-		
+
 		pbonus = rooms[RNG.nextInt(rooms.length)];
 
 		activePlayerCount = Math.min(players.length, playerStartOffsets.length);
@@ -462,11 +462,11 @@ public class Level
 		}
 	}
 
-	public boolean isThroughWall(HexPoint start, HexPoint end)
+	public int thingsToPenetrateDeeplyAndThouroughly(HexPoint start, HexPoint end)
 	{
 		HexRect r = getCells();
 		if (!(r.contains(start) && r.contains(end)))
-			return true;
+			return -1;
 
 		Line2D.Double line = new Line2D.Double(start.getVisualX(10), start.getVisualY(10), end.getVisualX(10), end.getVisualY(10));
 		int tx = Math.min(start.getX(), end.getX()) - 1;
@@ -475,13 +475,28 @@ public class Level
 		int w = Math.abs(start.getX() - end.getX()) + 3;
 		int h = Math.abs(start.getY() - end.getY()) + 3;
 		r = new HexRect(HexPoint.XY(tx, ty), w, h);
+		int intersections = 0;
 		for (HexPoint p : r)
 			if (getCells().contains(p))
 				if (getFloorTile(p) % 2 != 0)
 					if (line.intersects(new Rectangle2D.Double(p.getVisualX(10) - 5, p.getVisualY(10) - 5, 10, 10)))
-						return true;
+						intersections ++;
 
-		return false;
+		for (Entity e : getEntities())
+			if (!e.getLocation().equals(end))
+			{
+				HexPoint p = e.getLocation();
+				if (line.intersects(new Rectangle2D.Double(p.getVisualX(10) - 5, p.getVisualY(10) - 5, 10, 10)))
+					intersections ++;
+			}
+
+		return intersections;
+	}
+	
+	public boolean isThroughWall(HexPoint start, HexPoint end)
+	{
+		int t = thingsToPenetrateDeeplyAndThouroughly(start, end);
+		return (t == -1 || t > 1);
 	}
 
 	public int getRoom(int x, int y)
