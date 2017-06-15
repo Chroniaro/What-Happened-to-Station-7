@@ -18,7 +18,7 @@ public class Shotgun_Enemy extends Enemy
 	public Shotgun_Enemy(HexPoint location, Level level)
 	{
 		super(location, level);
-		spr = new ImageSprite(this, "SwedSniper");
+		spr = new ImageSprite(this, "SwedShotgun");
 	}
 
 	@Override
