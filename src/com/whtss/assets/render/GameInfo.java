@@ -1,12 +1,16 @@
 package com.whtss.assets.render;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 import com.whtss.assets.Game;
 import com.whtss.assets.core.Damageable;
@@ -23,7 +27,7 @@ public class GameInfo extends JComponent
 	private static final long serialVersionUID = 3940045383436910526L;
 
 	private Game game;
-	private static final Rectangle nextTurnBut = new Rectangle(10, 10, 50, 50);
+	private static final RoundRectangle2D nextTurnBut = new RoundRectangle2D.Double(10, 10, 150, 50, 10, 10);
 
 	public GameInfo(Game game)
 	{
@@ -36,14 +40,24 @@ public class GameInfo extends JComponent
 		super.paintComponent(_g);
 
 		GameRenderer.UIInterface grui = game.uiinterface;
-
 		Graphics2D g = (Graphics2D) _g;
+		
+		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
+		
 		g.setColor(Color.BLACK);
 		g.fill(g.getClip());
-		g.setColor(Color.GREEN);
+		g.setColor(Color.BLUE);
 		g.fill(getNextTurnButton());
+		g.setColor(Color.WHITE);
+		String ntbText = "Next Turn";
+		FontMetrics gFontMetrics = g.getFontMetrics();
+		Dimension ntbBounds = new Dimension(gFontMetrics.stringWidth(ntbText), gFontMetrics.getHeight());
+		AffineTransform oldTransform = g.getTransform();
+		g.translate(nextTurnBut.getCenterX(), nextTurnBut.getCenterY());
+		g.scale((nextTurnBut.getWidth() - 10) / ntbBounds.getWidth(), (nextTurnBut.getHeight() - 10) / ntbBounds.getHeight());
+		g.drawString(ntbText, -(int)(ntbBounds.getWidth() / 2), (int)(ntbBounds.getHeight() / 2) - 5);
+		g.setTransform(oldTransform);
 
-		g.setFont(new Font("Sans Serif", Font.BOLD, 30));
 		int lvl = game.getLevel().getLevelNumber();
 		Color lvlTextColor = new Color(Math.max(255 - (lvl * 8), 0), 255, Math.max(255 - (lvl * 8), 0));
 		g.setColor(lvlTextColor);
@@ -118,7 +132,7 @@ public class GameInfo extends JComponent
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (getNextTurnButton().contains(e.getPoint()))
+				if (getNextTurnButton().contains((Point2D)e.getPoint()))
 					game.endPlayerTurn();
 			}
 
@@ -144,7 +158,7 @@ public class GameInfo extends JComponent
 		});
 	}
 
-	private Rectangle getNextTurnButton()
+	private RoundRectangle2D getNextTurnButton()
 	{
 		return nextTurnBut;
 	}
