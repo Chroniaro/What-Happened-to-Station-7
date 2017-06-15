@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,6 @@ public class Level
 	private LevelObject[][] objectLayer;
 	private Collection<Entity> entities;
 	private int[][] roomTiles = null;
-	//	TODO: private byte[][][][] pathing;
 
 	private final HexRect cellsRect;
 	private HexPoint endPoint;
@@ -376,12 +374,6 @@ public class Level
 		this.endPoint = endRoom;
 	}
 
-	//TODO: add this
-	public void calcPathFinding()
-	{
-
-	}
-
 	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)
 	{
 		try
@@ -395,22 +387,6 @@ public class Level
 		{
 			return;
 		}
-	}
-
-	/**
-	 * Not yet implemented
-	 */
-	public HexPoint[] visibleCells(HexPoint origin) //TODO: Make this work
-	{
-		throw new UnsupportedOperationException("This hasn't been implemented yet.");
-	}
-
-	/**
-	 * Not yet implemented
-	 */
-	public Path getPath(HexPoint start, HexPoint end) //TODO: Make this work
-	{
-		throw new UnsupportedOperationException("This hasn't been implemented yet.");
 	}
 
 	public UIInterface getUIInterface()
@@ -552,45 +528,5 @@ public class Level
 	public int getLevelNumber()
 	{
 		return floor;
-	}
-}
-
-//TODO: Make this work
-@SuppressWarnings("unused")
-class Path implements Iterable<HexPoint>
-{
-	private final int dist;
-	private final byte dir;
-
-	public Path(int x1, int y1, int x2, int y2)
-	{
-		dist = 0;
-		dir = 0;
-	}
-
-	public int getDist()
-	{
-		return dist;
-	}
-
-	@Override
-	public Iterator<HexPoint> iterator()
-	{
-		return null;
-	}
-
-	class PathIterator implements Iterator<HexPoint>
-	{
-		@Override
-		public boolean hasNext()
-		{
-			return false;
-		}
-
-		@Override
-		public HexPoint next()
-		{
-			return null;
-		}
 	}
 }
