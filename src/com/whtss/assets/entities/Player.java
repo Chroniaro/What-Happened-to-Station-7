@@ -21,7 +21,7 @@ import com.whtss.assets.render.sprites.ImageSprite;
 public class Player extends Entity implements Damageable, Renderable
 {
 	public final static File namesList = new File("src/com/whtss/assets/core/playernames80");
-
+	int dev = 0;
 	Sprite spr = new ImageSprite(this, "Player");
 	int speed = 7;
 	int move = 0;
@@ -77,16 +77,20 @@ public class Player extends Entity implements Damageable, Renderable
 	@UIEventHandle(value = "Key_M", turn = "Player")
 	public void kill()
 	{
+		if(dev == 1){
 		setActive(false);
 		getLevel().deadPlayer();
+		}
 	}
 
 	@UIEventHandle(value = "Key_N", turn = "Player")
 	public void complete()
 	{
+		if(dev == 1){
 		setActive(false);
 		getLevel().addPersistantPlayer(this);
 		getLevel().getUIInterface().selectTile(getLocation());
+		}
 	}
 
 	@UIEventHandle(value = "Key_F", turn = "Player")
