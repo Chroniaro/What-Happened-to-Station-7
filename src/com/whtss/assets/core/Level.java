@@ -438,6 +438,49 @@ public class Level
 			return;
 		}
 	}
+	
+	/**
+	 * Counts the number of walls between the given tiles
+	 * 
+	 * @param start One end of the line of sight to trace, presumably the entity trying to shoot something,
+	 * although which end is start and which end is end doesn't really matter.
+	 * 
+	 * @param end Basically the same thing as start, although obviously they shouldn't be the same tile because
+	 * they represent opposite ends of a line of sight.
+	 * 
+	 * @return The number of walls between the two tiles
+	 */
+	public int thingsToPenetrateDeeplyAndThouroughly(HexPoint start, HexPoint end)
+	{
+		HexRect r = getCells();
+		if (!(r.contains(start) && r.contains(end)))
+			return -1;
+
+		Line2D.Double line = new Line2D.Double(start.getVisualX(10), start.getVisualY(10), end.getVisualX(10), end.getVisualY(10));
+		int tx = Math.min(start.getX(), end.getX()) - 1;
+		int ty = Math.min(start.getY(), end.getY()) - 1;
+		ty -= (ty + tx) % 2;
+		int w = Math.abs(start.getX() - end.getX()) + 3;
+		int h = Math.abs(start.getY() - end.getY()) + 3;
+		r = new HexRect(HexPoint.XY(tx, ty), w, h);
+		int intersections = 0;
+		
+		Set<HexPoint> checkPoints = new HashSet<HexPoint>();
+		
+		for (HexPoint p : r)
+			if (getCells().contains(p))
+				if (getFloorTile(p) % 2 != 0)
+					checkPoints.add(p);
+		for (Entity e : getEntities())
+			checkPoints.add(e.getLocation());
+		
+		for (HexPoint p : checkPoints)
+			if (line.intersects(p.getBorder(10).getBounds2D()))
+				if(!(p.equals(start) || p.equals(end)))
+					intersections++;
+
+		return intersections;
+	}
 
 	public UIInterface getUIInterface()
 	{
@@ -493,49 +536,6 @@ public class Level
 					e.doTurn("Player");
 			}
 		}
-	}
-
-	/**
-	 * Counts the number of walls between the given tiles
-	 * 
-	 * @param start One end of the line of sight to trace, presumably the entity trying to shoot something,
-	 * although which end is start and which end is end doesn't really matter.
-	 * 
-	 * @param end Basically the same thing as start, although obviously they shouldn't be the same tile because
-	 * they represent opposite ends of a line of sight.
-	 * 
-	 * @return The number of walls between the two tiles
-	 */
-	public int thingsToPenetrateDeeplyAndThouroughly(HexPoint start, HexPoint end)
-	{
-		HexRect r = getCells();
-		if (!(r.contains(start) && r.contains(end)))
-			return -1;
-
-		Line2D.Double line = new Line2D.Double(start.getVisualX(10), start.getVisualY(10), end.getVisualX(10), end.getVisualY(10));
-		int tx = Math.min(start.getX(), end.getX()) - 1;
-		int ty = Math.min(start.getY(), end.getY()) - 1;
-		ty -= (ty + tx) % 2;
-		int w = Math.abs(start.getX() - end.getX()) + 3;
-		int h = Math.abs(start.getY() - end.getY()) + 3;
-		r = new HexRect(HexPoint.XY(tx, ty), w, h);
-		int intersections = 0;
-		
-		Set<HexPoint> checkPoints = new HashSet<HexPoint>();
-		
-		for (HexPoint p : r)
-			if (getCells().contains(p))
-				if (getFloorTile(p) % 2 != 0)
-					checkPoints.add(p);
-		for (Entity e : getEntities())
-			checkPoints.add(e.getLocation());
-		
-		for (HexPoint p : checkPoints)
-			if (line.intersects(p.getBorder(10).getBounds2D()))
-				if(!(p.equals(start) || p.equals(end)))
-					intersections++;
-
-		return intersections;
 	}
 
 	public boolean isThroughWall(HexPoint start, HexPoint end)

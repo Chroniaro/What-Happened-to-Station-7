@@ -32,6 +32,9 @@ public class HexCirc implements Iterable<HexPoint>
 		return c;
 	}
 
+	/**
+	 * Loop over every tile in the circle
+	 */
 	public class Iterator implements java.util.Iterator<HexPoint>, Iterable<HexPoint>
 	{
 		int a = -r, b = 0;

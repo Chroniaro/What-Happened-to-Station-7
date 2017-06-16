@@ -49,6 +49,15 @@ public class Player extends Entity implements Damageable, Renderable
 		return health;
 	}
 
+	/**
+	 * Tries to move to the specified tile, failing if there are insufficient action points or if that isn't an
+	 * available tile
+	 * 
+	 * @param da A relative A coordinate to move to
+	 * @param db A relative B coordinate to move to
+	 * @param dhy Half the relative Y coordinate to move to (halved because of the intricacies of the coordinate system,
+	 * a value of one for this parameter corresponds to one tile up.)
+	 */
 	public void walk(int da, int db, int dhy)
 	{
 		HexPoint target = getLocation().mABY(da, db, 2 * dhy);
@@ -73,7 +82,10 @@ public class Player extends Entity implements Damageable, Renderable
 		else
 			getLevel().getUIInterface().selectTile(null);
 	}
-
+	
+	/**
+	 * A dev key to kill the selected player
+	 */
 	@UIEventHandle(value = "Key_M", turn = "Player")
 	public void kill()
 	{
@@ -84,6 +96,9 @@ public class Player extends Entity implements Damageable, Renderable
 		}
 	}
 
+	/**
+	 * A dev key to send the selected player to the next level
+	 */
 	@UIEventHandle(value = "Key_N", turn = "Player")
 	public void complete()
 	{
@@ -95,15 +110,9 @@ public class Player extends Entity implements Damageable, Renderable
 		}
 	}
 
-	@UIEventHandle(value = "Key_F", turn = "Player")
-	public void sovietunion() throws UnsupportedAudioFileException, IOException, LineUnavailableException
-	{
-		System.out.print("adadfafd");
-		SoundStuff cam = null;
-		cam = new SoundStuff();
-		cam.CCCP();
-	}
-
+	/**
+	 * Attack the enemy under the mouse
+	 */
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)
 	{
@@ -140,6 +149,8 @@ public class Player extends Entity implements Damageable, Renderable
 			getLevel().getUIInterface().selectTile(null);
 	}
 
+	//Various move methods that receive key events
+	
 	@UIEventHandle(value = "Key_Q", turn = "Player")
 	public void walkNA(int modifiers, HexPoint target)
 	{
@@ -176,6 +187,8 @@ public class Player extends Entity implements Damageable, Renderable
 		walk(1, 0, 0);
 	}
 
+	//Same as the ones above but in a loop
+	
 	@UIEventHandle(value = "Key_U", turn = "Player")
 	public void walkNAf(int modifiers, HexPoint target)
 	{

@@ -30,9 +30,11 @@ public class Shotgun_Enemy extends Enemy
 		attack();
 	}
 
+	/**
+	 * Attack the player
+	 */
 	public void attack()
 	{
-
 		for (Entity e : getLevel().getEntities()){
 			if (e.isActive() && e instanceof Player)
 				
@@ -41,8 +43,6 @@ public class Shotgun_Enemy extends Enemy
 					Player p = (Player) e;
 					p.takeDamage(80);
 				}
-
-
 		try
 		{
 			SoundStuff cam = new SoundStuff();
@@ -53,7 +53,6 @@ public class Shotgun_Enemy extends Enemy
 			e1.printStackTrace();
 		}
 		}
-		//		getLevel().getUIInterface().startAnimation(new Laser(getLocation(), weakest.getLocation()));
 	}
 
 

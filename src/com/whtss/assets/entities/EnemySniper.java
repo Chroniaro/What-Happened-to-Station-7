@@ -30,6 +30,9 @@ public class EnemySniper extends Enemy
 		attack();
 	}
 
+	/**
+	 * Picks a player to attack
+	 */
 	public void attack()
 	{
 		Player weakest = null;
@@ -54,10 +57,11 @@ public class EnemySniper extends Enemy
 		{
 			e1.printStackTrace();
 		}
-
-		//		getLevel().getUIInterface().startAnimation(new Laser(getLocation(), weakest.getLocation()));
 	}
 
+	/**
+	 * Goes toward but not too close to a player
+	 */
 	public void goModeretlyFar()
 	{
 		Entity nearest = getNearestPlayer();

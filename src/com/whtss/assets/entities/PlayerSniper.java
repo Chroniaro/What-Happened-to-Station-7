@@ -50,6 +50,9 @@ public class PlayerSniper extends Player
 		return total_shots-shots_taken;
 	}
 
+	/**
+	 * Attack the enemy from a distance
+	 */
 	@Override
 	@UIEventHandle(value = "Key_P", turn = "Player")
 	public void attack(Entity target)

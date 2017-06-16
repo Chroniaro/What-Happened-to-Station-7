@@ -29,13 +29,12 @@ public class Enemy extends Entity implements Damageable, Renderable
 		setName(names, 300);
 	}
 
+	//The stuff that happens every turn to make the guy attack the player
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void onTurn() throws InterruptedException
 	{
 		if (!isActive())
 			return;
-
-		Set<Animation> animations = new HashSet<Animation>();
 
 		for (int i = 0; i <= 4; i++)
 			goveryclose();
@@ -43,14 +42,10 @@ public class Enemy extends Entity implements Damageable, Renderable
 		for (Entity e : getLevel().getEntities())
 			if (e instanceof Player && getLocation().dist(e.getLocation()) < 6 && e.isActive())
 				if (!getLevel().isThroughWall(getLocation(), e.getLocation()))
-				{
 					((Player) e).takeDamage(20);
-					animations.add(new Laser(getLocation(), e.getLocation()));
-				}
-
-		//		getLevel().getUIInterface().startAnimation(new CompoundAnimation.Concurrent(animations));
 	}
 
+	//A helper method to move toward nearest the player
 	protected void goveryclose()
 	{
 		Player nearest = getNearestPlayer();
@@ -68,6 +63,7 @@ public class Enemy extends Entity implements Damageable, Renderable
 		move(RNG.nextInt(4) - 2, RNG.nextInt(4) - 2, RNG.nextInt(4) - 2);
 	}
 
+	//Finds the nearest player
 	Player getNearestPlayer()
 	{
 		Entity nearest = null;

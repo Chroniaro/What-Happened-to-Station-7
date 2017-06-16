@@ -23,6 +23,9 @@ public class HealBox extends Entity implements Damageable, Renderable
 		return padd;	
 	}
 
+	/**
+	 * Every turn, if there's a nearby entity, heal them and take damage.
+	 */
 	@UIEventHandle(value = "Next Turn", turn = "Enemy")
 	public void onTurn()
 	{
@@ -40,8 +43,6 @@ public class HealBox extends Entity implements Damageable, Renderable
 						if(!isActive())
 							return;
 					}
-			
-		//	takeDamage(40);
 		}
 	}
 
