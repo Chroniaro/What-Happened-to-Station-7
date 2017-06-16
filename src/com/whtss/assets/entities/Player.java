@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import com.whtss.assets.Station7;
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
@@ -21,7 +22,6 @@ import com.whtss.assets.render.sprites.ImageSprite;
 public class Player extends Entity implements Damageable, Renderable
 {
 	public final static File namesList = new File("src/com/whtss/assets/core/playernames80");
-	int dev = 0;
 	Sprite spr = new ImageSprite(this, "Player");
 	int speed = 7;
 	int move = 0;
@@ -35,9 +35,9 @@ public class Player extends Entity implements Damageable, Renderable
 
 	public int getspeed()
 	{
-		return speed-move;
+		return speed - move;
 	}
-	
+
 	@UIEventHandle(value = "Next Turn", turn = "Player")
 	public void resetMoves()
 	{
@@ -77,19 +77,21 @@ public class Player extends Entity implements Damageable, Renderable
 	@UIEventHandle(value = "Key_M", turn = "Player")
 	public void kill()
 	{
-		if(dev == 1){
-		setActive(false);
-		getLevel().deadPlayer();
+		if (Station7.DEV)
+		{
+			setActive(false);
+			getLevel().deadPlayer();
 		}
 	}
 
 	@UIEventHandle(value = "Key_N", turn = "Player")
 	public void complete()
 	{
-		if(dev == 1){
-		setActive(false);
-		getLevel().addPersistantPlayer(this);
-		getLevel().getUIInterface().selectTile(getLocation());
+		if (Station7.DEV)
+		{
+			setActive(false);
+			getLevel().addPersistantPlayer(this);
+			getLevel().getUIInterface().selectTile(getLocation());
 		}
 	}
 

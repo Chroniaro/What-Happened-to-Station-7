@@ -5,17 +5,18 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Scanner;
-
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import com.whtss.assets.render.GameInfo;
 import com.whtss.assets.render.GameRenderer;
 import com.whtss.assets.render.SoundStuff;
 
-public class Station7 {
-	public static void main(String... args) throws Throwable {
-		
-
+public class Station7
+{
+	public final static boolean DEV = true;
+	
+	public static void main(String... args) throws Throwable
+	{
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setTitle("What Happened to Station 7");
@@ -38,8 +39,7 @@ public class Station7 {
 		JFrame closing_text = new JFrame();
 		closing_text.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		closing_text.setTitle("You Have Fell to the Swedes");
-		JTextArea text = new JTextArea(
-				"You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. ");
+		JTextArea text = new JTextArea("You have failed to save your self…. The swedes trudge on obliterating the remaining inhabitants of the station. ");
 		text.setLineWrap(true);
 		text.setWrapStyleWord(true);
 		closing_text.setMinimumSize(new Dimension(400, 225));
@@ -72,12 +72,13 @@ public class Station7 {
 
 		game.init(render.new UIInterface(), info.new UIInterface());
 
-		 closing_text.setVisible(true);
+		closing_text.setVisible(true);
 		window.setVisible(true);
-		 opening_text.setVisible(true);
+		opening_text.setVisible(true);
 		Scanner reader = new Scanner(System.in);
 		int n = reader.nextInt();
-		if (n == 42) {
+		if (n == 42)
+		{
 			System.out.print("adadfafd");
 			SoundStuff cam = null;
 			cam = new SoundStuff();

@@ -39,7 +39,6 @@ public class Level
 
 	//Layers
 	private int[][] floorLayer;
-	private LevelObject[][] objectLayer;
 	private Collection<Entity> entities;
 	private int[][] roomTiles = null;
 
@@ -58,7 +57,6 @@ public class Level
 		this.infoInterface = infoInterface;
 
 		floorLayer = new int[width][height];
-		objectLayer = new LevelObject[width][height];
 
 		persistant = new LinkedList<Player>();
 
@@ -70,19 +68,27 @@ public class Level
 		generate();
 	}
 
-	public void generate()
+	/**
+	 * Generates a new level with default starting players
+	 * 
+	 * @return The coordinates of the centers of each room generated
+	 */
+	public HexPoint[] generate()
 	{
-		generate(new PlayerSniper(null, this), new Player(null, this), new Player(null, this), new Player(null, this));
+		return generate(new PlayerSniper(null, this), new Player(null, this), new Player(null, this), new Player(null, this));
 	}
 
+	/**
+	 * Generates a new level with the given list of players
+	 * 
+	 * @param players The players that survived from the previous level which should be placed on the new one
+	 * @return The coordinates for the centers of each of the rooms generated
+	 */
 	private HexPoint[] generate(Player... players)
 	{
 		getEntities().clear();
 
-		for (int x = 0; x < objectLayer.length; x++)
-			for (int y = 0; y < objectLayer[x].length; y++)
-				objectLayer[x][y] = null;
-
+		//Reset floor info and build a wall around the border
 		for (int x = 1; x < floorLayer.length - 1; x++)
 			for (int y = 1; y < floorLayer[x].length - 1; y++)
 				floorLayer[x][y] = 0;
@@ -98,26 +104,33 @@ public class Level
 		return centers;
 	}
 
+	/**
+	 * Selects a set of valid coordinates for room centers, ensuring now two are too close and that all are valid
+	 * places in the level. It can pick anywhere from 3 to 12 inclusive.
+	 * 
+	 * @return a list of room centers
+	 */
 	private static HexPoint[] chooseRoomCenters()
 	{
 		int numOfRooms;
 		do
 		{
 			numOfRooms = (int) Math.round(RNG.nextGaussian() * 2 + 7);
-		} while (numOfRooms < 3 || numOfRooms > 12);
+		} while (numOfRooms < 3 || numOfRooms > 12); //Keep choosing until you get a number between 3 and 12. Should almost never have to run more than a couple of times.
 
 		HexPoint[] centers = new HexPoint[numOfRooms];
 
 		for (int c = 0; c < numOfRooms; c++)
 		{
+			//Picks a random point inside the level
 			final int x = width / 2 - 2 - RNG.nextInt(width - 4);
 			int y = height / 2 - 2 - RNG.nextInt(height - 4);
-			y += (x + y) % 2;
+			y += (x + y) % 2; //Makes sure that X and Y are a valid tile
 			centers[c] = HexPoint.XY(x, y);
 			for (int i = 0; i < c; i++)
 				if (centers[i].dist(centers[c]) < 4)
 				{
-					c--;
+					c--; //If it's too close to another center, redo this selection
 					break;
 				}
 		}
@@ -125,6 +138,16 @@ public class Level
 		return centers;
 	}
 
+	/**
+	 * The "meat" of the room generation algorithm. This method takes the previously selected room centers and marks the area directly around them 
+	 * as their territory, keeping track of the cells adjacent to their territory. It then randomly picks a center, lets it "claim" and unclaimed cell
+	 * around their territory that isn't next to another room's territory. It keeps doing this until all of the territory is either claimed or on the
+	 * border between two rooms.
+	 * 
+	 * @param roomCenters The chosen centers of the rooms selected by chooseRoomCenters
+	 * @return The centers given to it as a parameter. This output is used as a convenience so that you can call divideTerritory(chooseRoomCenters())
+	 * and still keep track of the room centers.
+	 */
 	private int[][] divideTerritory(HexPoint[] roomCenters)
 	{
 		final HexRect lvlCells = getCells();
@@ -209,6 +232,12 @@ public class Level
 		return roomIds;
 	}
 
+	/**
+	 * Builds walls around the rooms, including gaps to make sure that everyone can still get from room to room.
+	 * 
+	 * @param numOfRooms
+	 * @param roomIds
+	 */
 	public void buildWalls(int numOfRooms, int[][] roomIds)
 	{
 		final HexRect lvlCells = getCells();
@@ -274,12 +303,21 @@ public class Level
 			}
 	}
 
+	/**
+	 * Adds entities into the level at the room centers. It uses the enters because they are the only places ensured to not
+	 * have walls in any of the adjacent cells.
+	 * 
+	 * @param rooms The previously generated room centers
+	 * @param players The players that should be placed in the level
+	 */
 	private void populateLevel(HexPoint[] rooms, Player... players)
 	{
 		HexPoint[] leftRooms = new HexPoint[rooms.length / 3];
 		HexPoint[] rightRooms = new HexPoint[rooms.length / 3];
 		HexPoint[] centerRooms = new HexPoint[rooms.length / 3 + rooms.length % 3];
 
+		//Divides the rooms up into left, right, and center. This separation ensures that the player has to cross the level to exit
+		//and that the enemy is between the players and the exit
 		for (int r = 0; r < rooms.length; r++)
 		{
 			HexPoint room = rooms[r];
@@ -312,6 +350,7 @@ public class Level
 		startRoom = leftRooms[RNG.nextInt(leftRooms.length)];
 		endRoom = rightRooms[RNG.nextInt(rightRooms.length)];
 
+		//Starts the players on one end and the enemies on the other
 		if (RNG.nextBoolean())
 		{
 			HexPoint tmp = startRoom;
@@ -324,6 +363,7 @@ public class Level
 
 		pbonus = rooms[RNG.nextInt(rooms.length)];
 
+		//Track the  players that haven't died or left the level yet
 		activePlayerCount = Math.min(players.length, playerStartOffsets.length);
 		for (int i = 0; i < activePlayerCount; i++)
 		{
@@ -332,6 +372,8 @@ public class Level
 			ep.setActive(true);
 			getEntities().add(ep);
 		}
+		
+		//Add random players onto the level and rarely add an extra player if it's feeling nice
 		double r = Math.random();
 		double x = Math.random();
 		double z = Math.random();
@@ -374,6 +416,14 @@ public class Level
 		this.endPoint = endRoom;
 	}
 
+	/**
+	 * A method to be called by game to pass key event information on to the relevant entities
+	 * 
+	 * @param select The tile currently selected
+	 * @param mouse The tile that the mouse is hovering over
+	 * @param key The KeyEvent generated by the key press
+	 * @param turn Which turn this event is relevant to, enemy or player
+	 */
 	public void processInput(HexPoint select, HexPoint mouse, KeyEvent key, String turn)
 	{
 		try
@@ -406,6 +456,9 @@ public class Level
 		deadPlayer();
 	}
 
+	/**
+	 * Called whenever someone dies or moves on to the next level so that it moves on or ends the game appropriately
+	 */
 	public void deadPlayer()
 	{
 		activePlayerCount--;
@@ -442,6 +495,17 @@ public class Level
 		}
 	}
 
+	/**
+	 * Counts the number of walls between the given tiles
+	 * 
+	 * @param start One end of the line of sight to trace, presumably the entity trying to shoot something,
+	 * although which end is start and which end is end doesn't really matter.
+	 * 
+	 * @param end Basically the same thing as start, although obviously they shouldn't be the same tile because
+	 * they represent opposite ends of a line of sight.
+	 * 
+	 * @return The number of walls between the two tiles
+	 */
 	public int thingsToPenetrateDeeplyAndThouroughly(HexPoint start, HexPoint end)
 	{
 		HexRect r = getCells();
