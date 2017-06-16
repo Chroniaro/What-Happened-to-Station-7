@@ -43,7 +43,25 @@ public abstract class Animation
 		return System.currentTimeMillis() - startTime;
 	}
 	
+	//These methods get overridden by subclasses to actually render their animations
+	/**
+	 * The method gets drawn underneath everything
+	 * @param The graphics context to render onto
+	 * @param The scale on which to draw
+	 */
 	public void drawUnderEntities(Graphics2D g, int s) {}
+	
+	/**
+	 * The method gets drawn over entities but under UI elements like the tile selection
+	 * @param The graphics context to render onto
+	 * @param The scale on which to draw
+	 */
 	public void drawOverEntities(Graphics2D g, int s) {}
+	
+	/**
+	 * The method gets drawn over everything
+	 * @param The graphics context to render onto
+	 * @param The scale on which to draw
+	 */
 	public void drawOverGUI(Graphics2D g, int s) {}
 }

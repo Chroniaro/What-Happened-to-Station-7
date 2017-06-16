@@ -21,6 +21,11 @@ public class HexRect implements Iterable<HexPoint>
 		return array;
 	}
 
+	/*
+	 * The following three methods implement the third coordinate system mentioned in in HexPoint. It's
+	 * closely related the the X-Y coordinate system but tweaked mostly to work better with 2D arrays.
+	 */
+	
 	public HexPoint fromArrayCoords(int x, int y)
 	{
 		return tl.mXY(x, 2 * y + x % 2);
@@ -36,6 +41,10 @@ public class HexRect implements Iterable<HexPoint>
 		return (p.getY() - tl.getY()) / 2;
 	}
 
+	/**
+	 * @param point A point to check
+	 * @return Whether that point is in the specified rectangle
+	 */
 	public boolean contains(HexPoint point)
 	{
 		final HexPoint br = fromArrayCoords(w, h);
@@ -66,6 +75,9 @@ public class HexRect implements Iterable<HexPoint>
 		return tl;
 	}
 
+	/**
+	 * Iterator over every tile in the rectangle
+	 */
 	public class Iterator implements java.util.Iterator<HexPoint>, Iterable<HexPoint>
 	{
 		int x = 1, y = 0;

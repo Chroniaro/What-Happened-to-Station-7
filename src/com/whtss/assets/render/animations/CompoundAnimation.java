@@ -7,10 +7,18 @@ import java.util.LinkedList;
 import java.util.List;
 import com.whtss.assets.render.Animation;
 
+/**
+ * An animation that combines other animations together.
+ */
 public abstract class CompoundAnimation extends Animation implements Collection<Animation>
 {
 	private List<Animation> animations;
 
+	/**
+	 * @param animations A list of animations to be compounded
+	 * @param cascade A lambda for how to calculate the total time, either add them or just find
+	 * the max depending on whether they are synchronized or sequential
+	 */
 	public CompoundAnimation(Animation[] animations, TimeCascade cascade)
 	{
 		super(totalLength(animations, cascade));
@@ -131,6 +139,9 @@ public abstract class CompoundAnimation extends Animation implements Collection<
 		return animations.hashCode();
 	}
 
+	/**
+	 * Play the animations one after another
+	 */
 	public static class Concurrent extends CompoundAnimation
 	{
 		public Concurrent(Animation... animations)
@@ -177,6 +188,9 @@ public abstract class CompoundAnimation extends Animation implements Collection<
 
 	}
 
+	/**
+	 * Play the animations at the same time
+	 */
 	public static class Sequential extends CompoundAnimation
 	{
 		public Sequential(Animation... animations)

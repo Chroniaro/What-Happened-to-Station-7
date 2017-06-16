@@ -5,17 +5,25 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.io.Serializable;
 
+/**
+ * Pretty much everything here does exactly what it said on the tin, but this class exists and is used
+ * basically everywhere because it's basically the entire implementation of our fancy hex coordinate system,
+ * which is actually two coordinate systems, one defined by the X and Y axises, and the other by the A and B 
+ * axises. Unfortunately, unlike with a rectangular coordinate system, there is no one obvious way of labeling 
+ * points with coordinates that works logically for all purposes. Instead of having complicated formulas 
+ * everywhere, we decided to have three different systems that could be interchanged as smoothly as possible 
+ * (one of them is actually implemented through HexRect, not in this class, for reasons that are hard to 
+ * explain. If you look at how it's used, it'll become fairly apparent.) That way, there is a logical 
+ * coordinate system for every  purpose to keep the formulas nice and short, which was worth the extra
+ * complication here.
+ */
 public class HexPoint implements Serializable, Cloneable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6059701303873700245L;
-
 	private final static double xratio = .75, yratio = Math.sqrt(3) / 4;
 
 	private final static Path2D.Double border = new Path2D.Double();
-	static
+	static //Actual factual genuine use for a static initializer block
 	{
 		border.moveTo(-.5, 0);
 		border.lineTo(-.25, -yratio);
