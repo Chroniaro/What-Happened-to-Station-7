@@ -1,18 +1,15 @@
 package com.whtss.assets.entities;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
+
 import com.whtss.assets.core.Damageable;
 import com.whtss.assets.core.Entity;
 import com.whtss.assets.core.Level;
 import com.whtss.assets.hex.HexPoint;
-import com.whtss.assets.render.Animation;
 import com.whtss.assets.render.Renderable;
 import com.whtss.assets.render.Sprite;
 import com.whtss.assets.render.UIEventHandle;
-import com.whtss.assets.render.animations.Laser;
 import com.whtss.assets.render.sprites.ImageSprite;
 
 public class Enemy extends Entity implements Damageable, Renderable
